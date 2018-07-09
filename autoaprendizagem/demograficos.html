@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <script type="text/javascript" src="jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="popper.js"></script>
+    <script type="text/javascript" src="bootstrap-4.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="bootstrap-4.1.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <div id="container">
+      <h1>Dados Pessoais</h1>
+
+      <form action="" method="POST">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="nome">Nome</label>
+            <input type="text" class="form-control" name="nome" id="nome" required/>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="ra">RA</label>
+            <input type="text" name="ra" class="form-control" id="ra" required/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="mail">e-mail</label>
+            <input type="email" class="form-control" name="mail" id="mail" required/>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="nasc">Data de Nascimento</label>
+            <input type="date" class="form-control" max="2000-08-01" name="nasc" id="nasc" required/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="universidade">Universidade</label>
+            <select id="universidade" class="form-control" nome="universidade" required>
+              <option>Selecione...</option>
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="curso">Curso</label>
+            <select id="curso" nome="curso" class="form-control" required>
+              <option>Selecione...</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            Período
+            <div class="row">
+              <div class="col-md-6">
+                <input type="radio" name="periodo" id="i" value="I"/> <label form="i">Integral</label>
+              </div>
+              <div class="col-md-6">
+                <input type="radio" name="periodo" id="m" value="M"/> <label form="m">Matutino</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <input type="radio" name="periodo" id="v" value="V"/> <label form="v">Vespertino</label>
+              </div>
+              <div class="col-md-6">
+                <input type="radio" name="periodo" id="n" value="N"/> <label form="n">Noturno</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="semestre">Semestre</label>
+            <select id="semestre" class="form-control" nome="semestre" required>
+              <option>Selecione...</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            Cursei o Ensino médio em
+            <div class="row">
+              <div class="col-md-4">
+                <input type="radio" name="periodo" id="pub" value="publica"/> <label form="pub">Escola Pública</label>
+              </div>
+              <div class="col-md-4">
+                <input type="radio" name="periodo" id="part" value="particular"/> <label form="part">Escola Particular</label>
+              </div>
+              <div class="col-md-4">
+                <input type="radio" name="periodo" id="both" value="ambos"/> <label form="both">Uma parte em escola pública e outra em particular</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row button-group">
+          <div class="col-md-12">
+            <button type="submit" name="concluir" class="btn btn-primary">Concluir</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

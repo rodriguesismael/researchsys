@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <script type="text/javascript" src="jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="popper.js"></script>
+    <script type="text/javascript" src="bootstrap-4.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="bootstrap-4.1.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <div id="container">
+      <h1>SLRI</h1>
+      <div class="description-box">
+        <p>
+          As afirmações que se seguem questionam-no(a) sobre as suas motivações e atitudes em relação
+          ao estudo. <strong>Lembre-se de que não há respostas certas ou erradas; responda tão sinceramente quanto
+          possível.</strong> Use a escala abaixo para responder às questões. Faça um círculo em volta do número – de 1 a 7
+          – que representa a frequência com que cada afirmação se aplica a si. Se a afirmação nunca se aplica ao
+          seu caso, marque o círculo em volta do 1. Se a afirmação descreve perfeitamente o seu caso, marque o
+          círculo à volta do 7. Se a afirmação se aplica parcialmente ao seu caso, escolha o número entre 1 e 7 que
+          melhor descreve o seu caso.
+        </p>
+      </div>
+      <table class="table questions">
+        <thead>
+          <th></th>
+          <th>1<br>Nunca</th>
+          <th>2<br>----</th>
+          <th>3<br>----</th>
+          <th>4<br>----</th>
+          <th>5<br>----</th>
+          <th>6<br>----</th>
+          <th>7<br>Sempre</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1. Gosto de aprender novos conteúdos.</td>
+            <td><input type="radio" name="slri1" value="1"/></td>
+            <td><input type="radio" name="slri1" value="2"/></td>
+            <td><input type="radio" name="slri1" value="3"/></td>
+            <td><input type="radio" name="slri1" value="4"/></td>
+            <td><input type="radio" name="slri1" value="5"/></td>
+            <td><input type="radio" name="slri1" value="6"/></td>
+            <td><input type="radio" name="slri1" value="7"/></td>
+          </tr>
+          <tr>
+            <td>2. Defino objetivos para o meu desempenho escolar.</td>
+            <td><input type="radio" name="slri2" value="1"/></td>
+            <td><input type="radio" name="slri2" value="2"/></td>
+            <td><input type="radio" name="slri2" value="3"/></td>
+            <td><input type="radio" name="slri2" value="4"/></td>
+            <td><input type="radio" name="slri2" value="5"/></td>
+            <td><input type="radio" name="slri2" value="6"/></td>
+            <td><input type="radio" name="slri2" value="7"/></td>
+          </tr>
+          <tr>
+            <td>3. Quando estudo, vou fazendo perguntas a mim mesmo, para ver se estou compreendendo a matéria.</td>
+            <td><input type="radio" name="slri3" value="1"/></td>
+            <td><input type="radio" name="slri3" value="2"/></td>
+            <td><input type="radio" name="slri3" value="3"/></td>
+            <td><input type="radio" name="slri3" value="4"/></td>
+            <td><input type="radio" name="slri3" value="5"/></td>
+            <td><input type="radio" name="slri3" value="6"/></td>
+            <td><input type="radio" name="slri3" value="7"/></td>
+          </tr>
+          <tr>
+            <td>4. Ao longo do semestre, procuro estar atento à forma como uso o meu tempo de estudo.</td>
+            <td><input type="radio" name="slri4" value="1"/></td>
+            <td><input type="radio" name="slri4" value="2"/></td>
+            <td><input type="radio" name="slri4" value="3"/></td>
+            <td><input type="radio" name="slri4" value="4"/></td>
+            <td><input type="radio" name="slri4" value="5"/></td>
+            <td><input type="radio" name="slri4" value="6"/></td>
+            <td><input type="radio" name="slri4" value="7"/></td>
+          </tr>
+          <tr>
+            <td>5. Acredito que, se estudar de maneira apropriada, serei capaz de ter aproveitamento escolar.</td>
+            <td><input type="radio" name="slri5" value="1"/></td>
+            <td><input type="radio" name="slri5" value="2"/></td>
+            <td><input type="radio" name="slri5" value="3"/></td>
+            <td><input type="radio" name="slri5" value="4"/></td>
+            <td><input type="radio" name="slri5" value="5"/></td>
+            <td><input type="radio" name="slri5" value="6"/></td>
+            <td><input type="radio" name="slri5" value="7"/></td>
+          </tr>
+          <tr>
+            <td>6. Mesmo quando acho uma disciplina difícil, continuo tentando concluí-la.</td>
+            <td><input type="radio" name="slri6" value="1"/></td>
+            <td><input type="radio" name="slri6" value="2"/></td>
+            <td><input type="radio" name="slri6" value="3"/></td>
+            <td><input type="radio" name="slri6" value="4"/></td>
+            <td><input type="radio" name="slri6" value="5"/></td>
+            <td><input type="radio" name="slri6" value="6"/></td>
+            <td><input type="radio" name="slri6" value="7"/></td>
+          </tr>
+          <tr>
+            <td>7. Procuro estudar num local onde tenha poucas distrações.</td>
+            <td><input type="radio" name="slri7" value="1"/></td>
+            <td><input type="radio" name="slri7" value="2"/></td>
+            <td><input type="radio" name="slri7" value="3"/></td>
+            <td><input type="radio" name="slri7" value="4"/></td>
+            <td><input type="radio" name="slri7" value="5"/></td>
+            <td><input type="radio" name="slri7" value="6"/></td>
+            <td><input type="radio" name="slri7" value="7"/></td>
+          </tr>
+          <tr>
+            <td>8. Durante o semestre, vou verificando se estou  cumprindo os objetivos e prazos a que me propus.</td>
+            <td><input type="radio" name="slri8" value="1"/></td>
+            <td><input type="radio" name="slri8" value="2"/></td>
+            <td><input type="radio" name="slri8" value="3"/></td>
+            <td><input type="radio" name="slri8" value="4"/></td>
+            <td><input type="radio" name="slri8" value="5"/></td>
+            <td><input type="radio" name="slri8" value="6"/></td>
+            <td><input type="radio" name="slri8" value="7"/></td>
+          </tr>
+          <tr>
+            <td>9. Quando tenho sucesso nas disciplinas, fico satisfeito com as estratégias que utilizei</td>
+            <td><input type="radio" name="slri9" value="1"/></td>
+            <td><input type="radio" name="slri9" value="2"/></td>
+            <td><input type="radio" name="slri9" value="3"/></td>
+            <td><input type="radio" name="slri9" value="4"/></td>
+            <td><input type="radio" name="slri9" value="5"/></td>
+            <td><input type="radio" name="slri9" value="6"/></td>
+            <td><input type="radio" name="slri9" value="7"/></td>
+          </tr>
+          <tr>
+            <td>10. Quando não tenho sucesso, procuro reformular os métodos e as estratégias que usei.</td>
+            <td><input type="radio" name="slri10" value="1"/></td>
+            <td><input type="radio" name="slri10" value="2"/></td>
+            <td><input type="radio" name="slri10" value="3"/></td>
+            <td><input type="radio" name="slri10" value="4"/></td>
+            <td><input type="radio" name="slri10" value="5"/></td>
+            <td><input type="radio" name="slri10" value="6"/></td>
+            <td><input type="radio" name="slri10" value="7"/></td>
+          </tr>
+          <tr>
+            <td>11. Quando faço um teste penso que posso faze-lô tão bem quanto qualquer  um dos meus colegas.</td>
+            <td><input type="radio" name="slri11" value="1"/></td>
+            <td><input type="radio" name="slri11" value="2"/></td>
+            <td><input type="radio" name="slri11" value="3"/></td>
+            <td><input type="radio" name="slri11" value="4"/></td>
+            <td><input type="radio" name="slri11" value="5"/></td>
+            <td><input type="radio" name="slri11" value="6"/></td>
+            <td><input type="radio" name="slri11" value="7"/></td>
+          </tr>
+          <tr>
+            <td>12. Planejo estratégias para conseguir ter as notas que pretendo.</td>
+            <td><input type="radio" name="slri12" value="1"/></td>
+            <td><input type="radio" name="slri12" value="2"/></td>
+            <td><input type="radio" name="slri12" value="3"/></td>
+            <td><input type="radio" name="slri12" value="4"/></td>
+            <td><input type="radio" name="slri12" value="5"/></td>
+            <td><input type="radio" name="slri12" value="6"/></td>
+            <td><input type="radio" name="slri12" value="7"/></td>
+          </tr>
+          <tr>
+            <td>13. Enquanto aprendo/estudo, isolo-me de tudo o que poderia distrair-me.</td>
+            <td><input type="radio" name="slri13" value="1"/></td>
+            <td><input type="radio" name="slri13" value="2"/></td>
+            <td><input type="radio" name="slri13" value="3"/></td>
+            <td><input type="radio" name="slri13" value="4"/></td>
+            <td><input type="radio" name="slri13" value="5"/></td>
+            <td><input type="radio" name="slri13" value="6"/></td>
+            <td><input type="radio" name="slri13" value="7"/></td>
+          </tr>
+          <tr>
+            <td>14. Durante o semestre, vou ensaiando estratégias de estudo, para ver quais dão melhor resultado para mim .</td>
+            <td><input type="radio" name="slri14" value="1"/></td>
+            <td><input type="radio" name="slri14" value="2"/></td>
+            <td><input type="radio" name="slri14" value="3"/></td>
+            <td><input type="radio" name="slri14" value="4"/></td>
+            <td><input type="radio" name="slri14" value="5"/></td>
+            <td><input type="radio" name="slri14" value="6"/></td>
+            <td><input type="radio" name="slri14" value="7"/></td>
+          </tr>
+          <tr>
+            <td>15. Acredito que, mesmo estudando, há disciplinas que não vou conseguir concluir.</td>
+            <td><input type="radio" name="slri15" value="1"/></td>
+            <td><input type="radio" name="slri15" value="2"/></td>
+            <td><input type="radio" name="slri15" value="3"/></td>
+            <td><input type="radio" name="slri15" value="4"/></td>
+            <td><input type="radio" name="slri15" value="5"/></td>
+            <td><input type="radio" name="slri15" value="6"/></td>
+            <td><input type="radio" name="slri15" value="7"/></td>
+          </tr>
+          <tr>
+            <td>16. Adapto as minhas estratégias às exigências de cada disciplina.</td>
+            <td><input type="radio" name="slri16" value="1"/></td>
+            <td><input type="radio" name="slri16" value="2"/></td>
+            <td><input type="radio" name="slri16" value="3"/></td>
+            <td><input type="radio" name="slri16" value="4"/></td>
+            <td><input type="radio" name="slri16" value="5"/></td>
+            <td><input type="radio" name="slri16" value="6"/></td>
+            <td><input type="radio" name="slri16" value="7"/></td>
+          </tr>
+          <tr>
+            <td>17. Quando tenho sucesso, fico satisfeito comigo  e continuo a usar os métodos que já utilizei.</td>
+            <td><input type="radio" name="slri17" value="1"/></td>
+            <td><input type="radio" name="slri17" value="2"/></td>
+            <td><input type="radio" name="slri17" value="3"/></td>
+            <td><input type="radio" name="slri17" value="4"/></td>
+            <td><input type="radio" name="slri17" value="5"/></td>
+            <td><input type="radio" name="slri17" value="6"/></td>
+            <td><input type="radio" name="slri17" value="7"/></td>
+          </tr>
+          <tr>
+            <td>18. Acredito que tenho capacidade para concluir o curso que frequento.</td>
+            <td><input type="radio" name="slri18" value="1"/></td>
+            <td><input type="radio" name="slri18" value="2"/></td>
+            <td><input type="radio" name="slri18" value="3"/></td>
+            <td><input type="radio" name="slri18" value="4"/></td>
+            <td><input type="radio" name="slri18" value="5"/></td>
+            <td><input type="radio" name="slri18" value="6"/></td>
+            <td><input type="radio" name="slri18" value="7"/></td>
+          </tr>
+          <tr>
+            <td>19. Adapto as minhas estratégias de estudo às minhas características pessoais.</td>
+            <td><input type="radio" name="slri19" value="1"/></td>
+            <td><input type="radio" name="slri19" value="2"/></td>
+            <td><input type="radio" name="slri19" value="3"/></td>
+            <td><input type="radio" name="slri19" value="4"/></td>
+            <td><input type="radio" name="slri19" value="5"/></td>
+            <td><input type="radio" name="slri19" value="6"/></td>
+            <td><input type="radio" name="slri19" value="7"/></td>
+          </tr>
+          <tr>
+            <td>20. Procuro verificar se a forma como estou lendo os textos da bibliografia estão me ajudando a aprender.</td>
+            <td><input type="radio" name="slri20" value="1"/></td>
+            <td><input type="radio" name="slri20" value="2"/></td>
+            <td><input type="radio" name="slri20" value="3"/></td>
+            <td><input type="radio" name="slri20" value="4"/></td>
+            <td><input type="radio" name="slri20" value="5"/></td>
+            <td><input type="radio" name="slri20" value="6"/></td>
+            <td><input type="radio" name="slri20" value="7"/></td>
+          </tr>
+          <tr>
+            <td>21. Estou certo/a que sou capaz de compreender a matéria que estou estudando.</td>
+            <td><input type="radio" name="slri21" value="1"/></td>
+            <td><input type="radio" name="slri21" value="2"/></td>
+            <td><input type="radio" name="slri21" value="3"/></td>
+            <td><input type="radio" name="slri21" value="4"/></td>
+            <td><input type="radio" name="slri21" value="5"/></td>
+            <td><input type="radio" name="slri21" value="6"/></td>
+            <td><input type="radio" name="slri21" value="7"/></td>
+          </tr>
+          <tr>
+            <td>22. Procuro definir objetivos específicos para cada disciplina.</td>
+            <td><input type="radio" name="slri22" value="1"/></td>
+            <td><input type="radio" name="slri22" value="2"/></td>
+            <td><input type="radio" name="slri22" value="3"/></td>
+            <td><input type="radio" name="slri22" value="4"/></td>
+            <td><input type="radio" name="slri22" value="5"/></td>
+            <td><input type="radio" name="slri22" value="6"/></td>
+            <td><input type="radio" name="slri22" value="7"/></td>
+          </tr>
+          <tr>
+            <td>23. Procuro adoptar estratégias de estudo que me ajudam a ter bons resultados.</td>
+            <td><input type="radio" name="slri23" value="1"/></td>
+            <td><input type="radio" name="slri23" value="2"/></td>
+            <td><input type="radio" name="slri23" value="3"/></td>
+            <td><input type="radio" name="slri23" value="4"/></td>
+            <td><input type="radio" name="slri23" value="5"/></td>
+            <td><input type="radio" name="slri23" value="6"/></td>
+            <td><input type="radio" name="slri23" value="7"/></td>
+          </tr>
+          <tr>
+            <td>24. Vou verificando, semanal ou mensalmente, se tenho revisado, a matéria das diferentes disciplinas.</td>
+            <td><input type="radio" name="slri24" value="1"/></td>
+            <td><input type="radio" name="slri24" value="2"/></td>
+            <td><input type="radio" name="slri24" value="3"/></td>
+            <td><input type="radio" name="slri24" value="4"/></td>
+            <td><input type="radio" name="slri24" value="5"/></td>
+            <td><input type="radio" name="slri24" value="6"/></td>
+            <td><input type="radio" name="slri24" value="7"/></td>
+          </tr>
+          <tr>
+            <td>25. Penso que sou capaz de ter um desempenho acadêmico de acordo com os meus objetivos.</td>
+            <td><input type="radio" name="slri25" value="1"/></td>
+            <td><input type="radio" name="slri25" value="2"/></td>
+            <td><input type="radio" name="slri25" value="3"/></td>
+            <td><input type="radio" name="slri25" value="4"/></td>
+            <td><input type="radio" name="slri25" value="5"/></td>
+            <td><input type="radio" name="slri25" value="6"/></td>
+            <td><input type="radio" name="slri25" value="7"/></td>
+          </tr>
+          <tr>
+            <td>26. Para cada disciplina, defino objetivos e estabeleço um plano de estudo.</td>
+            <td><input type="radio" name="slri26" value="1"/></td>
+            <td><input type="radio" name="slri26" value="2"/></td>
+            <td><input type="radio" name="slri26" value="3"/></td>
+            <td><input type="radio" name="slri26" value="4"/></td>
+            <td><input type="radio" name="slri26" value="5"/></td>
+            <td><input type="radio" name="slri26" value="6"/></td>
+            <td><input type="radio" name="slri26" value="7"/></td>
+          </tr>
+          <tr>
+            <td>27. Só paro de estudar depois de ter acabado o que planejei fazer.</td>
+            <td><input type="radio" name="slri27" value="1"/></td>
+            <td><input type="radio" name="slri27" value="2"/></td>
+            <td><input type="radio" name="slri27" value="3"/></td>
+            <td><input type="radio" name="slri27" value="4"/></td>
+            <td><input type="radio" name="slri27" value="5"/></td>
+            <td><input type="radio" name="slri27" value="6"/></td>
+            <td><input type="radio" name="slri27" value="7"/></td>
+          </tr>
+          <tr>
+            <td>28. Procuro organizar o meu tempo de forma a realizar todas as tarefas acadêmicas.</td>
+            <td><input type="radio" name="slri28" value="1"/></td>
+            <td><input type="radio" name="slri28" value="2"/></td>
+            <td><input type="radio" name="slri28" value="3"/></td>
+            <td><input type="radio" name="slri28" value="4"/></td>
+            <td><input type="radio" name="slri28" value="5"/></td>
+            <td><input type="radio" name="slri28" value="6"/></td>
+            <td><input type="radio" name="slri28" value="7"/></td>
+          </tr>
+          <tr>
+            <td>29. Quando avalio meus resultados, procuro entender meus erros a fim de encontrar uma solução que me convenha.</td>
+            <td><input type="radio" name="slri29" value="1"/></td>
+            <td><input type="radio" name="slri29" value="2"/></td>
+            <td><input type="radio" name="slri29" value="3"/></td>
+            <td><input type="radio" name="slri29" value="4"/></td>
+            <td><input type="radio" name="slri29" value="5"/></td>
+            <td><input type="radio" name="slri29" value="6"/></td>
+            <td><input type="radio" name="slri29" value="7"/></td>
+          </tr>
+          <tr>
+            <td>30. Quando tenho sucesso, acho que soube escolher os meios para atingir os fins.</td>
+            <td><input type="radio" name="slri30" value="1"/></td>
+            <td><input type="radio" name="slri30" value="2"/></td>
+            <td><input type="radio" name="slri30" value="3"/></td>
+            <td><input type="radio" name="slri30" value="4"/></td>
+            <td><input type="radio" name="slri30" value="5"/></td>
+            <td><input type="radio" name="slri30" value="6"/></td>
+            <td><input type="radio" name="slri30" value="7"/></td>
+          </tr>
+          <tr>
+            <td>31. Faço um levantamento das estratégias que serão as mais úteis para atingir os meus objetivos.</td>
+            <td><input type="radio" name="slri31" value="1"/></td>
+            <td><input type="radio" name="slri31" value="2"/></td>
+            <td><input type="radio" name="slri31" value="3"/></td>
+            <td><input type="radio" name="slri31" value="4"/></td>
+            <td><input type="radio" name="slri31" value="5"/></td>
+            <td><input type="radio" name="slri31" value="6"/></td>
+            <td><input type="radio" name="slri31" value="7"/></td>
+          </tr>
+          <tr>
+            <td>32. Seleciono estratégias de aprendizagem que me permitirão atingir os objetivos que defini.</td>
+            <td><input type="radio" name="slri32" value="1"/></td>
+            <td><input type="radio" name="slri32" value="2"/></td>
+            <td><input type="radio" name="slri32" value="3"/></td>
+            <td><input type="radio" name="slri32" value="4"/></td>
+            <td><input type="radio" name="slri32" value="5"/></td>
+            <td><input type="radio" name="slri32" value="6"/></td>
+            <td><input type="radio" name="slri32" value="7"/></td>
+          </tr>
+          <tr>
+            <td>33. Quando estou com dificuldade em me concentrar, faço um esforço para ficar mais atento.</td>
+            <td><input type="radio" name="slri33" value="1"/></td>
+            <td><input type="radio" name="slri33" value="2"/></td>
+            <td><input type="radio" name="slri33" value="3"/></td>
+            <td><input type="radio" name="slri33" value="4"/></td>
+            <td><input type="radio" name="slri33" value="5"/></td>
+            <td><input type="radio" name="slri33" value="6"/></td>
+            <td><input type="radio" name="slri33" value="7"/></td>
+          </tr>
+          <tr>
+            <td>34. Procuro gerenciar/controlar minha ansiedade ao longo do estudo.</td>
+            <td><input type="radio" name="slri34" value="1"/></td>
+            <td><input type="radio" name="slri34" value="2"/></td>
+            <td><input type="radio" name="slri34" value="3"/></td>
+            <td><input type="radio" name="slri34" value="4"/></td>
+            <td><input type="radio" name="slri34" value="5"/></td>
+            <td><input type="radio" name="slri34" value="6"/></td>
+            <td><input type="radio" name="slri34" value="7"/></td>
+          </tr>
+          <tr>
+            <td>35. Quando estou estudando, digo para mim o que tenho que fazer.</td>
+            <td><input type="radio" name="slri35" value="1"/></td>
+            <td><input type="radio" name="slri35" value="2"/></td>
+            <td><input type="radio" name="slri35" value="3"/></td>
+            <td><input type="radio" name="slri35" value="4"/></td>
+            <td><input type="radio" name="slri35" value="5"/></td>
+            <td><input type="radio" name="slri35" value="6"/></td>
+            <td><input type="radio" name="slri35" value="7"/></td>
+          </tr>
+          <tr>
+            <td>36. Quando estou estudando, digo a mim como devo  fazer.</td>
+            <td><input type="radio" name="slri36" value="1"/></td>
+            <td><input type="radio" name="slri36" value="2"/></td>
+            <td><input type="radio" name="slri36" value="3"/></td>
+            <td><input type="radio" name="slri36" value="4"/></td>
+            <td><input type="radio" name="slri36" value="5"/></td>
+            <td><input type="radio" name="slri36" value="6"/></td>
+            <td><input type="radio" name="slri36" value="7"/></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="button-group">
+        <button type="submit" class="btn btn-info" name="responder">Responder</button>
+      </div>      
+    </div>
+  </body>
+</html>
