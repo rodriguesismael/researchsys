@@ -14,7 +14,8 @@ class Controller{
 		$this->f3=$f3;
 	    $db=new DB\SQL(
 	        $f3->get('DATABASE'),
-	        $f3->get('DBUSER')//,$f3->get('DBPASS')
+		$f3->get('DBUSER'),
+		$f3->get('DBPASS')
 	    );	    
 	    $this->db=$db;
 	}	
