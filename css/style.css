@@ -8,13 +8,15 @@ TODOS OS H COM ALINHAMENTO CENTRAL
 h1,h2,h3,h4{
   text-align: center;
 }
-p:not(:first-child){
-  text-indent: 2em;
-}
+
 .description-box{
   width: 800px;
   margin: 0 auto;
   text-align: justify;
+}
+
+.description-box > p:not(:first-child){
+  text-indent: 2em;
 }
 
 .foot-note{
@@ -33,4 +35,17 @@ p:not(:first-child){
 
 .button-group{
   text-align: center;
+}
+
+.question-p{
+  font-weight:bold;
+}
+
+.options-group{
+  padding-left: 25px;
+}
+
+#login-box{
+  margin: 0 auto;
+  width: 500px;
 }

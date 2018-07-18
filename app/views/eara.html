@@ -1,126 +1,133 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title></title>
-    <script type="text/javascript" src="jquery-3.3.1.js"></script>
-    <script type="text/javascript" src="popper.js"></script>
-    <script type="text/javascript" src="bootstrap-4.1.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="bootstrap-4.1.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
-  </head>
-  <body>
-    <div id="container">
-      <h1>ESCALA DE ADIAMENTO DA RECOMPENSA ACADÊMICA (EARA)</h1>
-      <p class="foot-note">Autores: Héfer Bembenutty e Stuart A. Karabenick (1998)</p>
-      <p class="foot-note">
-        Tradução e adaptação consentida realizada por Evely Boruchovitch, Natália Moraes Góes e
-        Carolina Moreira Felicori (2018)
+<div id="container">
+  <h1>ESCALA DE ADIAMENTO DA RECOMPENSA ACADÊMICA (EARA)</h1>
+  <p class="foot-note">Autores: Héfer Bembenutty e Stuart A. Karabenick (1998)</p>
+  <p class="foot-note">
+    Tradução e adaptação consentida realizada por Evely Boruchovitch, Natália Moraes Góes e
+    Carolina Moreira Felicori (2018)
+  </p>
+  <div class="description-box">
+    <p>
+      A seguir, você vai encontrar uma série de escolhas entre dois planos alternativos de ação.
+      Por favor, leia cada conjunto de afirmações cuidadosamente e relacione cada afirmação à 
+      disciplinas da sua grade curricular que você esteja cursando no momento. Então, diga qual plano de 
+      ação você teria maior probabilidade de escolher e quão forte seria essa escolha. Não existem 
+      respostas certas ou erradas. Por favor, responda de acordo com as suas verdadeiras convicções e não em termos de 
+      como você pensa que deveria responder.
+    </p>
+    <p>
+      Conte-nos, portanto, o que você realmente faria nas condições descritas nas afirmações.
+      Faça isso marcando um X em frente à sua escolha, usando a escala que se segue.
+    </p>
+    <p>( ) Com certeza escolheria A.</p>
+    <p>( ) Provavelmente escolheria A.</p>
+    <p>( ) Provavelmente escolheria B.</p>
+    <p>( ) Com certeza escolheria B.</p>
+  </div>
+  <form action="" method="POST">
+    <div id="questions-container">
+      <p>
+        1. <strong>(A)</strong> Ir a um show favorito, a uma peça teatral ou a um evento esportivo e estudar menos para uma
+        disciplina, mesmo que isso possa significar obter uma nota mais baixa em uma prova que você fará
+        no dia seguinte, <u>OU</u> <strong>(B)</strong> Ficar em casa e estudar para aumentar suas chances de tirar uma nota mais alta.
       </p>
-      <div class="description-box">
-        <p>
-          A seguir, você vai encontrar uma série de escolhas entre dois planos alternativos de ação.
-          Por favor, leia cada conjunto de afirmações cuidadosamente e relacione cada afirmação à 
-          disciplinas da sua grade curricular que você esteja cursando no momento. Então, diga qual plano de 
-          ação você teria maior probabilidade de escolher e quão forte seria essa escolha. Não existem 
-          respostas certas ou erradas. Por favor, responda de acordo com as suas verdadeiras convicções e não em termos de 
-          como você pensa que deveria responder.
-        </p>
-        <p>
-          Conte-nos, portanto, o que você realmente faria nas condições descritas nas afirmações.
-          Faça isso marcando um X em frente à sua escolha, usando a escala que se segue.
-        </p>
-        <p>( ) Com certeza escolheria A.</p>
-        <p>( ) Provavelmente escolheria A.</p>
-        <p>( ) Provavelmente escolheria B.</p>
-        <p>( ) Com certeza escolheria B.</p>
+      <div class="options-group">
+        <p><input type="radio" name="eara1" value="1" /> Com certeza escolheria A.</p>
+        <p><input type="radio" name="eara1" value="2" /> Provavelmente escolheria A.</p>
+        <p><input type="radio" name="eara1" value="3" /> Provavelmente escolheria B.</p>
+        <p><input type="radio" name="eara1" value="4" /> Com certeza escolheria B.</p>
       </div>
-      <div id="questions-container">
-        <p>
-          1. <strong>(A)</strong> Ir a um show favorito, a uma peça teatral ou a um evento esportivo e estudar menos para uma
-          disciplina, mesmo que isso possa significar obter uma nota mais baixa em uma prova que você fará
-          no dia seguinte, <u>OU</u> <strong>(B)</strong> Ficar em casa e estudar para aumentar suas chances de tirar uma nota mais alta.
-        </p>
-        <p><input type="radio" name="eara1" /> Com certeza escolheria A.</p>
-        <p><input type="radio" name="eara1" /> Provavelmente escolheria A.</p>
-        <p><input type="radio" name="eara1" /> Provavelmente escolheria B.</p>
-        <p><input type="radio" name="eara1" /> Com certeza escolheria B.</p>
-
-        <p>
-          2. <strong>(A)</strong> Estudar um pouco todos os dias para uma prova de uma disciplina e passar menos tempo com
-          os seus amigos, <u>OU</u> <strong>(B)</strong> Passar mais tempo com os seus amigos e “se matar de estudar” somente às vésperas da prova.
-        </p>
-        <p><input type="radio" name="eara2" /> Com certeza escolheria A.</p>
-        <p><input type="radio" name="eara2" /> Provavelmente escolheria A.</p>
-        <p><input type="radio" name="eara2" /> Provavelmente escolheria B.</p>
-        <p><input type="radio" name="eara2" /> Com certeza escolheria B.</p>
-        <p>
-          3. <strong>(A)</strong> Faltar a várias aulas para aceitar um convite de uma viagem muito interessante, <u>OU</u> <strong>(B)</strong> Adiar a viagem até a disciplina terminar.
-        </p>
-        <p><input type="radio" name="eara3" /> Com certeza escolheria A.</p>
-        <p><input type="radio" name="eara3" /> Provavelmente escolheria A.</p>
-        <p><input type="radio" name="eara3" /> Provavelmente escolheria B.</p>
-        <p><input type="radio" name="eara3" /> Com certeza escolheria B.</p>
-        <p>
-          4. <strong>(A)</strong> Ir a uma festa na véspera de uma prova e estudar somente se você tiver tempo, <u>OU</u> <strong>(B)</strong> Estudar primeiro e ir à festa somente se você tiver tempo.
-        </p>
-        <p><input type="radio" name="eara4" /> Com certeza escolheria A.</p>
-        <p><input type="radio" name="eara4" /> Provavelmente escolheria A.</p>
-        <p><input type="radio" name="eara4" /> Provavelmente escolheria B.</p>
-        <p><input type="radio" name="eara4" /> Com certeza escolheria B.</p>
-        <p>
-          5. <strong>(A)</strong> Passar a maior parte do seu tempo estudando somente o conteúdo interessante de uma disciplina, mesmo que isso possa significar não se sair tão bem nela,
-          <u>OU</u> <strong>(B)</strong> Estudar todo o conteúdo de uma disciplina para aumentar suas chances de se sair bem nela.
-        </p>
-        <p><input type="radio" name="eara5" /> Com certeza escolheria A.</p>
-        <p><input type="radio" name="eara5" /> Provavelmente escolheria A.</p>
-        <p><input type="radio" name="eara5" /> Provavelmente escolheria B.</p>
-        <p><input type="radio" name="eara5" /> Com certeza escolheria B.</p>
-
-        <p>
-          6. <strong>(A)</strong> Matar a aula quando o dia está bonito e tentar conseguir as anotações com alguém depois, <u>OU</u> <strong>(B)</strong> Assistir à aula para ter certeza de que você não perderá nenhum conteúdo importante, mesmo que o dia esteja bonito lá fora.
-        </p>
-        <p><input type="radio" name="eara6" /> Com certeza escolheria A.</p>
-        <p><input type="radio" name="eara6" /> Provavelmente escolheria A.</p>
-        <p><input type="radio" name="eara6" /> Provavelmente escolheria B.</p>
-        <p><input type="radio" name="eara6" /> Com certeza escolheria B.</p>
-        <p>
-          7. <strong>(A)</strong> Ficar na biblioteca para ter certeza de que você terminará uma tarefa de uma disciplina cujo prazo é no dia seguinte, <u>OU</u> <strong>(B)</strong> Ir 
-          mbora para se divertir com seus amigos e tentar terminar a tarefa mais tarde, quando chegar em casa à noite.
-        </p>
-        <p><input type="radio" name="eara7" /> Com certeza escolheria A.</p>
-        <p><input type="radio" name="eara7" /> Provavelmente escolheria A.</p>
-        <p><input type="radio" name="eara7" /> Provavelmente escolheria B.</p>
-        <p><input type="radio" name="eara7" /> Com certeza escolheria B.</p>
-        <p>
-          8. <strong>(A)</strong> Estudar para uma disciplina em um lugar com muitos divertimentos ou distrações, <u>OU</u> <strong>(B)</strong> Estudar em um 
-          lugar onde há menos divertimentos ou distrações, para aumentar a probabilidade de você aprender o conteúdo.
-        </p>
-        <p><input type="radio" name="eara8" /> Com certeza escolheria A.</p>
-        <p><input type="radio" name="eara8" /> Provavelmente escolheria A.</p>
-        <p><input type="radio" name="eara8" /> Provavelmente escolheria B.</p>
-        <p><input type="radio" name="eara8" /> Com certeza escolheria B.</p>        
-        <p>
-          9. <strong>(A)</strong> Ir embora logo após a aula para fazer alguma coisa de que você goste, mesmo que isso, possivelmente, signifique não compreender 
-          um determinado conteúdo para uma prova, <u>OU</u> <strong>(B)</strong> Ficar depois da aula e pedir que seu professor esclareça algum conteúdo de prova 
-          que você não entendeu.
-        </p>
-        <p><input type="radio" name="eara9" /> Com certeza escolheria A.</p>
-        <p><input type="radio" name="eara9" /> Provavelmente escolheria A.</p>
-        <p><input type="radio" name="eara9" /> Provavelmente escolheria B.</p>
-        <p><input type="radio" name="eara9" /> Com certeza escolheria B.</p>        
-        <p>
-          10. <strong>(A)</strong> Escolher uma disciplina cujo(a) professor(a) seja “bonzinho/boazinha”, mesmo que ele/ela não faça um bom trabalho, ao cobrir o 
-          conteúdo programático, <u>OU</u> <strong>(B)</strong> Escolher uma disciplina cujo(a) o(a) professor(a) não seja tão “bonzinho/boazinha”, mas que faça 
-          um bom trabalho, ao cobrir o conteúdo programático.
-        </p>
-        <p><input type="radio" name="eara10" /> Com certeza escolheria A.</p>
-        <p><input type="radio" name="eara10" /> Provavelmente escolheria A.</p>
-        <p><input type="radio" name="eara10" /> Provavelmente escolheria B.</p>
-        <p><input type="radio" name="eara10" /> Com certeza escolheria B.</p>        
+      <p>
+        2. <strong>(A)</strong> Estudar um pouco todos os dias para uma prova de uma disciplina e passar menos tempo com
+        os seus amigos, <u>OU</u> <strong>(B)</strong> Passar mais tempo com os seus amigos e “se matar de estudar” somente às vésperas da prova.
+      </p>
+      <div class="options-group">
+        <p><input type="radio" name="eara2" value="1" /> Com certeza escolheria A.</p>
+        <p><input type="radio" name="eara2" value="2" /> Provavelmente escolheria A.</p>
+        <p><input type="radio" name="eara2" value="3" /> Provavelmente escolheria B.</p>
+        <p><input type="radio" name="eara2" value="4" /> Com certeza escolheria B.</p>
       </div>
-      <div class="button-group">
-        <button type="submit" class="btn btn-info" name="responder">Responder</button>
+      <p>
+        3. <strong>(A)</strong> Faltar a várias aulas para aceitar um convite de uma viagem muito interessante, <u>OU</u> <strong>(B)</strong> Adiar a viagem até a disciplina terminar.
+      </p>
+      <div class="options-group">
+        <p><input type="radio" name="eara3" value="1" /> Com certeza escolheria A.</p>
+        <p><input type="radio" name="eara3" value="2" /> Provavelmente escolheria A.</p>
+        <p><input type="radio" name="eara3" value="3" /> Provavelmente escolheria B.</p>
+        <p><input type="radio" name="eara3" value="4" /> Com certeza escolheria B.</p>
+      </div>
+      <p>
+        4. <strong>(A)</strong> Ir a uma festa na véspera de uma prova e estudar somente se você tiver tempo, <u>OU</u> <strong>(B)</strong> Estudar primeiro e ir à festa somente se você tiver tempo.
+      </p>
+      <div class="options-group">
+        <p><input type="radio" name="eara4" value="1" /> Com certeza escolheria A.</p>
+        <p><input type="radio" name="eara4" value="2" /> Provavelmente escolheria A.</p>
+        <p><input type="radio" name="eara4" value="3" /> Provavelmente escolheria B.</p>
+        <p><input type="radio" name="eara4" value="4" /> Com certeza escolheria B.</p>
+      </div>
+      <p>
+        5. <strong>(A)</strong> Passar a maior parte do seu tempo estudando somente o conteúdo interessante de uma disciplina, mesmo que isso possa significar não se sair tão bem nela,
+        <u>OU</u> <strong>(B)</strong> Estudar todo o conteúdo de uma disciplina para aumentar suas chances de se sair bem nela.
+      </p>
+      <div class="options-group">
+        <p><input type="radio" name="eara5" value="1" /> Com certeza escolheria A.</p>
+        <p><input type="radio" name="eara5" value="2" /> Provavelmente escolheria A.</p>
+        <p><input type="radio" name="eara5" value="3" /> Provavelmente escolheria B.</p>
+        <p><input type="radio" name="eara5" value="4" /> Com certeza escolheria B.</p>
+      </div>
+      <p>
+        6. <strong>(A)</strong> Matar a aula quando o dia está bonito e tentar conseguir as anotações com alguém depois, <u>OU</u> <strong>(B)</strong> Assistir à aula para ter certeza de que você não perderá nenhum conteúdo importante, mesmo que o dia esteja bonito lá fora.
+      </p>
+      <div class="options-group">
+        <p><input type="radio" name="eara6" value="1" /> Com certeza escolheria A.</p>
+        <p><input type="radio" name="eara6" value="2" /> Provavelmente escolheria A.</p>
+        <p><input type="radio" name="eara6" value="3" /> Provavelmente escolheria B.</p>
+        <p><input type="radio" name="eara6" value="4" /> Com certeza escolheria B.</p>
+      </div>
+      <p>
+        7. <strong>(A)</strong> Ficar na biblioteca para ter certeza de que você terminará uma tarefa de uma disciplina cujo prazo é no dia seguinte, <u>OU</u> <strong>(B)</strong> Ir 
+        mbora para se divertir com seus amigos e tentar terminar a tarefa mais tarde, quando chegar em casa à noite.
+      </p>
+      <div class="options-group">
+        <p><input type="radio" name="eara7" value="1" /> Com certeza escolheria A.</p>
+        <p><input type="radio" name="eara7" value="2" /> Provavelmente escolheria A.</p>
+        <p><input type="radio" name="eara7" value="3" /> Provavelmente escolheria B.</p>
+        <p><input type="radio" name="eara7" value="4" /> Com certeza escolheria B.</p>
+      </div>
+      <p>
+        8. <strong>(A)</strong> Estudar para uma disciplina em um lugar com muitos divertimentos ou distrações, <u>OU</u> <strong>(B)</strong> Estudar em um 
+        lugar onde há menos divertimentos ou distrações, para aumentar a probabilidade de você aprender o conteúdo.
+      </p>
+      <div class="options-group">
+        <p><input type="radio" name="eara8" value="1" /> Com certeza escolheria A.</p>
+        <p><input type="radio" name="eara8" value="2" /> Provavelmente escolheria A.</p>
+        <p><input type="radio" name="eara8" value="3" /> Provavelmente escolheria B.</p>
+        <p><input type="radio" name="eara8" value="4" /> Com certeza escolheria B.</p>
+      </div>
+      <p>
+        9. <strong>(A)</strong> Ir embora logo após a aula para fazer alguma coisa de que você goste, mesmo que isso, possivelmente, signifique não compreender 
+        um determinado conteúdo para uma prova, <u>OU</u> <strong>(B)</strong> Ficar depois da aula e pedir que seu professor esclareça algum conteúdo de prova 
+        que você não entendeu.
+      </p>
+      <div class="options-group">
+        <p><input type="radio" name="eara9" value="1" /> Com certeza escolheria A.</p>
+        <p><input type="radio" name="eara9" value="2" /> Provavelmente escolheria A.</p>
+        <p><input type="radio" name="eara9" value="3" /> Provavelmente escolheria B.</p>
+        <p><input type="radio" name="eara9" value="4" /> Com certeza escolheria B.</p>
+      </div>
+      <p>
+        10. <strong>(A)</strong> Escolher uma disciplina cujo(a) professor(a) seja “bonzinho/boazinha”, mesmo que ele/ela não faça um bom trabalho, ao cobrir o 
+        conteúdo programático, <u>OU</u> <strong>(B)</strong> Escolher uma disciplina cujo(a) o(a) professor(a) não seja tão “bonzinho/boazinha”, mas que faça 
+        um bom trabalho, ao cobrir o conteúdo programático.
+      </p>
+      <div class="options-group">
+        <p><input type="radio" name="eara10" value="1" /> Com certeza escolheria A.</p>
+        <p><input type="radio" name="eara10" value="2" /> Provavelmente escolheria A.</p>
+        <p><input type="radio" name="eara10" value="3" /> Provavelmente escolheria B.</p>
+        <p><input type="radio" name="eara10" value="4" /> Com certeza escolheria B.</p>
       </div>
     </div>
-  </body>
-</html>
+    <div class="button-group">
+      <button type="submit" class="btn btn-info" name="responder">Responder</button>
+    </div>
+  </form>
+</div>

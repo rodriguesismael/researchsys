@@ -1,0 +1,25 @@
+<h1>Universidades Participantes</h1>
+
+<div class="button-group">
+	<a href="/formuniversidades" class="btn btn-link" role="button">Adicionar Universidade</a>
+</div>
+<table class="table">
+	<thead>
+		<th>Universidade</th>
+		<th>Ações</th>
+	</thead>
+	<tbody>
+		<repeat group="{{ @universidades }}" value="{{ @universidade }}">
+			
+				<tr>
+					<td>{{ @universidade.nome }}</td>
+					<td>
+						<a href="/admin/universidades/editar/{{ @universidade.id }}" class="btn btn-info" role="button">Editar</a>
+						&nbsp;
+						<a href="/admin/universidades/editar/{{ @universidade.id }}" class="btn btn-danger" role="button">Remover</a>
+					</td>
+				</tr>
+			
+		</repeat>
+	</tbody>
+</table>

@@ -1,0 +1,87 @@
+<h1>Nova Lista de Participantes</h1>
+
+<form action="/admin/participantes/adicionar" method="POST">
+	<fieldset>
+		<div class="form-row">
+			<div class="form-group">
+
+			  	<label for="universidade">E-mail</label>
+					<div class="input-group mb-3">
+						<input type="email" class="form-control" name="mailaluno" id="mailaluno" placeholder="E-mail" aria-label="E-mail">
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" id="novomail" type="button"><span class="fa fa-plus"></span> Adicionar à lista</button>
+						</div>
+					</div>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group" id="maillist">
+				<input type="hidden" name="emails[]" />
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group">
+				Questionarios desta lista
+				<div class="form-row">
+					<div class="col-md-3">
+						<input type="checkbox" name="escalas[]" value="qeacd"> QEACD
+					</div>
+					<div class="col-md-3">
+						<input type="checkbox" name="escalas[]" value="berm"> BERM
+					</div>
+					<div class="col-md-3">
+						<input type="checkbox" name="escalas[]" value="slri"> SLRI
+					</div>
+					<div class="col-md-3">
+						<input type="checkbox" name="escalas[]" value="eara"> EARA
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-md-3">
+						<input type="checkbox" name="escalas[]" value="autoeficacia"> Auto Eficacia
+					</div>
+					<div class="col-md-3">
+						<input type="checkbox" name="escalas[]" value="autoprejudiciais"> Auto Prejudiciais
+					</div>
+					<div class="col-md-3">
+						<input type="checkbox" name="escalas[]" value="regulacao"> Regulação da Motivação
+					</div>
+					<div class="col-md-3">
+						<input type="checkbox" name="escalas[]" value="eci"> ECI
+					</div>					
+				</div>				
+			</div>
+		</div>
+	</fieldset>
+	<div class="button-group">
+		<button type="submit" name="concluir" class="btn btn-primary">Incluir</button>
+		<a href="/universidades" class="btn btn-danger" role="button">Voltar</a>
+	</div>	
+</form>
+<script type="text/javascript">
+	
+	$("#novomail").click(function(){
+		var newmail = $("#mailaluno").val();
+		$("#mailaluno").val('');
+		if(newmail == "") return false;
+		if($("#maillist:contains('"+newmail+"')").length > 0) return false;//ja existe o email na lista
+		var htmltext = "<p><input type='hidden' name='maillist[]' value='"+newmail+"'/>"+newmail;
+		htmltext+="<button type='button' class='btn btn-link remove-mail' onclick='remove(this)'><span class='fa fa-minus'></span></button></p>";
+		$("#maillist").append(htmltext);
+	});
+	$('#remover').click(function(){
+		$(this).parent().remove();
+		//console.log((this).parent());
+	});
+
+	function remove(el){
+		var parent = el.parentElement;
+		var granpa = parent.parentElement;
+		var node = parent.firstChild;
+		while(node){
+			parent.removeChild(node);
+			node = parent.firstChild;
+		}
+		granpa.removeChild(parent);
+	}
+</script>

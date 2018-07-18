@@ -1,17 +1,51 @@
-<h1>Universidades Participantes</h1>
+<h1>Nova Universidades Participantes</h1>
 
-<form action="/novauniversidade" method="POST">
-	<div class="form-row">
-		<div class="form-group col-md-6">
-		  <label for="universidade">Universidade</label>
-		  <input type="text" class="form-control" name="universidade" id="universidade" required/>
+<form action="/admin/universidades/adicionar" method="POST">
+	<fieldset>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+			  <label for="universidade">Universidade</label>
+			  <input type="text" class="form-control" name="universidade" value="{{ @uni.nome }}" id="universidade" required/>
+			</div>
+			<div class="form-group col-md-6">
+			  <label for="responsavel">Prof. Responsável</label>
+			  <input type="text" name="responsavel" class="form-control" value="{{ @uni.responsavel }}" id="responsavel"/>
+			</div>
 		</div>
-		<div class="form-group col-md-6">
-		  <label for="responsavel">Prof. Responsável</label>
-		  <input type="text" name="responsavel" class="form-control" id="responsavel" required/>
+	</fieldset>
+	<fieldset>
+		<legend>Contato do Comiê de Ética</legend>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+			  <label for="universidade">Endereço</label>
+			  <input type="text" class="form-control" name="endereco" value="{{ @uni.endereco }}" id="endereco" required/>
+			</div>
+			<div class="form-group col-md-6">
+			  <label for="responsavel">Complemento</label>
+			  <input type="text" name="complemento" class="form-control" value="{{ @uni.complemento }}" id="complemento"/>
+			</div>
 		</div>
-	</div>
+		<div class="form-row">
+			<div class="form-group col-md-2">
+			  <label for="universidade">Telefone</label>
+			  <input type="text" class="form-control" name="endereco" value="{{ @uni.endereco }}" id="endereco"/>
+			</div>
+			<div class="form-group col-md-2">
+			  <label for="responsavel">CEP</label>
+			  <input type="text" name="cep" class="form-control" value="{{ @uni.cep }}" id="cep"/>
+			</div>
+			<div class="form-group col-md-2">
+			  <label for="responsavel">Estado</label>
+			  <input type="text" name="estado" class="form-control" value="{{ @uni.estado }}" id="estado"/>
+			</div>
+			<div class="form-group col-md-6">
+			  <label for="responsavel">Cidade</label>
+			  <input type="text" name="cidade" class="form-control" value="{{ @uni.cidade }}" id="cidade"/>
+			</div>
+		</div>
+	</fieldset>
 	<div class="button-group">
-	  <button type="submit" name="concluir" class="btn btn-primary">Incluir</button>
+		<button type="submit" name="concluir" class="btn btn-primary">Incluir</button>
+		<a href="/universidades" class="btn btn-danger" role="button">Voltar</a>
 	</div>	
 </form>

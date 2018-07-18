@@ -1,0 +1,15 @@
+<form action="" method="POST">
+	<div id="login-box" class="form-group">
+		<h3>Login</h3>
+		<check if="{{ @error }}">
+			<div class="alert alert-danger" role="alert">
+			  <strong>Dados inválidos!</strong> Tente novamente
+			</div>			
+		</check>
+		<label for="usuario">Usuario</label>
+		<input type="text" id="usuario" name="user" required class="form-control"/>
+		<label for="pwd">Senha</label>
+		<input type="password" class="form-control id="pwd" name="pass"/>
+		<button type="submit" name="login" class="btn btn-primary">Entrar</button>
+	</div>
+</form>
