@@ -30,7 +30,7 @@ class ParticipantesController extends Controller{
 					$queryEmails = "INSERT INTO convidados (idlista,email) VALUES (:idLista,:email)";
 					$this->db->exec($queryEmails,array(':idLista'=>$idLista,':email'=>$mail));
 				}
-				
+				$this->f3->reroute('/admin/participantes');
 			} catch (Exception $e) {
 				$this->f3->set('error',$e->getMessage());
 			}
