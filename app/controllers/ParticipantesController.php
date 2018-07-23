@@ -75,8 +75,8 @@ class ParticipantesController extends Controller{
 
 	function convidar(){
 		$this->isAdmin();
-		/*
-		$msgEmail = "<p><Prezado(a) aluno(a),</p>
+		$link="";
+		$msgEmail = "<h4>Prezado(a) aluno(a),</h4>
 		<p style='text-ident:2em;text-align:justify;'>
 		Meu nome é Evely Boruchovitch. Sou professora da Faculdade de Educação da Universidade
 		Estadual de Campinas – UNICAMP. Gostaria de convidá-lo (a) a participar de uma pesquisa
@@ -89,17 +89,16 @@ class ParticipantesController extends Controller{
 		</p>
 		<p>
 			Sua colaboração é muito valiosa! Para participar da pesquisa, por favor, acesse o
-			seguinte link
+			seguinte <a href='REPLACE'>link</a>
 		</p>
-		<p>Muito obrigada!</p>";*/
+		<p>Muito obrigada!</p>";
 
-		$smtp = new SMTP ( 'smtp.gmail.com', '587', 'tls', 'isrmdevonly@gmail.com', 'devaccountqwepoi32@' );
+		$smtp = new SMTP ( 'smtp.gmail.com', '587', 'tls', $this->f3->get('SMTP_MAIL'), $this->f3->get('SMTP_PASS') );
 
 		$smtp->set('MIME-Version', '1.0');
 		$smtp->set('Content-type', 'text/html;charset=UTF-8');
-		$smtp->set('From', '"Dev" <isrmdevonly@gmail.com>');
-		$smtp->set('To', '"Ismael IC" <ismael@ic.unicamp.br>');
-		$smtp->set('Subject', 'Message from F3');
+		$smtp->set('From', '"NoReply" <isrmdevonly@gmail.com>');
+		$smtp->set('Subject', 'Convite');
 
 		if ($this->f3->get('GET.lista')) {
 			$query = "SELECT id,email FROM convidados WHERE idlista=?";
@@ -112,8 +111,11 @@ class ParticipantesController extends Controller{
 				}else{
 					$sendTo =array();
 					foreach ($dados as $emails) {
+						$smtp->set('To', $emails['email']);
 						$sendTo[] = $emails['email'];
-						$smtp->send($msgEmail) or die("ERRO ".$smtp->log());
+						$link= $this->f3->get('BASE_URL')."/participar/".$this->encryptMail($emails['email']);
+						//$msgEmail = str_replace('REPLACE', $link, $msgEmail);
+						$smtp->send(str_replace('REPLACE', $link, $msgEmail)) or die("ERRO ".$smtp->log());
 					}
 					$response = json_encode($sendTo);
 					echo $response;
@@ -175,13 +177,13 @@ class ParticipantesController extends Controller{
 		}
 		
 		if($this->f3->get('COOKIE.termo')){
-			$queryEmail = "SELECT email FROM convidados WHERE email=?";
+			$queryEmail = "SELECT email FROM convidados WHERE md5(email)=?";
 			$result = array();
 			$queryUnis = "SELECT id,nome FROM universidades";
 			$universidades = $this->db->exec($queryUnis);
 			$result = $this->db->exec($queryEmail, array($email));
 			if(count($result) > 0){
-				$this->f3->set('email',$email);
+				$this->f3->set('email',$result[0]['email']);
 				$this->f3->set('universidades',$universidades);
 				$this->f3->set('content','demograficos.html');
 				echo \Template::instance()->render('tela.htm');
@@ -190,6 +192,14 @@ class ParticipantesController extends Controller{
 		}else{
 			$this->f3->reroute('/participar/'.$this->f3->get('PARAMS.email'));
 		}
+	}
+
+	function encryptMail($mail){
+		return md5($mail);
+	}
+
+	function checkSum($valA,$valB){
+		return ($valA == md5($valB)); 
 	}
 
 }

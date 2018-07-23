@@ -14,9 +14,9 @@
 				<tr>
 					<td>{{ @lista.titulo }}</td>
 					<td>
-						<a href="/admin/participantes/editar/{{ @lista.id }}" id="{{ @lista.id }}"" class="btn btn-info sendmail" role="button">Enviar Emails</a>
+						<a href="/admin/participantes/editar/{{ @lista.id }}" id="{{ @lista.id }}" class="btn btn-info sendmail" role="button">Enviar Emails</a>
 						&nbsp;
-						<a href="/admin/participantes/editar/{{ @lista.id }}" class="btn btn-danger" role="button">Remover</a>
+						<a href="/admin/participantes/editar/{{ @lista.id }}" onclick="alert('Não implementado');return false;" class="btn btn-danger" role="button">Remover</a>
 					</td>
 				</tr>
 			
@@ -34,13 +34,17 @@
 							       console.log(data);
 							       if(data['code'] === 0){
 							       	alert(data['msg']);
+							       	return false;
 							       }
+							       var sentWho="";
 							       for(var k in data){
-							       		alert("Email enviado para "+data[k]);
+							       		sentWho+=data[k]+",";
 							       }
+							       alert("Email enviado para "+sentWho.substring(0,sentWho.length - 1));
+							       return true;
 								},
 								error:function(data){
-									alert('deu ruim');
+									alert('Houve um problema inesperado');
 
 									console.log(data);
 								}
