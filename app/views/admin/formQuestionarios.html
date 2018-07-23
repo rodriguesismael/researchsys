@@ -1,0 +1,84 @@
+<h1>{{ @label }} Questionário</h1>
+
+<form action="/admin/questionarios/adicionar" method="POST">
+	<div class="form-group">
+		<label for="titulo">Título</label>
+		<input type="text" class="form-control" name="titulo" id="titulo" required/>
+	</div>
+	<div class="form-row">
+		<div class="form-group col-md-6">
+			<label for="autores">Autor(es)</label>
+			<input type="text" class="form-control" name="autores" placeholder="Nomes separados por ';'" id="autores" required/>
+		</div>
+		<div class="form-group col-md-6">
+			<label for="tradutores">Tradutor(es)</label>
+			<input type="text" class="form-control" name="tradutores" placeholder="Nomes separados por ';'" id="tradutores" required/>
+		</div>
+	</div>		
+	<div class="form-group">
+		<label for="descricao">Descrição</label>
+		<textarea name="descricao" id="descricao" class="form-control" rows="8"></textarea>
+	</div>
+	<div class="form-group">
+		<label for="tipo">Diagramação</label>
+		<select name="tipo" id="tipo" class="form-control">
+			<option value="1">Percentual</option>
+			<option value="2">Tabela</option>
+			<option value="3">Alternativas em cada Questao</option>
+		</select>
+	</div>
+	<div class="form-group">
+	  	<label for="universidade">Alternativas</label>
+		<div class="input-group mb-3">
+			<input type="text" class="form-control" name="novaalternativa" id="novaalternativa">
+			<input type="hidden" name="questionario" value="{{ @questionario.id }}">
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" id="alternativa-inc" type="button"><span class="fa fa-plus"></span> Adicionar</button>
+			</div>
+		</div>
+	</div>
+	<div class="form-row">
+		<div class="form-group" id="listaalternativas">
+			<repeat group="{{ @alternativas }}" value="{{ @alternativas }}">
+					<p>
+						{{ @alternativa.ordem }}
+						<input type="hidden" name="alternativas[]" value="{{ @alternativa.alternativa }}"/> {{ @alternativa.alternativa }}
+						<button type="button" class="btn btn-link remove-mail" onclick="remove(this)"><span class="fa fa-minus"></span></button>
+					</p>
+			</repeat>
+		</div>
+	</div>
+	<div class="button-group">
+		<button type="submit" name="concluir" class="btn btn-primary">Salvar e Incluir Questões</button>
+		<a href="/admin/participantes" class="btn btn-danger" role="button">Voltar</a>
+	</div>	
+</form>
+<script type="text/javascript">
+	
+	$("#alternativa-inc").click(function(){
+		var novaalternativa = $("#novaalternativa").val();
+		$("#novaalternativa").val('');
+		if(novaalternativa == "") return false;
+		console.log($("#listaalternativas:contains('"+novaalternativa+"')"));
+		if($("#listaalternativas:contains('"+novaalternativa+"')").length > 0) return false;//ja existe o email na lista
+		var htmltext = "<p><input type='hidden' name='alternativas[]' value='"+novaalternativa+"'/>"+novaalternativa;
+
+		htmltext+="<button type='button' class='btn btn-link remove-mail' onclick='remove(this)'><span class='fa fa-minus'></span></button></p>";
+		$("#listaalternativas").append(htmltext);
+	});
+	$('#remover').click(function(){
+		$(this).parent().remove();
+		//console.log((this).parent());
+	});
+
+	function remove(el){
+		var parent = el.parentElement;
+		var granpa = parent.parentElement;
+		var node = parent.firstChild;
+		while(node){
+			parent.removeChild(node);
+			node = parent.firstChild;
+		}
+		granpa.removeChild(parent);
+	}
+</script>

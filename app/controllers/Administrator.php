@@ -44,9 +44,6 @@ class Administrator extends Controller{
 		return $userResult;
 	}
 
-	public function instance(){
-		return $this;
-	}
 
 	function logout() {
 		$this->f3->set('SESSION.nomeusr', '');

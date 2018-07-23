@@ -1,0 +1,53 @@
+<h1>Listas de Participantes</h1>
+
+<div class="button-group">
+	<a href="/admin/participantes/adicionar" class="btn btn-link" role="button">Adicionar Lista</a>
+</div>
+<table class="table">
+	<thead>
+		<th>Lista</th>
+		<th>Ações</th>
+	</thead>
+	<tbody>
+		<repeat group="{{ @listas }}" value="{{ @lista }}">
+			
+				<tr>
+					<td>{{ @lista.titulo }}</td>
+					<td>
+						<a href="/admin/participantes/editar/{{ @lista.id }}" id="{{ @lista.id }}"" class="btn btn-info sendmail" role="button">Enviar Emails</a>
+						&nbsp;
+						<a href="/admin/participantes/editar/{{ @lista.id }}" class="btn btn-danger" role="button">Remover</a>
+					</td>
+				</tr>
+			
+		</repeat>
+	</tbody>
+</table>
+<script type="text/javascript">
+	$(function(){
+		$(".sendmail").click(function(){
+			var request = $.ajax({url:"/admin/participantes/convidar",
+								method:"GET",
+								data:{lista:$(this).prop('id')},
+								dataType:'json',
+								success:function(data){
+							       console.log(data);
+							       if(data['code'] === 0){
+							       	alert(data['msg']);
+							       }
+							       for(var k in data){
+							       		alert("Email enviado para "+data[k]);
+							       }
+								},
+								error:function(data){
+									alert('deu ruim');
+
+									console.log(data);
+								}
+							});
+
+			///console.log(request.responseJSON);
+			return false;
+		})
+	})
+</script>

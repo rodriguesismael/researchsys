@@ -2,6 +2,7 @@
 class Controller{
 	protected $f3;
     protected $db;
+    protected $mapper;
 	function beforeroute(){
 		//echo 'Before routing - ';
 	}
@@ -17,5 +18,7 @@ class Controller{
 	        $f3->get('DBUSER')//,$f3->get('DBPASS')
 	    );	    
 	    $this->db=$db;
+	    $mapper = new \DB\SQL\Mapper($this->db, 'listas');
+	    $this->mapper = $mapper;
 	}	
 }

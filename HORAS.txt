@@ -5,3 +5,35 @@ HORAS
 8h na segunda 09/07
 4h na segunda 16/07
 5h na terça   17/07
+6h na quarta  18/07
+6h na quinta  19/07
+2h na sexta   20/07
+8h no sabado  21/07
+TODO participação aluno
+
+criar uma url passando o email criptografado do participante;
+ao receber a requisição, o sistema deve desencriptar o hash e buscar o email na base de dados
+se a busca retornar positivo:
+	exibir o termo;
+se o participante aceitar os termos:
+	exibir formulario de dados demográficos
+
+Exibir uma mensagem explicando que ele sera redirecionado para o LASSI;
+O LASSI "devolve" o usuario atraves de uma url. ;
+exibir uma mensagem "falta pouco"
+no momento do redirect, carregar a sessao do participante com a lista de questionários que ele tem de responder, e com outros dados que sejam pertinentes. OBS.: Caso esse redirect não seja automatico, e o participante tiver que clicar, pode ser que ele não queira fazer isso; por isso, logo apos carregar a sessão, ela sera persistida no banco. Assim sabemos que um participante aceitou o termo, inseriu dados demográficos, (PODE não ter) fez o LASSI, mas não clicou no redirecionamento ;
+a cada questionario respondido, a sessão é atualizada, até que não sobrem questionarios na sessão
+RISCOS:
+O participante pode terminar o LASSI e não clicar no link. Nesse caso, adicionamos uma rotina no processamento do link ao final do LASSI
+
+
+
+
+o sistema precisa ser stateful!
+Cada passo do usuario precisa ser persistido, do contrario nao saberemos onde ele parou, visto que ele pode interromper o processo simplesmente fechando o browser. Persistindo o ultimo estado conhecido, podemos notificar o usuario via email, levando ele até o ultimo estado conhecido.
+Listagem de estado
+Convidado= email enviado, aguardando;
+Aceitou o termo= deu aceite no termo;
+Preencheu dados demograficos;
+Respondeu o LASSI
+Respondeu escala X dos sistema= onde x é cada uma das escalas que a lista desde participante deve responder
