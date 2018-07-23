@@ -3,12 +3,7 @@
 class ParticipantesController extends Controller{
 
 	function home(){
-		if($this->f3->get('SESSION.idusr') == 1){
-			pass;
-		}else{
-			$this->f3->reroute('/admin/login');
-		}
-
+		$this->isAdmin();
 		$query = "SELECT * FROM listas";
 		$listaParticipantes = $this->db->exec($query);
 		$this->f3->set('listas',$listaParticipantes);
@@ -17,6 +12,7 @@ class ParticipantesController extends Controller{
 	}
 
 	function nova(){
+		$this->isAdmin();
 		if ($this->f3->get('POST.maillist')) {		
 			$emails = $this->f3->get('POST.maillist');
 			$quests = $this->f3->get('POST.escalas');
@@ -46,6 +42,7 @@ class ParticipantesController extends Controller{
 	}
 
 	function editar($params){
+		$this->isAdmin();
 		if ($this->f3->get('PARAMS.id')) {
 			$arrayChecks = array('qeacd'=>"",'eara'=>"",'berm'=>"",'slri'=>"",'eci'=>"",'autoeficacia'=>"autoprejudiciais",''=>"",'regulacao'=>"");
 
@@ -77,11 +74,7 @@ class ParticipantesController extends Controller{
 	}
 
 	function convidar(){
-		if($this->f3->get('SESSION.idusr') == 1){
-			pass;
-		}else{
-			$this->f3->reroute('/admin/login');
-		}	
+		$this->isAdmin();
 		/*
 		$msgEmail = "<p><Prezado(a) aluno(a),</p>
 		<p style='text-ident:2em;text-align:justify;'>

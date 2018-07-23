@@ -3,11 +3,7 @@
 class QuestionarioController extends Controller{
 
 	function home(){
-		if($this->f3->get('SESSION.idusr') == 1){
-			pass;
-		}else{
-			$this->f3->reroute('/admin/login');
-		}
+		$this->isAdmin();
 
 		$query = "SELECT * FROM questionarios";
 		$listaQuestionarios = $this->db->exec($query);
@@ -17,6 +13,7 @@ class QuestionarioController extends Controller{
 	}
 
 	function novo(){
+		$this->isAdmin();
 		if ($this->f3->get('POST.alternativas')) {		
 			$alternativas = $this->f3->get('POST.alternativas');
 			$titulo = $this->f3->get('POST.titulo');
@@ -53,6 +50,7 @@ class QuestionarioController extends Controller{
 	}
 
 	function addQuestoes(){
+		$this->isAdmin();
 		$questoes = $this->f3->get('POST.questoes');
 		$idquestionario = $this->f3->get('POST.questionario');
 		if (isset($questoes)) {
@@ -76,6 +74,7 @@ class QuestionarioController extends Controller{
 	}
 
 	function editQuestoes(){
+		$this->isAdmin();
 		$q = $this->f3->get('PARAMS.id');
 		$questoes = $this->db->exec("SELECT id,titulo FROM questoes WHERE questionarios_id=?",array($q));
 		if(isset($result)){
@@ -87,6 +86,7 @@ class QuestionarioController extends Controller{
 		}		
 	}
 	function editar($params){
+		$this->isAdmin();
 		if ($this->f3->get('PARAMS.id')) {
 			$arrayChecks = array('qeacd'=>"",'eara'=>"",'berm'=>"",'slri'=>"",'eci'=>"",'autoeficacia'=>"autoprejudiciais",''=>"",'regulacao'=>"");
 

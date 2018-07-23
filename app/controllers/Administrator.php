@@ -28,7 +28,7 @@ class Administrator extends Controller{
 				$this->f3->set('error','Dados inválidos! Tente novamente');
 			}
 		}
-		$this->f3->set('content','login.html');
+		$this->f3->set('content','admin/login.html');
 		echo \Template::instance()->render('tela.htm');
 	}
 

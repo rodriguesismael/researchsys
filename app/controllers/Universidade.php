@@ -2,11 +2,7 @@
 
 class Universidade extends Controller{
 	function home(){
-		if($this->f3->get('SESSION.idusr') == 1){
-			pass;
-		}else{
-			$this->f3->reroute('/admin/login');
-		}
+		$this->isAdmin();
 		$getUniversidades = "SELECT * FROM universidades";
 		$result = "";
 		try {
@@ -23,6 +19,7 @@ class Universidade extends Controller{
 	}
 
 	function nova(){
+		$this->isAdmin();
 		if ($this->f3->get('POST.universidade')) {
 			echo 'chegou';
 			var_dump($this->f3->get('POST'));
@@ -56,6 +53,7 @@ class Universidade extends Controller{
 	}
 
 	function editar($params){
+		$this->isAdmin();
 		$query = "SELECT u.*,c.nome as city FROM universidades u JOIN cidades c WHERE u.id=?;";
 		$dados = array();
 		$id = ($this->f3->get('PARAMS.id'));
