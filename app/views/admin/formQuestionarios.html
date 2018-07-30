@@ -12,7 +12,7 @@
 		</div>
 		<div class="form-group col-md-6">
 			<label for="tradutores">Tradutor(es)</label>
-			<input type="text" class="form-control" name="tradutores" placeholder="Nomes separados por ';'" id="tradutores" required/>
+			<input type="text" class="form-control" name="tradutores" placeholder="Nomes separados por ';'" id="tradutores"/>
 		</div>
 	</div>		
 	<div class="form-group">
@@ -57,10 +57,18 @@
 	
 	$("#alternativa-inc").click(function(){
 		var novaalternativa = $("#novaalternativa").val();
+		var isOk = true;
 		$("#novaalternativa").val('');
 		if(novaalternativa == "") return false;
 		console.log($("#listaalternativas:contains('"+novaalternativa+"')"));
-		if($("#listaalternativas:contains('"+novaalternativa+"')").length > 0) return false;//ja existe o email na lista
+		//if($("#listaalternativas:contains('"+novaalternativa+"')").length > 0) return false;//ja existe o email na lista
+		$("#novaalternativa p").each(function(key,text){
+			if($(this).text.toLowerCase().trim() == novaalternativa.toLowerCase()){
+				isOk = false;
+				return;
+			}
+		})
+		if(!isOk) return false;
 		var htmltext = "<p><input type='hidden' name='alternativas[]' value='"+novaalternativa+"'/>"+novaalternativa;
 
 		htmltext+="<button type='button' class='btn btn-link remove-mail' onclick='remove(this)'><span class='fa fa-minus'></span></button></p>";

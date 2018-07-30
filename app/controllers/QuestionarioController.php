@@ -22,7 +22,7 @@ class QuestionarioController extends Controller{
 			$descricao = $this->f3->get('POST.descricao');
 			$tipo = $this->f3->get('POST.tipo');
 
-
+			//var_dump($tradutores);
 			$queryLista = "INSERT INTO listas (questionarios) VALUES (?)";
 			
 			try {
@@ -32,7 +32,9 @@ class QuestionarioController extends Controller{
 				$mapper->set('tradutores',$tradutores);
 				$mapper->set('descricao',$descricao);
 				$mapper->set('tipo',$tipo);
+				var_dump($mapper);
 				$mapper->insert();
+				
 				$idQ = $mapper->get('_id');
 				foreach ($alternativas as $chave=>$alternativa) {
 					$queryAlts = "INSERT INTO alternativas (alternativa,questionarios_id, ordem) VALUES (:alternativa,:idQ,:ordem)";
@@ -119,7 +121,62 @@ class QuestionarioController extends Controller{
 
 	function mostrarQuestionario(){
 
+		$idQuestionario = $this->f3->get('PARAMS.questionario');
+		$questionarios = unserialize($this->f3->get('COOKIE.questionarios'));
+		var_dump($questionarios);
+		//$randKey = array_rand($questionarios);
+		$idQuestionario = $questionarios[0];
+		$result = $this->db->exec("SELECT * FROM questionarios WHERE id=?",array($idQuestionario));
 
-	}	
+		if(count($result) > 0){
+			
+			$this->f3->set('questionario',$result[0]);
+			$alternativas = $this->db->exec("SELECT id,alternativa,ordem FROM alternativas WHERE questionarios_id=? ORDER BY ordem",array($idQuestionario));
+			$questoes = $this->db->exec("SELECT id,questao,ordem FROM questoes WHERE questionarios_id=? ORDER BY ordem",array($idQuestionario));
+
+			$this->f3->set('alternativas',$alternativas);
+			//$this->f3->set('questionario',$idQuestionario);
+			$this->f3->set('questoes',$questoes);
+			//var_dump($questoes);
+			$this->f3->set('content',"questionario-tipo-".$result[0]["tipo"].".html");
+			echo \Template::instance()->render('tela.htm');
+		}
+
+	}
+
+	function processarRespostas(){
+		$participante = $this->f3->get('POST.participante');
+		if($this->f3->get('POST.participante')){
+			$questoes = $this->f3->get('POST.questoes');
+			$arrayRespostas = array();
+			$str="";
+			var_dump($questoes);
+			foreach ($questoes as $id) {
+				$resposta = $this->f3->get('POST.questao'.$id);
+				$arrayRespostas[$id] = $resposta;
+				$queryAnswer = "INSERT INTO respostas (participante,questao_id,alternativa_id) VALUES(?,?,?)";
+				$this->db->exec($queryAnswer, array($participante,$id,$resposta));
+
+			}
+
+			//apos inserir respostas na base
+			//decrementar questionarios faltantes da base de dados
+			//ir para o proximo questionário
+			$questionarios = unserialize($this->f3->get('COOKIE.questionarios'));
+
+			array_shift($questionarios);
+			var_dump($questionarios);
+				//reroute pagina retornar
+			$this->f3->set('COOKIE.questionarios',serialize($questionarios));
+			$estadoAcesso = serialize($this->f3->get('COOKIE'));
+			//var_dump($estadoAcesso);
+			//die();
+			$this->db->exec("UPDATE participantes SET estadoAcesso=? WHERE uid=?",array($estadoAcesso,$participante));
+			$this->f3->reroute('/retornar/'.md5($this->f3->get('SESSION.mail')));
+			var_dump($questionarios);			
+		}
+
+
+	}
 
 }

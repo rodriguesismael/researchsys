@@ -2,28 +2,32 @@
 
 <form action="/admin/participantes/adicionar" method="POST">
 	<fieldset>
-		<div class="form-row">
-			<div class="form-group">
-
-			  	<label for="universidade">E-mail</label>
-					<div class="input-group mb-3">
-						<input type="email" class="form-control" name="mailaluno" id="mailaluno" placeholder="E-mail" aria-label="E-mail">
-						<div class="input-group-append">
-							<button class="btn btn-outline-secondary" id="novomail" type="button"><span class="fa fa-plus"></span> Adicionar à lista</button>
-						</div>
-					</div>
+		<div class="form-group">
+		  	<label for="universidade">E-mail</label>
+			<div class="input-group mb-3">
+				<input type="email" class="form-control" name="mailaluno" id="mailaluno" placeholder="E-mail" aria-label="E-mail">
+				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" id="novomail" type="button"><span class="fa fa-plus"></span> Adicionar à lista</button>
+				</div>
 			</div>
 		</div>
-		<div class="form-row">
-			<div class="form-group" id="maillist">
-				<repeat group="{{ @convidados }}" value="{{ @convidado }}">
-						<p>
-							<input type="hidden" name="maillist[]" value="{{ @convidado.email }}"/> {{ @convidado.email }}
-							<button type="button" class="btn btn-link remove-mail" onclick="remove(this)"><span class="fa fa-minus"></span></button>
-						</p>
+		<div class="form-group" id="maillist">
+			<repeat group="{{ @convidados }}" value="{{ @convidado }}">
+					<p>
+						<input type="hidden" name="maillist[]" value="{{ @convidado.email }}"/> {{ @convidado.email }}
+						<button type="button" class="btn btn-link remove-mail" onclick="remove(this)"><span class="fa fa-minus"></span></button>
+					</p>
+			</repeat>
+		</div>
+		<div class="form-group">
+			<label for="questionarios">Questionários da Lista</label>
+			<select multiple="" class="form-control" name="questionarios[]">
+				<repeat group="{{  @questionarios }}" value="{{ @questionario }}">
+					<option value="{{ @questionario.id }}">{{ @questionario.titulo }}</option>
 				</repeat>
-			</div>
+			</select>
 		</div>
+		<!--
 		<div class="form-row">
 			<div class="col-md-3">
 				Questionarios desta lista
@@ -61,7 +65,7 @@
 					</div>					
 				</div>				
 			</div>
-		</div>
+		</div> -->
 	</fieldset>
 	<div class="button-group">
 		<button type="submit" name="concluir" class="btn btn-primary">Incluir</button>

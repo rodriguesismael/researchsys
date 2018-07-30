@@ -32,7 +32,7 @@ CREATE TABLE `alternativas` (
   PRIMARY KEY (`id`),
   KEY `fk_alternativas_questionarios1_idx` (`questionarios_id`),
   CONSTRAINT `fk_alternativas_questionarios1` FOREIGN KEY (`questionarios_id`) REFERENCES `questionarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `alternativas` (
 
 LOCK TABLES `alternativas` WRITE;
 /*!40000 ALTER TABLE `alternativas` DISABLE KEYS */;
-INSERT INTO `alternativas` VALUES (1,'Concordo plenamente',3,0),(2,'Concordo na maior parte das vezes',3,1),(3,'Discordo na maior parte das vezes',3,2),(4,'Discordo plenamente',3,3);
+INSERT INTO `alternativas` VALUES (1,'Concordo Plenamente',4,1),(2,'Concordo',4,2),(3,'Concordo na maior parte das vezes',4,3),(4,'Discordo na maior parte das vezes',4,4),(5,'Discordo',4,5),(6,'Discordo Plenamente',4,6),(7,'Com certeza escolheria A.',5,1),(8,'Provavelmente escolheria A.',5,2),(9,'Provavelmente escolheria B.',5,3),(10,'Com certeza escolheria B.',5,4),(11,'Discordo fortemente.',6,1),(12,'Discordo.',6,2),(13,'Sou neutro.',6,3),(14,'Concordo.',6,4),(15,'Concordo fortemente',6,5),(16,'Não tem nada a ver comigo',7,1),(17,'Tem pouco a ver comigo',7,2),(18,'Me descreve bem',7,3),(19,'Me descreve realmente bem',7,4);
 /*!40000 ALTER TABLE `alternativas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -79,12 +79,12 @@ DROP TABLE IF EXISTS `convidados`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `convidados` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(45) COLLATE utf8_persian_ci NOT NULL,
+  `email` varchar(45) NOT NULL,
   `idlista` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_convidados_1_idx` (`idlista`),
   CONSTRAINT `fk_convidados_1` FOREIGN KEY (`idlista`) REFERENCES `listas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_persian_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,7 +93,7 @@ CREATE TABLE `convidados` (
 
 LOCK TABLES `convidados` WRITE;
 /*!40000 ALTER TABLE `convidados` DISABLE KEYS */;
-INSERT INTO `convidados` VALUES (7,'ismael@ic.unicamp.br',13);
+INSERT INTO `convidados` VALUES (3,'isrodrigues5@gmail.com',16),(4,'ismael@ic.unicamp.br',16),(5,'ismael@students.ic.unicamp.br',16);
 /*!40000 ALTER TABLE `convidados` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,10 +130,10 @@ DROP TABLE IF EXISTS `listas`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `listas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `titulo` varchar(45) COLLATE utf8_persian_ci DEFAULT NULL,
-  `questionarios` varchar(255) COLLATE utf8_persian_ci NOT NULL,
+  `titulo` varchar(45) CHARACTER SET utf8 COLLATE utf8_persian_ci DEFAULT NULL,
+  `questionarios` varchar(255) CHARACTER SET utf8 COLLATE utf8_persian_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_persian_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -142,7 +142,7 @@ CREATE TABLE `listas` (
 
 LOCK TABLES `listas` WRITE;
 /*!40000 ALTER TABLE `listas` DISABLE KEYS */;
-INSERT INTO `listas` VALUES (13,'Lista de Participantes #13','a:3:{i:0;s:5:\"qeacd\";i:1;s:4:\"slri\";i:2;s:9:\"regulacao\";}');
+INSERT INTO `listas` VALUES (16,'Lista de Participantes #16','a:3:{i:0;s:1:\"4\";i:1;s:1:\"5\";i:2;s:1:\"6\";}');
 /*!40000 ALTER TABLE `listas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -154,7 +154,7 @@ DROP TABLE IF EXISTS `participantes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `participantes` (
-  `uid` int(11) unsigned NOT NULL,
+  `uid` int(11) NOT NULL,
   `nome` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
   `genero` char(1) NOT NULL,
@@ -178,7 +178,7 @@ CREATE TABLE `participantes` (
 
 LOCK TABLES `participantes` WRITE;
 /*!40000 ALTER TABLE `participantes` DISABLE KEYS */;
-INSERT INTO `participantes` VALUES (9415,'Ismael','ismael@ic.unicamp.br','M','1990-05-08',7,1,'N','a:2:{s:5:\"termo\";s:1:\"1\";s:8:\"cadastro\";b:1;}',1,NULL,NULL);
+INSERT INTO `participantes` VALUES (12345,'Ismael Rodrigues','isrodrigues5@gmail.com','M','1990-05-08',3,1,'I','a:4:{s:5:\"termo\";s:1:\"1\";s:8:\"cadastro\";s:1:\"1\";s:13:\"questionarios\";s:6:\"a:0:{}\";s:9:\"PHPSESSID\";s:32:\"12b8acbc7d5c700429f88035c203a63b\";}',1,NULL,NULL),(153426,'Teste Usuario 2','ismael@students.ic.unicamp.br','M','1957-09-08',5,2,'V','a:4:{s:5:\"termo\";s:1:\"1\";s:8:\"cadastro\";s:1:\"1\";s:13:\"questionarios\";s:30:\"a:2:{i:0;s:1:\"5\";i:1;s:1:\"6\";}\";s:9:\"PHPSESSID\";s:32:\"a806de6b2ab258edd1c127de55001b1e\";}',1,NULL,NULL),(654321,'Teste Usuario','ismael@ic.unicamp.br','F','1989-03-10',5,3,'N','a:4:{s:5:\"termo\";s:1:\"1\";s:8:\"cadastro\";s:1:\"1\";s:13:\"questionarios\";s:6:\"a:0:{}\";s:9:\"PHPSESSID\";s:32:\"a806de6b2ab258edd1c127de55001b1e\";}',1,NULL,NULL);
 /*!40000 ALTER TABLE `participantes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,13 +191,13 @@ DROP TABLE IF EXISTS `questionarios`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `questionarios` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `titulo` varchar(45) DEFAULT NULL,
-  `autores` varchar(45) DEFAULT NULL,
-  `tradutores` varchar(45) DEFAULT NULL,
+  `titulo` varchar(255) DEFAULT NULL,
+  `autores` varchar(255) DEFAULT NULL,
+  `tradutores` varchar(255) DEFAULT NULL,
   `descricao` longtext DEFAULT NULL,
   `tipo` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,7 +206,7 @@ CREATE TABLE `questionarios` (
 
 LOCK TABLES `questionarios` WRITE;
 /*!40000 ALTER TABLE `questionarios` DISABLE KEYS */;
-INSERT INTO `questionarios` VALUES (1,'s:39:\"ESCALA DE CONCEPÇÕES DE INTELIGÊNCIA\";',NULL,NULL,'N;',0),(2,'ESCALA DE CONCEPÇÕES DE INTELIGÊNCIA','Dweck (2006)','Evely Boruchovitch (2009)','Gostaríamos de conhecer o que você pensa sobre inteligência. Pense no que você acredita sobre sua inteligência e marque a opção que melhor representa a sua opinião. Não há respostas certas ou erradas. Nós estamos interessados em saber o que você realmente pensa e acredita.',3),(3,'ESCALA DE CONCEPÇÕES DE INTELIGÊNCIA','Dweck (2006)','Evely Boruchovitch (2009)','Gostaríamos de conhecer o que você pensa sobre inteligência. Pense no que você acredita sobre sua inteligência e marque a opção que melhor representa a sua opinião. Não há respostas certas ou erradas. Nós estamos interessados em saber o que você realmente pensa e acredita.',3);
+INSERT INTO `questionarios` VALUES (4,'ESCALA DE CONCEPÇÕES DE INTELIGÊNCIA','Dweck (2006)','Evely Boruchovitch (2009 - revisada 2018)','Gostaríamos de conhecer o que você pensa sobre inteligência. Pense no que você acredita sobre sua inteligência e marque a opção que melhor representa a sua opinião. Não há respostas certas ou erradas. Nós estamos interessados em saber o que você realmente pensa e acredita.',3),(5,'ESCALA DE ADIAMENTO DA RECOMPENSA ACADÊMICA (EARA)','Héfer Bembenutty e Stuart A. Karabenick (1998)','Evely Boruchovitch, Natália Moraes Góes e Carolina Moreira Felicori (2018)','A seguir, você vai encontrar uma série de escolhas entre dois planos alternativos de ação. Por favor, leia cada conjunto de afirmações cuidadosamente e relacione cada afirmação à disciplinas da sua grade curricular que você esteja cursando no momento. Então, diga qual plano de ação você teria maior probabilidade de escolher e quão forte seria essa escolha. Não existem respostas certas ou erradas. Por favor, responda de acordo com as suas verdadeiras convicções e não em termos de como você pensa que deveria responder.',3),(6,'BREVE ESCALA DE REGULAÇÃO DA MOTIVAÇÃO (BERM)','Yeo-eun Kim, Anna C. Brady, Christopher A. Wolters (2018)','Evely Boruchovitch, Carolina Moreira Felicori, Natália Moraes Góes (2018)','Leia cada afirmação cuidadosamente e, então, indique quão bem ela descreve o que você faz quando está lendo, estudando ou fazendo tarefas das disciplinas que está cursando nesse semestre. Seja honesto(a); não existem respostas certas ou erradas.',3),(7,'ESCALA DE ESTRATÉGIAS AUTOPREJUDICIAIS','Evely Boruchovitch & Danielle Ribeiro Ganda, 2013b1','-','Alguns alunos, sem se dar conta, empregam determinadas estratégias durante sua vida acadêmica que acabam funcionando como uma “desculpa” para seu mau desempenho na universidade. Esta escala tem o objetivo de conhecer o possível uso destas estratégias por estudantes.\r\n\r\nVocê deve ler com atenção cada item, pensar em como a situação proposta lhe descreve e marcar um X na lacuna. Lembre-se que quanto mais próximo do 1 você marcar, isso significará que aquela situação tem pouco a ver com você. Já quanto mais próximo de 4, mais a situação descreve como você é. Nesta escala não existem respostas certas ou erradas, apenas queremos saber se essas situações acontecem com você. Ressaltamos que as respostas são totalmente confidenciais. Por favor, seja o mais sincero (a) possível.',2);
 /*!40000 ALTER TABLE `questionarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -225,7 +225,7 @@ CREATE TABLE `questoes` (
   PRIMARY KEY (`id`),
   KEY `fk_questoes_questionarios1_idx` (`questionarios_id`),
   CONSTRAINT `fk_questoes_questionarios1` FOREIGN KEY (`questionarios_id`) REFERENCES `questionarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -234,8 +234,40 @@ CREATE TABLE `questoes` (
 
 LOCK TABLES `questoes` WRITE;
 /*!40000 ALTER TABLE `questoes` DISABLE KEYS */;
-INSERT INTO `questoes` VALUES (1,'Você tem uma certa quantidade de inteligência e você não pode realmente fazer muita coisa para modificá-la (o).',3,1),(2,'A sua inteligência é algo a seu respeito que você não pode mudar muito.',3,2),(3,'Não importa quem você é, você pode mudar significativamente o seu nível de inteligência.',3,3),(4,'Para ser sincero, você não pode realmente mudar o quão inteligente você é.',3,4);
+INSERT INTO `questoes` VALUES (1,'Você tem uma certa quantidade de inteligência e você não pode realmente fazer muita coisa para modificá-la (o).',4,1),(2,'A sua inteligência é algo a seu respeito que você não pode mudar muito.',4,2),(3,'Não importa quem você é, você pode mudar significativamente o seu nível de inteligência.',4,3),(4,'Para ser sincero, você não pode realmente mudar o quão inteligente você é.',4,4),(5,'Você sempre pode mudar substancialmente o quão inteligente você é.',4,5),(6,'Você pode aprender coisas novas, mas não pode realmente mudar a sua inteligência.',4,6),(7,'Não importa quanto de inteligência você tem, você sempre pode modificá-la um pouco.',4,7),(8,'Você pode mudar consideravelmente o seu nível de inteligência.',4,8),(9,'(A) Ir a um show favorito, a uma peça teatral ou a um evento esportivo e estudar menos para uma disciplina, mesmo que isso possa significar obter uma nota mais baixa em uma prova que você fará no dia seguinte, OU (B) Ficar em casa e estudar para aumentar suas chances de tirar uma nota mais alta.',5,1),(10,'(A) Estudar um pouco todos os dias para uma prova de uma disciplina e passar menos tempo com os seus amigos, OU (B) Passar mais tempo com os seus amigos e “se matar de estudar” somente às vésperas da prova.',5,2),(11,'(A) Faltar a várias aulas para aceitar um convite de uma viagem muito interessante, OU (B) Adiar a viagem até a disciplina terminar.',5,3),(12,'(A) Ir a uma festa na véspera de uma prova e estudar somente se você tiver tempo, OU (B) Estudar primeiro e ir à festa somente se você tiver tempo.',5,4),(13,'(A) Passar a maior parte do seu tempo estudando somente o conteúdo interessante de uma disciplina, mesmo que isso possa significar não se sair tão bem nela, OU (B) Estudar todo o conteúdo de uma disciplina para aumentar suas chances de se sair bem nela.',5,5),(14,'(A) Matar a aula quando o dia está bonito e tentar conseguir as anotações com alguém depois, OU (B) Assistir à aula para ter certeza de que você não perderá nenhum conteúdo importante, mesmo que o dia esteja bonito lá fora.',5,6),(15,'(A) Ficar na biblioteca para ter certeza de que você terminará uma tarefa de uma disciplina cujo prazo é no dia seguinte, OU (B) Ir mbora para se divertir com seus amigos e tentar terminar a tarefa mais tarde, quando chegar em casa à noite.',5,7),(16,'(A) Estudar para uma disciplina em um lugar com muitos divertimentos ou distrações, OU (B) Estudar em um lugar onde há menos divertimentos ou distrações, para aumentar a probabilidade de você aprender o conteúdo.',5,8),(17,'(A) Ir embora logo após a aula para fazer alguma coisa de que você goste, mesmo que isso, possivelmente, signifique não compreender um determinado conteúdo para uma prova, OU (B) Ficar depois da aula e pedir que seu professor esclareça algum conteúdo de prova que você não entendeu.',5,9),(18,'(A) Escolher uma disciplina cujo(a) professor(a) seja “bonzinho/boazinha”, mesmo que ele/ela não faça um bom trabalho, ao cobrir o conteúdo programático, OU (B) Escolher uma disciplina cujo(a) o(a) professor(a) não seja tão “bonzinho/boazinha”, mas que faça um bom trabalho, ao cobrir o conteúdo programático.',5,10),(19,'Uso diferentes estratégias para me manter estudando, mesmo que eu não tenha vontade de estudar.',6,1),(20,'Se perco o interesse em uma tarefa, tenho maneiras de aumentar o meu esforço para realizá-la.',6,2),(21,'Se eu sinto vontade de parar de estudar, antes de realmente terminar, tenho estratégias para continuar estudando.',6,3),(22,'Mesmo quando estudar é difícil, encontro uma maneira de continuar estudando.',6,4),(23,'É fácil eu permanecer estudando, mesmo que eu prefira estar fazendo alguma outra coisa.',6,5),(24,'Se o que estudo não me parece importante, mesmo assim, consigo continuar estudando.',6,6),(25,'Se eu prbermsar, tenho maneiras de me convencer a continuar fazendo uma tarefa difícil.',6,7),(26,'Se estudar fica muito chato, encontro uma maneira de tornar o estudo divertido.',6,8),(27,'Mesmo que uma leitura pareça muito sem sentido, obrigo-me a continuar lendo até terminá-la.',6,9),(28,'Se uma leitura é difícil, mesmo assim, encontro uma forma de me manter engajado(a) e de terminá-la.',6,10),(29,'Eu me obrigo a me manter lendo, mesmo quando a leitura é realmente chata.',6,11),(30,'Consigo me obrigar a continuar lendo, mesmo que eu sinta vontade de desistir da leitura.',6,12),(31,'Alguns alunos deixam para estudar nas vésperas da prova. Caso se saiam mal, dizem que não tiveram tempo suficiente para estudar toda a matéria.',7,1),(32,'Alguns alunos não estudam com afinco e quando se saem mal, dizem que não é possível obter bons resultados, pois a carga horária do seu curso é muito pesada.',7,2),(33,'Alguns alunos ficam mexendo no celular, durante as aulas. Caso não tenham um bom resultado dizem que foi porque não entenderam a explicação do professor.',7,3),(34,'Alguns estudantes saem frequentemente de sala de aula. Caso tirem uma nota baixa na prova, dizem que foi porque perderam conteúdos importantes.',7,4),(35,'Alguns alunos saem para passear mesmo quando têm de fazer um trabalho importante. Caso se saiam mal, dizem que tiveram pouco tempo para realizá-lo.',7,5),(36,'Alguns alunos envolvem-se propositalmente em muitas atividades. Se não se saírem bem na universidade, dizem que estiveram muito ocupados com outras coisas.',7,6),(37,'Alguns estudantes participam de várias festas mesmo quando têm de entregar um trabalho importante. Caso o resultado não seja bom, dizem que a proposta do trabalho era muito complexa.',7,7),(38,'Alguns alunos conversam com os colegas durante a aula. Caso não se saiam bem na disciplina, dizem que os amigos os distraíram.',7,8),(39,'Alguns alunos sempre deixam para depois o estudo e a realização de trabalhos acadêmicos, às vezes, chegando ao ponto de não realizá-los. Caso se saiam mal na disciplina, dizem que foi por falta de tempo.				\r\n\r\nAlguns alunos sempre deixam para depois o estudo e a realização de trabalhos acadêmicos, às vezes, chegando ao ponto de não realizá-los. Caso se saiam mal na disciplina, dizem que foi por falta de tempo.\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n',7,9),(40,'Alguns alunos não leem os textos recomendados pelos professores, antes das aulas. Caso se saiam mal na avaliação, dizem que foi porque os textos eram muito chatos.',7,10),(41,'Alguns alunos realizam outras atividades (assistem televisão, ouvem música ou navegam na internet) mesmo sabendo que tem pouco tempo para fazer um trabalho. Caso não se saiam bem, dizem que o trabalho era muito extenso.',7,11),(42,'Alguns estudantes relatam que tem de ficar com os amigos e/ou com a namorado(a). Caso não façam um bom trabalho, dizem que não tiveram tempo para investir nos estudos.',7,12),(43,'Alguns alunos não se preparam e então se sentem muito ansiosos no momento da realização de uma prova. Caso se saiam mal, dizem que a ansiedade os prejudicou.',7,13),(44,'Alguns alunos estudam o conteúdo errado da prova. Caso não tenham um bom desempenho, dizem que foi essa a razão.',7,14),(45,'Alguns alunos adiam a realização de algumas tarefas importantes até o limite do prazo estabelecido pelo professor. Caso se saiam mal, dizem que o trabalho foi feito de última hora.',7,15),(46,'Alguns alunos não organizam bem seu tempo e então precisam ficar várias noites seguidas acordados para realizar um trabalho importante. Caso se saiam mal, dizem que estavam com muito sono.',7,16),(47,'Alguns alunos ficam muito focados em detalhes não essenciais de uma atividade importante e acabam se dedicando menos ao seu conteúdo. Caso a nota não seja a esperada, dizem que não tiveram tempo de fazer um bom trabalho.',7,17),(48,'Alguns estudantes não investem tempo suficiente na realização de um trabalho importante e se o resultado não é bom dizem que não se engajaram.',7,18),(49,'Alguns alunos ficam lendo revistas de entretenimento durante as aulas. Caso se saiam mal dizem que foi porque não entenderam a matéria.',7,19);
 /*!40000 ALTER TABLE `questoes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `respostas`
+--
+
+DROP TABLE IF EXISTS `respostas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `respostas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `participante` int(11) NOT NULL,
+  `questao_id` int(11) NOT NULL,
+  `alternativa_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_respostas_participantes_idx` (`participante`),
+  KEY `fk_respostas_questoes1_idx` (`questao_id`),
+  KEY `fk_respostas_alternativas1_idx` (`alternativa_id`),
+  CONSTRAINT `fk_respostas_alternativas1` FOREIGN KEY (`alternativa_id`) REFERENCES `alternativas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_respostas_participantes` FOREIGN KEY (`participante`) REFERENCES `participantes` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_respostas_questoes1` FOREIGN KEY (`questao_id`) REFERENCES `questoes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `respostas`
+--
+
+LOCK TABLES `respostas` WRITE;
+/*!40000 ALTER TABLE `respostas` DISABLE KEYS */;
+INSERT INTO `respostas` VALUES (1,12345,1,1),(2,12345,2,1),(3,12345,3,1),(4,12345,4,1),(5,12345,5,1),(6,12345,6,1),(7,12345,7,1),(8,12345,8,1),(9,12345,9,7),(10,12345,10,9),(11,12345,11,8),(12,12345,12,9),(13,12345,13,10),(14,12345,14,8),(15,12345,15,7),(16,12345,16,8),(17,12345,17,8),(18,12345,18,7),(19,12345,19,12),(20,12345,20,11),(21,12345,21,12),(22,12345,22,14),(23,12345,23,13),(24,12345,24,15),(25,12345,25,14),(26,12345,26,14),(27,12345,27,13),(28,12345,28,12),(29,12345,29,15),(30,12345,30,15),(31,654321,1,3),(32,654321,2,2),(33,654321,3,2),(34,654321,4,4),(35,654321,5,3),(36,654321,6,1),(37,654321,7,5),(38,654321,8,4),(39,654321,9,8),(40,654321,10,7),(41,654321,11,8),(42,654321,9,8),(43,654321,10,7),(44,654321,11,8),(45,654321,12,7),(46,654321,13,7),(47,654321,14,8),(48,654321,15,8),(49,654321,16,8),(50,654321,17,8),(51,654321,18,7),(52,654321,19,11),(53,654321,20,12),(54,654321,21,13),(55,654321,22,13),(56,654321,23,14),(57,654321,24,13),(58,654321,25,13),(59,654321,26,13),(60,654321,27,14),(61,654321,28,15),(62,654321,29,13),(63,654321,30,13),(64,153426,1,2),(65,153426,2,5),(66,153426,3,2),(67,153426,4,1),(68,153426,5,2),(69,153426,6,2),(70,153426,7,1),(71,153426,8,1);
+/*!40000 ALTER TABLE `respostas` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -309,4 +341,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-23 17:51:33
+-- Dump completed on 2018-07-30 20:40:32

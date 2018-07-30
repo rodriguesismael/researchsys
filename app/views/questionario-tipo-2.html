@@ -1,0 +1,30 @@
+<h1>{{ @questionario.titulo }}</h1>
+<h4>Criado por {{ @questionario.autores }}; <check if="{{ @questionario.tradutores }}">Traduzida e adaptada por {{ @questionario.tradutores }}</check></h4>
+<div class="description-box">
+  {{ @questionario.descricao }}
+</div>
+<form action="" method="POST">
+  <input type="hidden" name="participante" value="{{ @SESSION.participante }}">
+  <input type="hidden" name="questionario" value="{{ @questionario.id }}">
+  <table class="table questions">
+    <thead>
+      <th style="width: 50%">Questões</th>
+      <repeat group="{{ @alternativas }}" value="{{ @alternativa }}">
+        <th>{{  @alternativa.ordem  }}. {{  @alternativa.alternativa  }}</th>
+      </repeat>
+    </thead>
+    <tbody>
+      <repeat group="{{ @questoes }}" value="{{ @questao }}">
+        <tr>
+          <td>{{ @questao.ordem }}. {{ @questao.questao }}</td>
+          <repeat group="{{ @alternativas }}" value="{{ @alternativa }}">
+            <td><input type="radio" name="questao{{ @questao.id }}" value="{{ @alternativa.id }}" /></td>
+          </repeat>
+        </tr>
+      </repeat>
+    </tbody>
+  </table>
+  <div class="button-group">
+    <button type="submit" class="btn btn-info" name="responder">Responder</button>
+  </div>
+</form>

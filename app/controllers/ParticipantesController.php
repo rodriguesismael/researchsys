@@ -15,8 +15,8 @@ class ParticipantesController extends Controller{
 		$this->isAdmin();
 		if ($this->f3->get('POST.maillist')) {		
 			$emails = $this->f3->get('POST.maillist');
-			$quests = $this->f3->get('POST.escalas');
-
+			$quests = $this->f3->get('POST.questionarios');
+			//var_dump($this->f3->get('POST'));die();
 			$queryLista = "INSERT INTO listas (questionarios) VALUES (?)";
 			
 			try {
@@ -35,6 +35,8 @@ class ParticipantesController extends Controller{
 				$this->f3->set('error',$e->getMessage());
 			}
 		}
+		$questionarios = $this->db->exec("SELECT id,titulo FROM questionarios");
+		$this->f3->set('questionarios',$questionarios);
 		$this->f3->set('label','Nova');
 		$this->f3->set('content','admin/formParticipantes.html');
 		echo \Template::instance()->render('tela.htm');	
@@ -57,7 +59,7 @@ class ParticipantesController extends Controller{
 				$dadosL['titulo'] = $dadosAux[0]['titulo'];
 				$arrCurrentChecks = unserialize($dadosAux[0]['questionarios']);
 				foreach ($arrCurrentChecks as $questionario) {
-					$arrayChecks[$questionario]="checked";
+					$arrayChecks[$questionario]="selected";
 				}
 				$dadosL['questionario'] = $arrayChecks;
 				$this->f3->set('lista',$dadosL);
@@ -66,7 +68,8 @@ class ParticipantesController extends Controller{
 				$this->f3->set('error',$e->getMessage());
 			}
 			var_dump($dadosL);
-
+			$questionarios = $this->db->exec("SELECT id,titulo FROM questionarios");
+			$this->f3->set('questionarios',$questionarios);
 			$this->f3->set('label','Editar');
 			$this->f3->set('content','admin/formParticipantes.html');
 			echo \Template::instance()->render('tela.htm');	
@@ -157,7 +160,7 @@ class ParticipantesController extends Controller{
 			$columns = "(uid,nome,email,genero,nascimento,tipo_ensino,universidades_id,periodo_curso,semestre,estadoAcesso)";
 			$fields = "(:ra,:nome,:email,:genero,:nasc,:tipoEnsino,:universidade,:periodo,:semestre,:estado)";
 			$this->f3->set('COOKIE.cadastro',true);
-			$estadoAtual = $this->f3->get('COOKIE'); 
+			
 			$insertFields = array(
 									":ra"=>$ra,":nome"=>$nome,":email"=>$email,":genero"=>$genero,":nasc"=>$nasc,
 									":tipoEnsino"=>$tipoEnsino,":universidade"=>$universidade,":periodo"=>$periodo,
@@ -165,10 +168,22 @@ class ParticipantesController extends Controller{
 								);
 			$query = "INSERT INTO participantes $columns VALUES $fields";
 			try {
-				$this->db->exec($query, $insertFields);			
+				$this->db->exec($query, $insertFields);
+				$queryEstado = "SELECT questionarios FROM participantes p JOIN convidados c ON p.email= c.email JOIN listas l on c.idlista = l.id WHERE p.uid=?";
+				$result = $this->db->exec($queryEstado,array($ra));
+				$this->f3->set('COOKIE.questionarios',$result[0]['questionarios']);
+				$estadoAtual = $this->f3->get('COOKIE'); 
+				var_dump($estadoAtual);
+				//die();
+				$this->db->exec("UPDATE participantes SET estadoAcesso = ? WHERE uid=?",array(serialize($estadoAtual),$ra));	
 				//recuperar questionários para o aluno responder
 				//a cada questionario respondido, atualiza o cookie e a base de dados
-				echo "<br>Redirecting to LASSI...";
+				
+				$nomePartes = explode(" ", $nome);
+				$uni = $this->db->exec("SELECT nome FROM universidades WHERE id=?",array($universidade));
+				$queryString = "?invnum=80010&ak=brazil&u=gyxc&p=wxk&requiredFirstName=$nomePartes[0]&requiredLastName=$nomePartes[1]&";
+				$queryString.= "school=".str_replace(" ", "", $uni[0]['nome'])."&registration_ID=".$this->f3->get('PARAMS.email');
+				echo "<br>Redirecting to https://ssl.collegelassi.com/portuguese/lassi.html$queryString";
 				die();
 			} catch (Exception $e) {
 				$this->f3->set('error',$e->getMessage());
@@ -192,6 +207,37 @@ class ParticipantesController extends Controller{
 		}else{
 			$this->f3->reroute('/participar/'.$this->f3->get('PARAMS.email'));
 		}
+	}
+
+	function retornar(){
+		$email = $this->f3->get('PARAMS.usuario');
+		$result = $this->db->exec("SELECT p.email,p.uid,p.estadoAcesso,l.questionarios FROM participantes p JOIN 
+			convidados c on p.email= c.email JOIN listas l on c.idlista = l.id WHERE md5(p.email)=?",array($email));
+		$cookie = unserialize($result[0]["estadoAcesso"]);
+		var_dump($result);
+		//die();
+		foreach ($cookie as $key => $value) {
+			$this->f3->set("COOKIE.$key",$value);
+		}
+		$this->f3->set('SESSION.participante',$result[0]['uid']);
+		$this->f3->set('SESSION.mail',$result[0]['email']);
+		var_dump($this->f3->get("COOKIE"));
+		$questionarios = unserialize($this->f3->get('COOKIE.questionarios')); 
+		if(empty($questionarios)){
+			//reroute finalziar pq acabou
+			$this->f3->reroute('/finalizar/'.md5($this->f3->get('SESSION.mail')));
+		}
+		$this->f3->call("QuestionarioController->mostrarQuestionario");
+	}
+
+	function finalizar(){
+		//atualizar estado no banco como finalizou = true
+		//destruir cookie e sessao
+		$this->f3->set('SESSION.participante','');
+		$this->f3->set('SESSION.mail','');
+		$this->f3->set('COOKIE','');
+		echo "Agradecemos sua participação";
+
 	}
 
 	function encryptMail($mail){
