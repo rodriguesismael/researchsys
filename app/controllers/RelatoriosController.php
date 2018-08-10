@@ -2,8 +2,15 @@
 //require 'vendor/autoload.php';
 class RelatoriosController extends Controller{
 	function home(){
-		$listaQ = $this->db->exec("SELECT * FROM questionarios");
+		$this->isAdmin();
+		$listaQ = $this->db->exec("SELECT id,titulo FROM questionarios");
+		$listaU = $this->db->exec("SELECT id,nome FROM universidades");
+		$listaC = $this->db->exec("SELECT id,nome FROM cursos");
 		$this->f3->set('questionarios',$listaQ);
+		$this->f3->set('universidades',$listaU);
+		$this->f3->set('cursos',$listaC);
+		$this->f3->set('content','admin/homeRelatorios.html');
+		echo \Template::instance()->render('tela.htm');
 
 	}
 
@@ -19,11 +26,34 @@ class RelatoriosController extends Controller{
 		// $spreadsheet->setActiveSheetIndex(0);
 		// $activeSheet = $spreadsheet->getActiveSheet();
 		// $activeSheet->setCellValue('A1' , 'TESTANDOOO')->getStyle('A1')->getFont()->setBold(true);
+		$filtros="";
+		$filtrosArr=array('u'=>'universidade','c'=>'curso','p'=>'genero');
+		$universidade = $this->f3->get('POST.universidade');
+		$questionario = $this->f3->get('POST.questionario');
+		$curso 		  = $this->f3->get('POST.curso');
+		$genero		  = $this->f3->get('POST.genero');
+		foreach ($filtrosArr as $tab => $filtro) {
+			if($$filtro != -1){
+				$filtros.="$tab.$filtro = ".$$filtro." AND ";
+			}
+		}
+		
+		if (!empty($filtros)) {
+			$filtros = "AND ".substr($filtros, 0, (strlen($filtros)-4));
+			if($questionario != -1){
+				$filtros.="AND q.questionarios_id=".$questionario;
+			}			
+		}else{
+			$filtros=1;
+		}
+
+
+		//die($filtros);
 
 		$queryParticipantes = "SELECT r.participante, p.nome, timestampdiff(YEAR, nascimento,now()) as idade,email,genero,u.nome universidade,c.nome curso, 
 					semestre, periodo_curso, tipo_ensino FROM participantes p JOIN respostas r on p.uid = r.participante JOIN questoes q on r.questao_id = q.id 
-					JOIN universidades u ON p.universidades_id = u.id JOIN cursos c ON p.curso_id = c.id WHERE q.questionarios_id = ? group by r.participante";
-		$questionario = 5;
+					JOIN universidades u ON p.universidades_id = u.id JOIN cursos c ON p.curso_id = c.id WHERE $filtros group by r.participante";
+		//$questionario = 5;
 		$resultParticipantes = $this->db->exec($queryParticipantes,array($questionario));
 		$queryRespostas = "SELECT q.ordem,a.ordem alternativa FROM respostas r JOIN alternativas a ON r.alternativa_id = a.id JOIN 
     questoes q on r.questao_id = q.id JOIN questionarios qr on q.questionarios_id = qr.id 

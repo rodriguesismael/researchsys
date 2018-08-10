@@ -123,9 +123,9 @@ class QuestionarioController extends Controller{
 
 		$idQuestionario = $this->f3->get('PARAMS.questionario');
 		$questionarios = unserialize($this->f3->get('COOKIE.questionarios'));
-		var_dump($questionarios);
+		// var_dump($idQuestionario);
 		//$randKey = array_rand($questionarios);
-		$idQuestionario = $questionarios[0];
+		$idQuestionario = (empty($idQuestionario) ? $questionarios[0] : $idQuestionario);
 		$result = $this->db->exec("SELECT * FROM questionarios WHERE id=?",array($idQuestionario));
 
 		if(count($result) > 0){

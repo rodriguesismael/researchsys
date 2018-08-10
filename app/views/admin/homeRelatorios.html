@@ -1,0 +1,47 @@
+<h1>Relatórios Estatísticos</h1>
+
+<form action="/admin/relatorio" method="POST">
+	<fieldset>
+		<legend>Filtros</legend>
+		<div class="form-group">
+			<label for="questionario">Questionário</label>
+			<select id="questionario" class="form-control" name="questionario" required>
+				<option value="-1">Todos</option>
+				<repeat group="{{ @questionarios }}" value="{{ @questionario }}">
+					<option value="{{ @questionario.id }}">{{ @questionario.titulo }}</option>
+				</repeat>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="universidade">Universidade</label>
+			<select id="universidade" class="form-control" name="universidade" required>
+				<option value="-1">Todas</option>
+				<repeat group="{{ @universidades }}" value="{{ @universidade }}">
+					<option value="{{ @universidade.id }}">{{ @universidade.nome }}</option>
+				</repeat>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="curso">Curso</label>
+			<select id="curso" class="form-control" name="curso" required>
+				<option value="-1">Todos</option>
+				<repeat group="{{ @cursos }}" value="{{ @curso }}">
+					<option value="{{ @curso.id }}">{{ @curso.nome }}</option>
+				</repeat>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="genero">Gênero</label>
+			<select name="genero" class="form-control" id="genero">
+				<option value="-1">Todos</option>
+				<option value="F">Feminino</option>
+				<option value="M">Masculino</option>
+				<option value="O">Outro</option>
+			</select>
+		</div>
+	</fieldset>
+	<div class="button-group">
+		<button type="submit" name="concluir" class="btn btn-primary">Gerar Relatório</button>
+		<button type="reset" name="limpar" class="btn btn-default">Limpar Filtros</a>
+	</div>	
+</form>
