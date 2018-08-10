@@ -9,6 +9,11 @@ HORAS
 6h na quinta  19/07
 2h na sexta   20/07
 8h no sabado  21/07
+3h na segunda 23/07
+5h na quarta  25/07
+1h na sexta   27/07
+4h no sabado  28/07
+
 TODO participação aluno
 
 criar uma url passando o email criptografado do participante;
@@ -25,7 +30,6 @@ no momento do redirect, carregar a sessao do participante com a lista de questio
 a cada questionario respondido, a sessão é atualizada, até que não sobrem questionarios na sessão
 RISCOS:
 O participante pode terminar o LASSI e não clicar no link. Nesse caso, adicionamos uma rotina no processamento do link ao final do LASSI
-
 
 
 
