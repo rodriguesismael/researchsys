@@ -32,18 +32,25 @@ class RelatoriosController extends Controller{
 		$questionario = $this->f3->get('POST.questionario');
 		$curso 		  = $this->f3->get('POST.curso');
 		$genero		  = $this->f3->get('POST.genero');
-		foreach ($filtrosArr as $tab => $filtro) {
-			if($$filtro != -1){
-				$filtros.="$tab.$filtro = ".$$filtro." AND ";
-			}
+		$filtrosParam = array();
+		if($universidade != -1){
+			$filtros.="u.id=:universidade";
+			$filtrosParam[":universidade"] = $universidade;
+		}
+		if($questionario != -1){
+			$filtros.="q.questionarios_id=:questionario AND ";
+			$filtrosParam[":questionario"] = $questionario;
+		}
+		if($curso != -1){
+			$filtros.="c.id=:curso AND ";
+			$filtrosParam[":curso"] = $curso;
+		}
+		if($genero != -1){
+			$filtros.="p.genero=:genero AND ";
+			$filtrosParam[":genero"] = $genero;
 		}
 		
 		if (!empty($filtros)) {
-			$filtros = "AND ".substr($filtros, 0, (strlen($filtros)-4));
-			if($questionario != -1){
-				$filtros.="AND q.questionarios_id=".$questionario;
-			}			
-		}else{
 			$filtros=1;
 		}
 
@@ -53,7 +60,7 @@ class RelatoriosController extends Controller{
 		$queryParticipantes = "SELECT r.participante, p.nome, timestampdiff(YEAR, nascimento,now()) as idade,email,genero,u.nome universidade,c.nome curso, 
 					semestre, periodo_curso, tipo_ensino FROM participantes p JOIN respostas r on p.uid = r.participante JOIN questoes q on r.questao_id = q.id 
 					JOIN universidades u ON p.universidades_id = u.id JOIN cursos c ON p.curso_id = c.id WHERE $filtros group by r.participante";
-		//$questionario = 5;
+		
 		$resultParticipantes = $this->db->exec($queryParticipantes,array($questionario));
 		$queryRespostas = "SELECT q.ordem,a.ordem alternativa FROM respostas r JOIN alternativas a ON r.alternativa_id = a.id JOIN 
     questoes q on r.questao_id = q.id JOIN questionarios qr on q.questionarios_id = qr.id 
