@@ -120,10 +120,8 @@ class QuestionarioController extends Controller{
 	}
 
 	function mostrarQuestionario(){
-
 		$idQuestionario = $this->f3->get('PARAMS.questionario');
 		$questionarios = unserialize($this->f3->get('COOKIE.questionarios'));
-		// var_dump($idQuestionario);
 		//$randKey = array_rand($questionarios);
 		$idQuestionario = (empty($idQuestionario) ? $questionarios[0] : $idQuestionario);
 		$result = $this->db->exec("SELECT * FROM questionarios WHERE id=?",array($idQuestionario));
@@ -136,9 +134,8 @@ class QuestionarioController extends Controller{
 
 			$this->f3->set('alternativas',$alternativas);
 			//$this->f3->set('questionario',$idQuestionario);
-			$this->f3->set('questoes',$questoes);
-			//var_dump($questoes);
-			$this->f3->set('content',"questionario-tipo-".$result[0]["tipo"].".html");
+			$this->f3->set('questoes',$questoes);			
+			$this->f3->set('content',"questionario-tipo-3.html");
 			echo \Template::instance()->render('tela.htm');
 		}
 

@@ -14,18 +14,17 @@ class ParticipantesController extends Controller{
 	function nova(){
 		$this->isAdmin();
 		if ($this->f3->get('POST.maillist')) {		
+			$titulo = $this->f3->get('POST.turma');
 			$emails = $this->f3->get('POST.maillist');
 			$quests = $this->f3->get('POST.questionarios');
 			//var_dump($this->f3->get('POST'));die();
-			$queryLista = "INSERT INTO listas (questionarios) VALUES (?)";
+			$queryLista = "INSERT INTO listas (titulo,questionarios) VALUES (?,?)";
 			
 			try {
-				//$this->db->exec($queryLista,array(serialize($quests)));
+				$this->mapper->set('titulo',$titulo);
 				$this->mapper->set('questionarios',serialize($quests));
 				$this->mapper->insert();
 				$idLista = $this->mapper->get('_id');
-				$this->mapper->set('titulo','Lista de Participantes #'.$idLista);
-				$this->mapper->update();
 				foreach ($emails as $mail) {
 					$queryEmails = "INSERT INTO convidados (idlista,email) VALUES (:idLista,:email)";
 					$this->db->exec($queryEmails,array(':idLista'=>$idLista,':email'=>$mail));
@@ -146,7 +145,6 @@ class ParticipantesController extends Controller{
 		$email = $this->f3->get('PARAMS.email');
 
 		if($this->f3->get('POST.nome')){
-			//var_dump($this->f3->get('POST'));
 			$nome = $this->f3->get('POST.nome');
 			$ra = $this->f3->get('POST.ra');
 			$genero = $this->f3->get('POST.genero');
@@ -173,8 +171,6 @@ class ParticipantesController extends Controller{
 				$result = $this->db->exec($queryEstado,array($ra));
 				$this->f3->set('COOKIE.questionarios',$result[0]['questionarios']);
 				$estadoAtual = $this->f3->get('COOKIE'); 
-				var_dump($estadoAtual);
-				//die();
 				$this->db->exec("UPDATE participantes SET estadoAcesso = ? WHERE uid=?",array(serialize($estadoAtual),$ra));	
 				//recuperar questionários para o aluno responder
 				//a cada questionario respondido, atualiza o cookie e a base de dados
@@ -182,7 +178,7 @@ class ParticipantesController extends Controller{
 				$nomePartes = explode(" ", $nome);
 				$uni = $this->db->exec("SELECT nome FROM universidades WHERE id=?",array($universidade));
 				$queryString = "?invnum=80010&ak=brazil&u=gyxc&p=wxk&requiredFirstName=$nomePartes[0]&requiredLastName=$nomePartes[1]&";
-				$queryString.= "school=".str_replace(" ", "", $uni[0]['nome'])."&registration_ID=".$this->f3->get('PARAMS.email');
+				$queryString.= "school=".str_replace(" ", "", $uni[0]['nome'])."&idnum=".$this->f3->get('PARAMS.email')."&email=".$email."&check_box=yes";
 				echo "<br>Redirecting to https://ssl.collegelassi.com/portuguese/lassi.html$queryString";
 				die();
 			} catch (Exception $e) {

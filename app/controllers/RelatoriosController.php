@@ -6,9 +6,11 @@ class RelatoriosController extends Controller{
 		$listaQ = $this->db->exec("SELECT id,titulo FROM questionarios");
 		$listaU = $this->db->exec("SELECT id,nome FROM universidades");
 		$listaC = $this->db->exec("SELECT id,nome FROM cursos");
+		$listaT = $this->db->exec("SELECT id,titulo FROM listas");
 		$this->f3->set('questionarios',$listaQ);
 		$this->f3->set('universidades',$listaU);
 		$this->f3->set('cursos',$listaC);
+		$this->f3->set('turmas',$listaT);
 		$this->f3->set('content','admin/homeRelatorios.html');
 		echo \Template::instance()->render('tela.htm');
 

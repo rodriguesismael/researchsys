@@ -13,6 +13,15 @@
 			</select>
 		</div>
 		<div class="form-group">
+			<label for="universidade">Turma</label>
+			<select id="universidade" class="form-control" name="universidade" required>
+				<option value="-1">Todas</option>
+				<repeat group="{{ @turmas }}" value="{{ @turma }}">
+					<option value="{{ @turma.id }}">{{ @turma.titulo }}</option>
+				</repeat>
+			</select>
+		</div>		
+		<div class="form-group">
 			<label for="universidade">Universidade</label>
 			<select id="universidade" class="form-control" name="universidade" required>
 				<option value="-1">Todas</option>
