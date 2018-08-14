@@ -41,7 +41,9 @@
     <div class="form-group col-md-6">
       <label for="curso">Curso</label>
       <select id="curso" nome="curso" class="form-control" required>
-        <option>Selecione...</option>
+        <repeat group="{{ @cursos }}" value="{{ @curso }}">
+          <option value="{{ @curso.id }}">{{ @curso.nome }}</option>
+        </repeat>
       </select>
     </div>
   </div>

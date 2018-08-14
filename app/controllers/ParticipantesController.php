@@ -190,12 +190,14 @@ class ParticipantesController extends Controller{
 		if($this->f3->get('COOKIE.termo')){
 			$queryEmail = "SELECT email FROM convidados WHERE md5(email)=?";
 			$result = array();
-			$queryUnis = "SELECT id,nome FROM universidades";
+			$queryUnis   = "SELECT id,nome FROM universidades";
+			$queryCursos = "SELECT id,nome FROM cursos";
 			$universidades = $this->db->exec($queryUnis);
 			$result = $this->db->exec($queryEmail, array($email));
 			if(count($result) > 0){
 				$this->f3->set('email',$result[0]['email']);
 				$this->f3->set('universidades',$universidades);
+				$this->f3->set('cursos',$queryCursos);
 				$this->f3->set('content','demograficos.html');
 				echo \Template::instance()->render('tela.htm');
 			}
