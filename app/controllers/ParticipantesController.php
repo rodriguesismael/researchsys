@@ -91,7 +91,7 @@ class ParticipantesController extends Controller{
 		</p>
 		<p>
 			Sua colaboração é muito valiosa! Para participar da pesquisa, por favor, acesse o
-			seguinte <a href='REPLACE'>link</a>
+			seguinte link: <a href='REPLACE'>REPLACE</a>
 		</p>
 		<p>Muito obrigada!</p>";
 
