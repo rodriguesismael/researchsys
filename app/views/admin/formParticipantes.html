@@ -3,6 +3,10 @@
 <form action="/admin/participantes/adicionar" method="POST">
 	<fieldset>
 		<div class="form-group">
+			<label for="questionarios">Turma</label>
+			<input class="form-control" type="text" name="turma" required>
+		</div>		
+		<div class="form-group">
 		  	<label for="universidade">E-mail</label>
 			<div class="input-group mb-3">
 				<input type="email" class="form-control" name="mailaluno" id="mailaluno" placeholder="E-mail" aria-label="E-mail">
@@ -27,45 +31,6 @@
 				</repeat>
 			</select>
 		</div>
-		<!--
-		<div class="form-row">
-			<div class="col-md-3">
-				Questionarios desta lista
-				<div class="form-row">
-					<div class="col-md-6">
-						<input type="checkbox" name="escalas[]" id="qeacd" value="qeacd" {{ @lista.questionario.qeacd }}> <label for="qeacd">QEACD</label>
-					</div>
-					<div class="col-md-6">
-						<input type="checkbox" name="escalas[]" id="berm" value="berm" {{ @lista.questionario.berm }}> <label for="berm">BERM</label>
-					</div>
-				</div>
-				<div class="form-row">					
-					<div class="col-md-6">
-						<input type="checkbox" name="escalas[]" id="slri" value="slri" {{ @lista.questionario.slri }}> <label for="slri">SLRI</label>
-					</div>
-					<div class="col-md-6">
-						<input type="checkbox" name="escalas[]" id="eara" value="eara" {{ @lista.questionario.eara }}> <label for="eara">EARA</label>
-					</div>
-				</div>
-
-				<div class="form-row">
-					<div class="col-md-6">
-						<input type="checkbox" name="escalas[]" id="autoeficacia" value="autoeficacia" {{ @lista.questionario.autoeficacia }}> <label for="autoeficacia">Autoeficacia</label>
-					</div>
-					<div class="col-md-6">
-						<input type="checkbox" name="escalas[]" id="autoprejudiciais" value="autoprejudiciais" {{ @lista.questionario.autoprejudiciais }}> <label for="autoprejudiciais">Autoprejudiciais</label>
-					</div>
-				</div>
-				<div class="form-row">
-					<div class="col-md-6">
-						<input type="checkbox" name="escalas[]" id="regulacao" value="regulacao" {{ @lista.questionario.regulacao }}> <label for="regulacao">Motivação</label>
-					</div>
-					<div class="col-md-6">
-						<input type="checkbox" name="escalas[]" id="eci" value="eci" {{ @lista.questionario.eci }}> <label for="eci">ECI</label>
-					</div>					
-				</div>				
-			</div>
-		</div> -->
 	</fieldset>
 	<div class="button-group">
 		<button type="submit" name="concluir" class="btn btn-primary">Incluir</button>
