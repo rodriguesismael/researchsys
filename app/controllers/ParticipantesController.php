@@ -151,17 +151,17 @@ class ParticipantesController extends Controller{
 			$email = $this->f3->get('POST.email');
 			$nasc = $this->f3->get('POST.nasc');
 			$universidade = $this->f3->get('POST.universidade');
-			//$curso
+			$curso = $this->f3->get('POST.curso');
 			$periodo = $this->f3->get('POST.periodo');
 			$tipoEnsino = $this->f3->get('POST.tipoEnsino');
 			$semestre = $this->f3->get('POST.semestre');
-			$columns = "(uid,nome,email,genero,nascimento,tipo_ensino,universidades_id,periodo_curso,semestre,estadoAcesso)";
-			$fields = "(:ra,:nome,:email,:genero,:nasc,:tipoEnsino,:universidade,:periodo,:semestre,:estado)";
+			$columns = "(uid,nome,email,genero,nascimento,tipo_ensino,universidades_id,curso_id,periodo_curso,semestre,estadoAcesso)";
+			$fields = "(:ra,:nome,:email,:genero,:nasc,:tipoEnsino,:universidade,:curso,:periodo,:semestre,:estado)";
 			$this->f3->set('COOKIE.cadastro',true);
 			
 			$insertFields = array(
 									":ra"=>$ra,":nome"=>$nome,":email"=>$email,":genero"=>$genero,":nasc"=>$nasc,
-									":tipoEnsino"=>$tipoEnsino,":universidade"=>$universidade,":periodo"=>$periodo,
+									":tipoEnsino"=>$tipoEnsino,":universidade"=>$universidade,":curso"=>$curso,":periodo"=>$periodo,
 									":semestre"=>$semestre,":estado"=>serialize($estadoAtual)
 								);
 			$query = "INSERT INTO participantes $columns VALUES $fields";
@@ -180,7 +180,8 @@ class ParticipantesController extends Controller{
 				$queryString = "?invnum=80010&ak=brazil&u=gyxc&p=wxk&requiredFirstName=$nomePartes[0]&requiredLastName=$nomePartes[1]&";
 				$queryString.= "school=".str_replace(" ", "", $uni[0]['nome'])."&idnum=".$this->f3->get('PARAMS.email')."&email=".$email."&check_box=yes";
 				echo "<br>Redirecting to https://ssl.collegelassi.com/portuguese/lassi.html$queryString";
-				die();
+				//die();
+				$this->f3->reroute("https://ssl.collegelassi.com/portuguese/lassi.html$queryString");
 			} catch (Exception $e) {
 				$this->f3->set('error',$e->getMessage());
 			}
@@ -191,13 +192,14 @@ class ParticipantesController extends Controller{
 			$queryEmail = "SELECT email FROM convidados WHERE md5(email)=?";
 			$result = array();
 			$queryUnis   = "SELECT id,nome FROM universidades";
-			$queryCursos = "SELECT id,nome FROM cursos";
+			$queryCursos = "SELECT id,nome FROM cursos ORDER BY nome";
 			$universidades = $this->db->exec($queryUnis);
+			$cursos = $this->db->exec($queryCursos);
 			$result = $this->db->exec($queryEmail, array($email));
 			if(count($result) > 0){
 				$this->f3->set('email',$result[0]['email']);
 				$this->f3->set('universidades',$universidades);
-				$this->f3->set('cursos',$queryCursos);
+				$this->f3->set('cursos',$cursos);
 				$this->f3->set('content','demograficos.html');
 				echo \Template::instance()->render('tela.htm');
 			}

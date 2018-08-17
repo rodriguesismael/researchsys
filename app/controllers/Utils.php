@@ -1,9 +1,9 @@
 <?php
 class Utils extends Controller{
 	public static function getCidades(){
-		$query="SELECT id,nome FROM cidades WHERE estado_uf=?";
+		$locais = new CidadesEstadosDAO();
 		$estado = $this->f3->get('GET.uf');
-		$cidades = $this->db->exec($query,$estado);
+		$cidades = $locais->getCidadesByEstado($estado);
 
 		echo json_encode($cidades);
 	}
