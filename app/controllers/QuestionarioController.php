@@ -16,33 +16,19 @@ class QuestionarioController extends Controller{
 		$this->isAdmin();
 		if ($this->f3->get('POST.alternativas')) {		
 			$alternativas = $this->f3->get('POST.alternativas');
-			$titulo = $this->f3->get('POST.titulo');
-			$autores = $this->f3->get('POST.autores');
-			$tradutores = $this->f3->get('POST.tradutores');
-			$descricao = $this->f3->get('POST.descricao');
-			$tipo = $this->f3->get('POST.tipo');
+			$camposQuestionario = array();
+			$camposQuestionario['titulo'] = $this->f3->get('POST.titulo');
+			$camposQuestionario['autores'] = $this->f3->get('POST.autores');
+			$camposQuestionario['tradutores'] = $this->f3->get('POST.tradutores');
+			$camposQuestionario['descricao'] = $this->f3->get('POST.descricao');
+			$camposQuestionario['tipo'] = $this->f3->get('POST.tipo');
 
-			//var_dump($tradutores);
-			$queryLista = "INSERT INTO listas (questionarios) VALUES (?)";
-			
-			try {
-				$mapper = new \DB\SQL\Mapper($this->db, 'questionarios');
-				$mapper->set('titulo',$titulo);
-				$mapper->set('autores',$autores);
-				$mapper->set('tradutores',$tradutores);
-				$mapper->set('descricao',$descricao);
-				$mapper->set('tipo',$tipo);
-				var_dump($mapper);
-				$mapper->insert();
-				
-				$idQ = $mapper->get('_id');
-				foreach ($alternativas as $chave=>$alternativa) {
-					$queryAlts = "INSERT INTO alternativas (alternativa,questionarios_id, ordem) VALUES (:alternativa,:idQ,:ordem)";
-					$this->db->exec($queryAlts,array(':alternativa'=>$alternativa,':idQ'=>$idQ,':ordem'=>$chave+1));
-				}
+			$questionario = new QuestionariosDAO();
+			$questionario->save($camposQuestionario);
+			if($questionario->saveAlternativas($alternativas)){
+				$idQ = $questionario->getId();
+				unset($questionario);
 				$this->f3->reroute("/admin/questionarios/questoes/$idQ");
-			} catch (Exception $e) {
-				$this->f3->set('error',$e->getMessage());
 			}
 		}
 		$this->f3->set('label','Novo');
@@ -55,17 +41,15 @@ class QuestionarioController extends Controller{
 		$this->isAdmin();
 		$questoes = $this->f3->get('POST.questoes');
 		$idquestionario = $this->f3->get('POST.questionario');
+		$questionario = new QuestionariosDAO();
 		if (isset($questoes)) {
-
-			foreach ($questoes as $chave => $questao) {
-				$query = "INSERT INTO questoes (questao, questionarios_id, ordem) VALUES (?, ?, ?)";
-				$this->db->exec($query,array($questao, $idquestionario, $chave+1));
-
-			}
+			$questionario->saveQuestoes($questoes,$idquestionario);
+			unset($questionario);
 			$this->f3->reroute('/admin/questionarios');
 		}
 		$q = $this->f3->get('PARAMS.id');
-		$result = $this->db->exec("SELECT id,titulo FROM questionarios WHERE id=?",array($q));
+
+		$result = $questionario->getQuestById($q);
 		if(isset($result)){
 			$this->f3->set('questionario',$result[0]);
 			$this->f3->set('content','admin/formQuestoes.html');
@@ -124,14 +108,15 @@ class QuestionarioController extends Controller{
 		$questionarios = unserialize($this->f3->get('COOKIE.questionarios'));
 		//$randKey = array_rand($questionarios);
 		$idQuestionario = (empty($idQuestionario) ? $questionarios[0] : $idQuestionario);
-		$result = $this->db->exec("SELECT * FROM questionarios WHERE id=?",array($idQuestionario));
+		$questionario = new QuestionariosDAO();
 
+		$result = $questionario->getQuestById($idQuestionario);
 		if(count($result) > 0){
 			
 			$this->f3->set('questionario',$result[0]);
-			$alternativas = $this->db->exec("SELECT id,alternativa,ordem FROM alternativas WHERE questionarios_id=? ORDER BY ordem",array($idQuestionario));
-			$questoes = $this->db->exec("SELECT id,questao,ordem FROM questoes WHERE questionarios_id=? ORDER BY ordem",array($idQuestionario));
-
+			$alternativas = $questionario->getAlternativas($idQuestionario);
+			$questoes = $questionario->getQuestoes($idQuestionario);
+			unset($questionario);
 			$this->f3->set('alternativas',$alternativas);
 			//$this->f3->set('questionario',$idQuestionario);
 			$this->f3->set('questoes',$questoes);			

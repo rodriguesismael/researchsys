@@ -34,7 +34,7 @@ class UniversidadeDAO extends DAO{
 		return $this->getAll($sql);
 	}
 
-	public function getCusos(){
+	public function getCursos(){
 		$sql = "SELECT id,nome FROM cursos ORDER BY nome";
 		return $this->getAll($sql);
 	}

@@ -15,25 +15,32 @@ class ParticipantesController extends Controller{
 	function nova(){
 		$this->isAdmin();
 		if ($this->f3->get('POST.maillist')) {		
-			$titulo = $this->f3->get('POST.turma');
+			$camposLista['titulo'] = $this->f3->get('POST.turma');
 			$emails = $this->f3->get('POST.maillist');
 			$quests = $this->f3->get('POST.questionarios');
+			$camposLista['questionarios'] = serialize($quests);
 			//var_dump($this->f3->get('POST'));die();
-			$queryLista = "INSERT INTO listas (titulo,questionarios) VALUES (?,?)";
-			
-			try {
-				$this->mapper->set('titulo',$titulo);
-				$this->mapper->set('questionarios',serialize($quests));
-				$this->mapper->insert();
-				$idLista = $this->mapper->get('_id');
-				foreach ($emails as $mail) {
-					$queryEmails = "INSERT INTO convidados (idlista,email) VALUES (:idLista,:email)";
-					$this->db->exec($queryEmails,array(':idLista'=>$idLista,':email'=>$mail));
-				}
+			$listaObj = new ListaConvidadosDAO();
+			$listaObj->saveLista($camposLista);
+			if($listaObj->saveConvidados($emails)){
+				unset($listaObj);
 				$this->f3->reroute('/admin/participantes');
-			} catch (Exception $e) {
-				$this->f3->set('error',$e->getMessage());
 			}
+
+
+			// try {
+			// 	$this->mapper->set('titulo',$titulo);
+			// 	$this->mapper->set('questionarios',serialize($quests));
+			// 	$this->mapper->insert();
+			// 	$idLista = $this->mapper->get('_id');
+			// 	foreach ($emails as $mail) {
+			// 		$queryEmails = "INSERT INTO convidados (idlista,email) VALUES (:idLista,:email)";
+			// 		$this->db->exec($queryEmails,array(':idLista'=>$idLista,':email'=>$mail));
+			// 	}
+			// 	$this->f3->reroute('/admin/participantes');
+			// } catch (Exception $e) {
+			// 	$this->f3->set('error',$e->getMessage());
+			// }
 		}
 		$questionarios = $this->db->exec("SELECT id,titulo FROM questionarios");
 		$this->f3->set('questionarios',$questionarios);
@@ -100,8 +107,6 @@ class ParticipantesController extends Controller{
 
 		if ($this->f3->get('GET.lista')) {
 			$listaObj = new ListaConvidadosDAO();
-			$query = "SELECT id,email FROM convidados WHERE idlista=?";
-
 			$response="";
 			$dados = $listaObj->getConvidadosByLista($this->f3->get('GET.lista'));
 			if(empty($dados)){
@@ -139,48 +144,36 @@ class ParticipantesController extends Controller{
 		$email = $this->f3->get('PARAMS.email');
 
 		if($this->f3->get('POST.nome')){
-			$nome = $this->f3->get('POST.nome');
-			$ra = $this->f3->get('POST.ra');
-			$genero = $this->f3->get('POST.genero');
-			$email = $this->f3->get('POST.email');
-			$nasc = $this->f3->get('POST.nasc');
-			$universidade = $this->f3->get('POST.universidade');
-			$curso = $this->f3->get('POST.curso');
-			$periodo = $this->f3->get('POST.periodo');
-			$tipoEnsino = $this->f3->get('POST.tipoEnsino');
-			$semestre = $this->f3->get('POST.semestre');
-			$columns = "(uid,nome,email,genero,nascimento,tipo_ensino,universidades_id,curso_id,periodo_curso,semestre,estadoAcesso)";
-			$fields = "(:ra,:nome,:email,:genero,:nasc,:tipoEnsino,:universidade,:curso,:periodo,:semestre,:estado)";
+			$camposParticipante = array();
+			$camposParticipante['nome'] = $this->f3->get('POST.nome');
+			$camposParticipante['ra'] = $this->f3->get('POST.ra');
+			$camposParticipante['genero'] = $this->f3->get('POST.genero');
+			$camposParticipante['email'] = $this->f3->get('POST.email');
+			$camposParticipante['nasc'] = $this->f3->get('POST.nasc');
+			$camposParticipante['universidade'] = $this->f3->get('POST.universidade');
+			$camposParticipante['curso'] = $this->f3->get('POST.curso');
+			$camposParticipante['periodo'] = $this->f3->get('POST.periodo');
+			$camposParticipante['tipoEnsino'] = $this->f3->get('POST.tipoEnsino');
+			$camposParticipante['semestre'] = $this->f3->get('POST.semestre');
 			$this->f3->set('COOKIE.cadastro',true);
-			
-			$insertFields = array(
-									":ra"=>$ra,":nome"=>$nome,":email"=>$email,":genero"=>$genero,":nasc"=>$nasc,
-									":tipoEnsino"=>$tipoEnsino,":universidade"=>$universidade,":curso"=>$curso,":periodo"=>$periodo,
-									":semestre"=>$semestre,":estado"=>serialize($estadoAtual)
-								);
-			$query = "INSERT INTO participantes $columns VALUES $fields";
-			try {
-				$this->db->exec($query, $insertFields);
-				$queryEstado = "SELECT questionarios FROM participantes p JOIN convidados c ON p.email= c.email JOIN listas l on c.idlista = l.id WHERE p.uid=?";
-				$result = $this->db->exec($queryEstado,array($ra));
-				$this->f3->set('COOKIE.questionarios',$result[0]['questionarios']);
-				$estadoAtual = $this->f3->get('COOKIE'); 
-				$this->db->exec("UPDATE participantes SET estadoAcesso = ? WHERE uid=?",array(serialize($estadoAtual),$ra));	
-				//recuperar questionários para o aluno responder
-				//a cada questionario respondido, atualiza o cookie e a base de dados
-				
-				$nomePartes = explode(" ", $nome);
+			$queryEstado = "SELECT questionarios FROM convidados c JOIN listas l on c.idlista = l.id WHERE c.email=?";
+			$result = $this->db->exec($queryEstado,$camposParticipante['email']);
+
+			$this->f3->set('COOKIE.questionarios',$result[0]['questionarios']);			
+			$estadoAtual = $this->f3->get('COOKIE');
+			$camposParticipante['estadoAcesso'] = serialize($estadoAtual);
+			$participante = new ParticipantesDAO();
+			if($participante->save($camposParticipante)){
+				$nomePartes = explode(" ", $camposParticipante['nome']);
 				$uniObj = new UniversidadeDAO();
-				$uni = $uniObj->getById($universidade);
+				$uni = $uniObj->getById($camposParticipante['universidade']);
 				$queryString = "?invnum=80010&ak=brazil&u=gyxc&p=wxk&requiredFirstName=$nomePartes[0]&requiredLastName=$nomePartes[1]&";
 				$queryString.= "school=".str_replace(" ", "", $uni[0]['nome'])."&idnum=".$this->f3->get('PARAMS.email')."&email=".$email."&check_box=yes";
 				echo "<br>Redirecting to https://ssl.collegelassi.com/portuguese/lassi.html$queryString";
-				//die();
+				unset($participante);
+				unset($uniObj);
 				$this->f3->reroute("https://ssl.collegelassi.com/portuguese/lassi.html$queryString");
-			} catch (Exception $e) {
-				$this->f3->set('error',$e->getMessage());
 			}
-
 		}
 		
 		if($this->f3->get('COOKIE.termo')){
@@ -189,7 +182,7 @@ class ParticipantesController extends Controller{
 			$universidade = new UniversidadeDAO();
 			$universidades = $universidade->getList();
 			$cursos = $universidade->getCursos();
-			$result = $listaObj->getConvidadoByEmail($email);
+			$result = $listaObj->getConvidadoByEmail($email,true);
 			unset($universidade);
 			unset($listaObj);
 			if(count($result) > 0){
@@ -207,10 +200,12 @@ class ParticipantesController extends Controller{
 
 	function retornar(){
 		$email = $this->f3->get('PARAMS.usuario');
-		$result = $this->db->exec("SELECT p.email,p.uid,p.estadoAcesso,l.questionarios FROM participantes p JOIN 
-			convidados c on p.email= c.email JOIN listas l on c.idlista = l.id WHERE md5(p.email)=?",array($email));
+		$participante = new ParticipantesDAO();
+
+		$result = $participante->getEstadoAcesso($email,true);
+		unset($participante);
 		$cookie = unserialize($result[0]["estadoAcesso"]);
-		var_dump($result);
+		//var_dump($result);
 		//die();
 		foreach ($cookie as $key => $value) {
 			$this->f3->set("COOKIE.$key",$value);
