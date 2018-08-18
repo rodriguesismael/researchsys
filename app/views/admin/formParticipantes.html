@@ -4,7 +4,7 @@
 	<fieldset>
 		<div class="form-group">
 			<label for="questionarios">Turma</label>
-			<input class="form-control" type="text" name="turma" required>
+			<input class="form-control" type="text" name="turma" required value="{{ @lista.titulo }}">
 		</div>		
 		<div class="form-group">
 		  	<label for="universidade">E-mail</label>
@@ -27,7 +27,7 @@
 			<label for="questionarios">Questionários da Lista</label>
 			<select multiple="" class="form-control" name="questionarios[]">
 				<repeat group="{{  @questionarios }}" value="{{ @questionario }}">
-					<option value="{{ @questionario.id }}">{{ @questionario.titulo }}</option>
+					<option value="{{ @questionario.id }}" {{ @lista.questionario[@questionario.id] }}>{{ @questionario.titulo }}</option>
 				</repeat>
 			</select>
 		</div>

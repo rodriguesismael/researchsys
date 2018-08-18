@@ -4,9 +4,10 @@ class ParticipantesController extends Controller{
 
 	function home(){
 		$this->isAdmin();
-		$query = "SELECT * FROM listas";
-		$listaParticipantes = $this->db->exec($query);
-		$this->f3->set('listas',$listaParticipantes);
+		$listaObj = new ListaConvidadosDAO();
+		$listas = $listaObj->getListas();
+		unset($listaObj);
+		$this->f3->set('listas',$listas);
 		$this->f3->set('content','admin/homeParticipantes.html');
 		echo \Template::instance()->render('tela.htm');
 	}
@@ -45,28 +46,22 @@ class ParticipantesController extends Controller{
 	function editar($params){
 		$this->isAdmin();
 		if ($this->f3->get('PARAMS.id')) {
-			$arrayChecks = array('qeacd'=>"",'eara'=>"",'berm'=>"",'slri'=>"",'eci'=>"",'autoeficacia'=>"autoprejudiciais",''=>"",'regulacao'=>"");
-
-			$queryL = "SELECT * FROM listas WHERE id=?";
-			$queryM = "SELECT id,email FROM convidados WHERE idlista=?";
-			$dadosL = array();
+			$selected=array();
+			$listaObj = new ListaConvidadosDAO();
+			$lista = array();
 			$dadosAux = array();
 			$id = ($this->f3->get('PARAMS.id'));
-			try {
-				$dadosAux = $this->db->exec($queryL, array($id));
-				$convidados = $this->db->exec($queryM, array($id));
-				$dadosL['titulo'] = $dadosAux[0]['titulo'];
-				$arrCurrentChecks = unserialize($dadosAux[0]['questionarios']);
-				foreach ($arrCurrentChecks as $questionario) {
-					$arrayChecks[$questionario]="selected";
-				}
-				$dadosL['questionario'] = $arrayChecks;
-				$this->f3->set('lista',$dadosL);
-				$this->f3->set('convidados',$convidados);
-			} catch (Exception $e) {
-				$this->f3->set('error',$e->getMessage());
+			$dadosAux = $listaObj->getListaById($id);
+			$convidados = $listaObj->getConvidadosByLista($id);
+			$lista['titulo'] = $dadosAux[0]['titulo'];
+			$questConvidado = unserialize($dadosAux[0]['questionarios']);
+			foreach ($questConvidado as $questionario) {
+				$selected[(int)$questionario]="selected";
 			}
-			var_dump($dadosL);
+			$lista['questionario'] = $selected;
+			$this->f3->set('lista',$lista);
+			$this->f3->set('convidados',$convidados);
+			unset($listaObj);
 			$questionarios = $this->db->exec("SELECT id,titulo FROM questionarios");
 			$this->f3->set('questionarios',$questionarios);
 			$this->f3->set('label','Editar');
@@ -80,15 +75,16 @@ class ParticipantesController extends Controller{
 		$link="";
 		$msgEmail = "<h4>Prezado(a) aluno(a),</h4>
 		<p style='text-ident:2em;text-align:justify;'>
-		Meu nome é Evely Boruchovitch. Sou professora da Faculdade de Educação da Universidade
-		Estadual de Campinas – UNICAMP. Gostaria de convidá-lo (a) a participar de uma pesquisa
-		nacional que visa conhecer melhor os fatores que favorecem ou dificultam a aprendizagem de
-		estudantes universitários brasileiros. Ao participar, você receberá, por e-mail, resultados e
-		informações que poderão lhe dar uma ideia geral de como você está como estudante. Os
-		dados a serem obtidos contribuirão para o desenvolvimento de melhores práticas educativas e
-		para o fortalecimento da capacidade de aprender dos alunos do Ensino Superior. As suas
-		respostas são confidenciais e asseguro o sigilo da sua identificação pessoal.
-		</p>
+		Meu nome é Evely Boruchovitch. Sou professora da Faculdade de Educação da Universidade Estadual de 
+		Campinas – UNICAMP. Gostaria de convidá-lo(a) a participar de uma pesquisa nacional que visa conhecer 
+		melhor os fatores que favorecem ou dificultam a aprendizagem de estudantes universitários brasileiros. 
+		Ao participar, você será solicitado a manifestar o seu aceite em um termo de consentimento. Na sequência, 
+		você será direcionado a algumas perguntas rápidas sobre você e a dois questionários com questões de 
+		múltipla escolha. Assim que terminar de respondê-los, você receberá, por e-mail, resultados e informações 
+		importantes, em linhas gerais, sobre como você aprende. Receberá também orientações utéis para melhorar a 
+		sua aprendizagem. As suas respostas são confidenciais e asseguro o sigilo da sua identificação.o. Os dados 
+		a serem obtidos contribuirão para o desenvolvimento de melhores práticas educativas e para o fortalecimento 
+		da capacidade de aprender dos alunos do Ensino Superior.</p>
 		<p>
 			Sua colaboração é muito valiosa! Para participar da pesquisa, por favor, acesse o
 			seguinte link: <a href='REPLACE'>REPLACE</a>
@@ -103,28 +99,26 @@ class ParticipantesController extends Controller{
 		$smtp->set('Subject', 'Convite');
 
 		if ($this->f3->get('GET.lista')) {
+			$listaObj = new ListaConvidadosDAO();
 			$query = "SELECT id,email FROM convidados WHERE idlista=?";
-			try {
-				$response="";
-				$dados = $this->db->exec($query,array($this->f3->get('GET.lista')));
-				if(empty($dados)){
-					$response = json_encode(array('code'=>0,'msg'=>"Não há emails para esta lista!"));
-					echo $response;
-				}else{
-					$sendTo =array();
-					foreach ($dados as $emails) {
-						$smtp->set('To', $emails['email']);
-						$sendTo[] = $emails['email'];
-						$link= $this->f3->get('BASE_URL')."/participar/".$this->encryptMail($emails['email']);
-						//$msgEmail = str_replace('REPLACE', $link, $msgEmail);
-						$smtp->send(str_replace('REPLACE', $link, $msgEmail)) or die("ERRO ".$smtp->log());
-					}
-					$response = json_encode($sendTo);
-					echo $response;
 
+			$response="";
+			$dados = $listaObj->getConvidadosByLista($this->f3->get('GET.lista'));
+			if(empty($dados)){
+				$response = json_encode(array('code'=>0,'msg'=>"Não há emails para esta lista!"));
+				echo $response;
+			}else{
+				$sendTo =array();
+				foreach ($dados as $emails) {
+					$smtp->set('To', $emails['email']);
+					$sendTo[] = $emails['email'];
+					$link= $this->f3->get('BASE_URL')."/participar/".$this->encryptMail($emails['email']);
+					//$msgEmail = str_replace('REPLACE', $link, $msgEmail);
+					$smtp->send(str_replace('REPLACE', $link, $msgEmail)) or die("ERRO ".$smtp->log());
 				}
-			} catch (PDOException $e) {
-				
+				$response = json_encode($sendTo);
+				echo $response;
+
 			}
 		}
 
@@ -176,7 +170,8 @@ class ParticipantesController extends Controller{
 				//a cada questionario respondido, atualiza o cookie e a base de dados
 				
 				$nomePartes = explode(" ", $nome);
-				$uni = $this->db->exec("SELECT nome FROM universidades WHERE id=?",array($universidade));
+				$uniObj = new UniversidadeDAO();
+				$uni = $uniObj->getById($universidade);
 				$queryString = "?invnum=80010&ak=brazil&u=gyxc&p=wxk&requiredFirstName=$nomePartes[0]&requiredLastName=$nomePartes[1]&";
 				$queryString.= "school=".str_replace(" ", "", $uni[0]['nome'])."&idnum=".$this->f3->get('PARAMS.email')."&email=".$email."&check_box=yes";
 				echo "<br>Redirecting to https://ssl.collegelassi.com/portuguese/lassi.html$queryString";
@@ -189,13 +184,14 @@ class ParticipantesController extends Controller{
 		}
 		
 		if($this->f3->get('COOKIE.termo')){
-			$queryEmail = "SELECT email FROM convidados WHERE md5(email)=?";
 			$result = array();
-			$queryUnis   = "SELECT id,nome FROM universidades";
-			$queryCursos = "SELECT id,nome FROM cursos ORDER BY nome";
-			$universidades = $this->db->exec($queryUnis);
-			$cursos = $this->db->exec($queryCursos);
-			$result = $this->db->exec($queryEmail, array($email));
+			$listaObj = new ListaConvidadosDAO();
+			$universidade = new UniversidadeDAO();
+			$universidades = $universidade->getList();
+			$cursos = $universidade->getCursos();
+			$result = $listaObj->getConvidadoByEmail($email);
+			unset($universidade);
+			unset($listaObj);
 			if(count($result) > 0){
 				$this->f3->set('email',$result[0]['email']);
 				$this->f3->set('universidades',$universidades);

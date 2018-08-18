@@ -1,4 +1,0 @@
-<?php
-class Universidade extends DAO{
-	
-}
