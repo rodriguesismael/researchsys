@@ -133,21 +133,22 @@ class QuestionarioController extends Controller{
 			$arrayRespostas = array();
 			$str="";
 			var_dump($questoes);
+			$questionario = new QuestionariosDAO();
 			foreach ($questoes as $id) {
 				$resposta = $this->f3->get('POST.questao'.$id);
-				$arrayRespostas[$id] = $resposta;
-				$queryAnswer = "INSERT INTO respostas (participante,questao_id,alternativa_id) VALUES(?,?,?)";
-				$this->db->exec($queryAnswer, array($participante,$id,$resposta));
-
+				// $arrayRespostas[$id] = $resposta;
+				$questionario->saveResposta($id,$resposta,$participante);
+				// $queryAnswer = "INSERT INTO respostas (participante,questao_id,alternativa_id) VALUES(?,?,?)";
+				// $this->db->exec($queryAnswer, array($participante,$id,$resposta));
 			}
-
+			unset($questionario);
 			//apos inserir respostas na base
 			//decrementar questionarios faltantes da base de dados
 			//ir para o proximo questionário
 			$questionarios = unserialize($this->f3->get('COOKIE.questionarios'));
 
 			array_shift($questionarios);
-			var_dump($questionarios);
+			//var_dump($questionarios);
 				//reroute pagina retornar
 			$this->f3->set('COOKIE.questionarios',serialize($questionarios));
 			$estadoAcesso = serialize($this->f3->get('COOKIE'));

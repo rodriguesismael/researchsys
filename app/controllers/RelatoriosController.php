@@ -3,14 +3,17 @@
 class RelatoriosController extends Controller{
 	function home(){
 		$this->isAdmin();
-		$listaQ = $this->db->exec("SELECT id,titulo FROM questionarios");
-		$listaU = $this->db->exec("SELECT id,nome FROM universidades");
-		$listaC = $this->db->exec("SELECT id,nome FROM cursos");
-		$listaT = $this->db->exec("SELECT id,titulo FROM listas");
-		$this->f3->set('questionarios',$listaQ);
-		$this->f3->set('universidades',$listaU);
-		$this->f3->set('cursos',$listaC);
-		$this->f3->set('turmas',$listaT);
+		$universidade = new UniversidadeDAO();
+		$questionario = new QuestionariosDAO();
+		$lista = new ListaConvidadosDAO();
+		$questionarios = $questionario->getList();
+		$universidades = $universidade->getList();
+		$cursos = $universidade->getCursos();
+		$listas = $lista->getListas();
+		$this->f3->set('questionarios',$questionarios);
+		$this->f3->set('universidades',$universidades);
+		$this->f3->set('cursos',$cursos);
+		$this->f3->set('turmas',$listas);
 		$this->f3->set('content','admin/homeRelatorios.html');
 		echo \Template::instance()->render('tela.htm');
 
@@ -28,42 +31,49 @@ class RelatoriosController extends Controller{
 		// $spreadsheet->setActiveSheetIndex(0);
 		// $activeSheet = $spreadsheet->getActiveSheet();
 		// $activeSheet->setCellValue('A1' , 'TESTANDOOO')->getStyle('A1')->getFont()->setBold(true);
-		$filtros="";
-		$filtrosArr=array('u'=>'universidade','c'=>'curso','p'=>'genero');
-		$universidade = $this->f3->get('POST.universidade');
-		$questionario = $this->f3->get('POST.questionario');
-		$curso 		  = $this->f3->get('POST.curso');
-		$genero		  = $this->f3->get('POST.genero');
-		$filtrosParam = array();
-		if($universidade != -1){
-			$filtros.="u.id=:universidade";
-			$filtrosParam[":universidade"] = $universidade;
-		}
-		if($questionario != -1){
-			$filtros.="q.questionarios_id=:questionario AND ";
-			$filtrosParam[":questionario"] = $questionario;
-		}
-		if($curso != -1){
-			$filtros.="c.id=:curso AND ";
-			$filtrosParam[":curso"] = $curso;
-		}
-		if($genero != -1){
-			$filtros.="p.genero=:genero AND ";
-			$filtrosParam[":genero"] = $genero;
-		}
+		$filtros=array();
+
+		$filtros['universidade'] 	 = $this->f3->get('POST.universidade');
+		$filtros['questionarios_id'] = $this->f3->get('POST.questionario');
+		$filtros['c.id'] 		 	 = $this->f3->get('POST.curso');
+		$filtros['genero']		 	 = $this->f3->get('POST.genero');
+		// $filtrosArr = array("universidade"=>false,"questionario"=>false,"curso"=>false,"genero"=>false);
+		// $filtrosParam = array();
+		// if($universidade != -1){
+		// 	$filtrosArr['universidade'] = true;
+		// 	$filtros.="u.id=:universidade";
+		// 	$filtrosParam[":universidade"] = $universidade;
+		// }
+		// if($questionario != -1){
+		// 	$filtrosArr['questionario'] = true;
+		// 	$filtros.="q.questionarios_id=:questionario AND ";
+		// 	$filtrosParam[":questionario"] = $questionario;
+		// }
+		// if($curso != -1){
+		// 	$filtrosArr['curso'] = true;
+		// 	$filtros.="c.id=:curso AND ";
+		// 	$filtrosParam[":curso"] = $curso;
+		// }
+		// if($genero != -1){
+		// 	$filtrosArr['genero'] = true;
+		// 	$filtros.="p.genero=:genero AND ";
+		// 	$filtrosParam[":genero"] = $genero;
+		// }
 		
-		if (!empty($filtros)) {
-			$filtros=1;
-		}
+		// if (!empty($filtros)) {
+		// 	$filtros=1;
+		// }
 
-
+		$relatorio = new RelatoriosDAO();
+		$participantes = $relatorio->getParticipantes($filtros);
 		//die($filtros);
 
-		$queryParticipantes = "SELECT r.participante, p.nome, timestampdiff(YEAR, nascimento,now()) as idade,email,genero,u.nome universidade,c.nome curso, 
-					semestre, periodo_curso, tipo_ensino FROM participantes p JOIN respostas r on p.uid = r.participante JOIN questoes q on r.questao_id = q.id 
-					JOIN universidades u ON p.universidades_id = u.id JOIN cursos c ON p.curso_id = c.id WHERE $filtros group by r.participante";
+		// $queryParticipantes = "SELECT r.participante, p.nome, timestampdiff(YEAR, nascimento,now()) as idade,email,genero,u.nome universidade,c.nome curso, 
+		// 			semestre, periodo_curso, tipo_ensino FROM participantes p JOIN respostas r on p.uid = r.participante JOIN questoes q on r.questao_id = q.id 
+		// 			JOIN universidades u ON p.universidades_id = u.id JOIN cursos c ON p.curso_id = c.id WHERE $filtros group by r.participante";
 		
-		$resultParticipantes = $this->db->exec($queryParticipantes,array($questionario));
+		// $resultParticipantes = $this->db->exec($queryParticipantes,array($questionario));
+
 		$queryRespostas = "SELECT q.ordem,a.ordem alternativa FROM respostas r JOIN alternativas a ON r.alternativa_id = a.id JOIN 
     questoes q on r.questao_id = q.id JOIN questionarios qr on q.questionarios_id = qr.id 
     WHERE qr.id=? and r.participante=?";

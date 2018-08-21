@@ -14,6 +14,9 @@ HORAS
 1h na sexta   27/07
 4h no sabado  28/07
 1h na quinta  09/08
+4h na sexta   17/08
+4h no sabado  18/08
+3h na segunda 20/08
 
 TODO participação aluno
 

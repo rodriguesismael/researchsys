@@ -42,7 +42,9 @@ class ParticipantesController extends Controller{
 			// 	$this->f3->set('error',$e->getMessage());
 			// }
 		}
-		$questionarios = $this->db->exec("SELECT id,titulo FROM questionarios");
+		$questionario = new QuestionariosDAO();
+		$questionarios = $questionario->getList();
+		unset($questionario);
 		$this->f3->set('questionarios',$questionarios);
 		$this->f3->set('label','Nova');
 		$this->f3->set('content','admin/formParticipantes.html');
@@ -69,7 +71,9 @@ class ParticipantesController extends Controller{
 			$this->f3->set('lista',$lista);
 			$this->f3->set('convidados',$convidados);
 			unset($listaObj);
-			$questionarios = $this->db->exec("SELECT id,titulo FROM questionarios");
+			$questionario = new QuestionariosDAO();
+			$questionarios = $questionario->getList();
+			unset($questionario);
 			$this->f3->set('questionarios',$questionarios);
 			$this->f3->set('label','Editar');
 			$this->f3->set('content','admin/formParticipantes.html');
@@ -156,9 +160,11 @@ class ParticipantesController extends Controller{
 			$camposParticipante['tipoEnsino'] = $this->f3->get('POST.tipoEnsino');
 			$camposParticipante['semestre'] = $this->f3->get('POST.semestre');
 			$this->f3->set('COOKIE.cadastro',true);
-			$queryEstado = "SELECT questionarios FROM convidados c JOIN listas l on c.idlista = l.id WHERE c.email=?";
-			$result = $this->db->exec($queryEstado,$camposParticipante['email']);
-
+			//$queryEstado = "SELECT questionarios FROM convidados c JOIN listas l on c.idlista = l.id WHERE c.email=?";
+			$questionario = new QuestionariosDAO();
+			$result = $questionario->getQuestByEmail($camposParticipante['email'],false);
+			//$result = $this->db->exec($queryEstado,$camposParticipante['email']);
+			unset($questionario);
 			$this->f3->set('COOKIE.questionarios',$result[0]['questionarios']);			
 			$estadoAtual = $this->f3->get('COOKIE');
 			$camposParticipante['estadoAcesso'] = serialize($estadoAtual);

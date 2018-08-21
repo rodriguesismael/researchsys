@@ -58,6 +58,24 @@ class QuestionariosDAO extends DAO{
 		return $r;
 	}
 
+
+	public function saveResposta($questao,$resposta,$participante){
+		$sql = "INSERT INTO respostas (participante,questao_id,alternativa_id) VALUES(:participante,:questao,:resposta)";
+		$statement = $this->db->prepare($sql);
+		$r=true;
+		$statement->bindParam(":participante",$participante,PDO::PARAM_INT);
+		$statement->bindParam(":questao",$questao,PDO::PARAM_INT);
+		$statement->bindParam(":resposta",$resposta,PDO::PARAM_INT);
+		try{
+			$statement->execute();
+		}catch(PDOException $e){
+			$this->exception = $e;
+			$r=false;
+			echo $e->getMessage();
+		}
+		return $r;
+	}
+
 	public function getList(){
 		$sql = "SELECT * FROM questionarios";
 		return $this->getAll($sql);
@@ -67,7 +85,14 @@ class QuestionariosDAO extends DAO{
 		$sql = "SELECT * FROM questionarios WHERE id=$id";
 		return $this->getAll($sql);
 	}
-
+	public function getQuestByEmail($email,$crypt = false){
+		$strEmail = "c.email";
+		if($crypt){
+			$strEmail = "md5(c.email)";
+		}
+		$sql = "SELECT questionarios FROM convidados c JOIN listas l on c.idlista = l.id WHERE $strEmail='$email'";
+		return $this->getAll($sql);
+	}
 	public function getAlternativas($quest){
 		$sql = "SELECT * FROM alternativas WHERE questionarios_id=$quest ORDER BY ordem";
 		return $this->getAll($sql);
