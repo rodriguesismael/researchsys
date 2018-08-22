@@ -36,4 +36,19 @@ class ParticipantesDAO extends DAO{
 		return $this->getAll($sql);
 
 	}
+
+	public function updateEstadoAcesso($estado,$participante){
+		$sql = "UPDATE participantes SET estadoAcesso=:estado WHERE uid=:participante";
+		$statement = $this->db->prepare($sql);
+		$statement->bindParam(":estado",$estado,PDO::PARAM_STR);
+		$statement->bindParam(":participante",$participante,PDO::PARAM_INT);
+		try {
+			$r = $statement->execute();
+		} catch (PDOException $e) {
+			$this->exception = $e;
+			$r = false;
+			echo $e->getMessage();
+		}
+		return $r;
+	}
 }

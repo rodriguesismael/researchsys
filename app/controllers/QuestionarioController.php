@@ -154,12 +154,13 @@ class QuestionarioController extends Controller{
 			$estadoAcesso = serialize($this->f3->get('COOKIE'));
 			//var_dump($estadoAcesso);
 			//die();
-			$this->db->exec("UPDATE participantes SET estadoAcesso=? WHERE uid=?",array($estadoAcesso,$participante));
-			$this->f3->reroute('/retornar/'.md5($this->f3->get('SESSION.mail')));
-			var_dump($questionarios);			
+			$participanteObj = new ParticipantesDAO();
+			$update = $participanteObj->updateEstadoAcesso($estadoAcesso,$participante);
+			if ($update) {
+				$this->f3->reroute('/retornar/'.md5($this->f3->get('SESSION.mail')));
+				var_dump($questionarios);
+			}
+			// $this->db->exec("UPDATE participantes SET estadoAcesso=? WHERE uid=?",array($estadoAcesso,$participante));
 		}
-
-
 	}
-
 }

@@ -171,9 +171,11 @@ class ParticipantesController extends Controller{
 			$participante = new ParticipantesDAO();
 			if($participante->save($camposParticipante)){
 				$nomePartes = explode(" ", $camposParticipante['nome']);
+				$firstName = array_shift($nomePartes);
+				$lastName = implode(" ", $nomePartes);
 				$uniObj = new UniversidadeDAO();
 				$uni = $uniObj->getById($camposParticipante['universidade']);
-				$queryString = "?invnum=80010&ak=brazil&u=gyxc&p=wxk&requiredFirstName=$nomePartes[0]&requiredLastName=$nomePartes[1]&";
+				$queryString = "?invnum=80010&ak=brazil&u=gyxc&p=wxk&requiredFirstName=$firstName&requiredLastName=$lastName&";
 				$queryString.= "school=".str_replace(" ", "", $uni[0]['nome'])."&idnum=".$this->f3->get('PARAMS.email')."&email=".$email."&check_box=yes";
 				echo "<br>Redirecting to https://ssl.collegelassi.com/portuguese/lassi.html$queryString";
 				unset($participante);

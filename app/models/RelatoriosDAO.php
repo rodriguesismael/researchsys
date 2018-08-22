@@ -20,4 +20,17 @@ class RelatoriosDAO extends DAO{
 
 		return $this->getAll($sql);
 	}
+
+	public function getEstatisticas($questionario,$participante){
+		$sql= "SELECT q.ordem,a.ordem alternativa FROM respostas r JOIN alternativas a ON r.alternativa_id = a.id JOIN 
+			    questoes q on r.questao_id = q.id JOIN questionarios qr on q.questionarios_id = qr.id 
+			    WHERE qr.id='$questionario' and r.participante='$participante'";
+		return $this->getAll($sql);
+	}
+
+	public function getRelatorioHeader($id){
+		$sql = "SELECT q.titulo,qr.ordem from questionarios q JOIN questoes qr ON q.id = qr.questionarios_id WHERE q.id='$id' order by qr.ordem";
+
+		return $this->getAll($sql);
+	}
 }
