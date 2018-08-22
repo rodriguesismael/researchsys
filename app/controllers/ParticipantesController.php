@@ -140,6 +140,7 @@ class ParticipantesController extends Controller{
 		if($this->f3->get('COOKIE.termo')){
 			$this->f3->reroute('/cadastrar/'.$this->f3->get('PARAMS.email'));
 		}else{
+			$this->f3->set('who',$this->f3->get('PARAMS.email'));
 			$this->f3->set('content','termo.html');
 			echo \Template::instance()->render('tela.htm');			
 		}
@@ -223,7 +224,7 @@ class ParticipantesController extends Controller{
 		var_dump($this->f3->get("COOKIE"));
 		$questionarios = unserialize($this->f3->get('COOKIE.questionarios')); 
 		if(empty($questionarios)){
-			//reroute finalziar pq acabou
+			//não há mais questionários para reponder
 			$this->f3->reroute('/finalizar/'.md5($this->f3->get('SESSION.mail')));
 		}
 		$this->f3->call("QuestionarioController->mostrarQuestionario");
@@ -235,7 +236,21 @@ class ParticipantesController extends Controller{
 		$this->f3->set('SESSION.participante','');
 		$this->f3->set('SESSION.mail','');
 		$this->f3->set('COOKIE','');
-		echo "Agradecemos sua participação";
+		$header = "Final da Pesquisa";
+		$texto = "Muito obrigada(o) por participar da pesquisa! A sua contribuição será muito
+					valiosa para a continuidade dos estudos sobre os fatores que favorecem a aprendizagem
+					de estudantes universitários brasileiros. Muito sucesso para você!";
+		if ($this->f3->get("POST.naoaceito")) {
+			$header = "Prezado estudante,";
+			$texto = "Agradecemos a sua atenção. Esperamos poder contar com a sua participação em outro momento.";
+			$this->f3->set('cordialmente',"Cordialmente,");	
+		}
+
+		$this->f3->set('header',$header);
+		$this->f3->set('texto',$texto);
+		$this->f3->set('assinado',"Evely Boruchovitch e equipe.");
+		$this->f3->set('content','agradecimento.html');
+		echo \Template::instance()->render('tela.htm');
 
 	}
 
