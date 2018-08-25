@@ -53,3 +53,7 @@ h1,h2,h3,h4{
 .justify{
   text-align: justify;
 }
+
+.bg-purple{
+  background-color: #782a98 !important;
+}

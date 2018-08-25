@@ -134,13 +134,20 @@ class ParticipantesController extends Controller{
 	}
 
 	function participar(){
+		$hash = $this->f3->get('PARAMS.hash');
+		$listaObj = new ListaConvidadosDAO();
+		$result = $listaObj->getConvidadoByEmail($hash,true);
+		//var_dump($result);
+		if(count($result) == 0){
+			$this->f3->error(404);
+		}
 		if ($this->f3->get('POST.aceito')) {
 			$this->f3->set('COOKIE.termo',true);
 		}
 		if($this->f3->get('COOKIE.termo')){
-			$this->f3->reroute('/cadastrar/'.$this->f3->get('PARAMS.email'));
+			$this->f3->reroute('/cadastrar/'.$this->f3->get('PARAMS.hash'));
 		}else{
-			$this->f3->set('who',$this->f3->get('PARAMS.email'));
+			$this->f3->set('who',$this->f3->get('PARAMS.hash'));
 			$this->f3->set('content','termo.html');
 			echo \Template::instance()->render('tela.htm');			
 		}
@@ -177,7 +184,7 @@ class ParticipantesController extends Controller{
 				$uniObj = new UniversidadeDAO();
 				$uni = $uniObj->getById($camposParticipante['universidade']);
 				$queryString = "?invnum=80010&ak=brazil&u=gyxc&p=wxk&requiredFirstName=$firstName&requiredLastName=$lastName&";
-				$queryString.= "school=".str_replace(" ", "", $uni[0]['nome'])."&idnum=".$this->f3->get('PARAMS.email')."&email=".$email."&check_box=yes";
+				$queryString.= "school=".str_replace(" ", "", $uni[0]['nome'])."&idnum=".$this->f3->get('PARAMS.email')."&email=".$camposParticipante['email']."&check_box=yes";
 				echo "<br>Redirecting to https://ssl.collegelassi.com/portuguese/lassi.html$queryString";
 				unset($participante);
 				unset($uniObj);
