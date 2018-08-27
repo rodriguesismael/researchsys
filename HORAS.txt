@@ -17,7 +17,9 @@ HORAS
 4h na sexta   17/08
 4h no sabado  18/08
 3h na segunda 20/08
-
+1h na sexta   24/08
+3h no sabado  25/08
+ 
 TODO participação aluno
 
 criar uma url passando o email criptografado do participante;

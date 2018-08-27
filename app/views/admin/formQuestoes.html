@@ -1,8 +1,8 @@
-<h1>Lista de Questões</h1>
-<h3>Questionário {{ @questionario.titulo }}</h3>
+<h1 class="purple-text">Lista de Questões</h1>
+<h3 class="purple-text">Questionário {{ @questionario.titulo }}</h3>
 <form action="/admin/questionarios/questoes/adicionar" method="POST">
 	<div id="questoes" class="form-group">
-		<label>Questão</label>
+		<label class="label">Questão</label>
 		<div class="input-group questao">
 			<textarea class="form-control" name="aquestao" id="aquestao" aria-label="With textarea"></textarea>
 			<input type="hidden" name="questionario" value="{{ @questionario.id }}">

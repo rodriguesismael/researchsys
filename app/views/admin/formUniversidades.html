@@ -1,41 +1,41 @@
-<h1>Nova Universidade Participantes</h1>
+<h1 class="purple-text">Nova Universidade Participante</h1>
 
 <form action="/admin/universidades/adicionar" method="POST">
 	<fieldset>
 		<div class="form-row">
 			<div class="form-group col-md-6">
-			  <label for="universidade">Universidade</label>
+			  <label for="universidade" class="label">Universidade</label>
 			  <input type="text" class="form-control" name="universidade" value="{{ @uni.nome }}" id="universidade" required/>
 			</div>
 			<div class="form-group col-md-6">
-			  <label for="responsavel">Prof. Responsável</label>
+			  <label for="responsavel" class="label">Prof. Responsável</label>
 			  <input type="text" name="responsavel" class="form-control" value="{{ @uni.responsavel }}" id="responsavel"/>
 			</div>
 		</div>
 	</fieldset>
 	<fieldset>
-		<legend>Contato do Comiê de Ética</legend>
+		<legend>Contato do Comitê de Ética</legend>
 		<div class="form-row">
 			<div class="form-group col-md-6">
-			  <label for="universidade">Endereço</label>
+			  <label for="universidade" class="label">Endereço</label>
 			  <input type="text" class="form-control" name="endereco" value="{{ @uni.endereco }}" id="endereco"/>
 			</div>
 			<div class="form-group col-md-6">
-			  <label for="responsavel">Complemento</label>
+			  <label for="responsavel" class="label">Complemento</label>
 			  <input type="text" name="complemento" class="form-control" value="{{ @uni.complemento }}" id="complemento"/>
 			</div>
 		</div>
 		<div class="form-row">
 			<div class="form-group col-md-2">
-			  <label for="universidade">Telefone</label>
+			  <label for="universidade" class="label">Telefone</label>
 			  <input type="text" class="form-control" name="endereco" value="{{ @uni.endereco }}" id="endereco"/>
 			</div>
 			<div class="form-group col-md-2">
-			  <label for="responsavel">CEP</label>
+			  <label for="responsavel" class="label">CEP</label>
 			  <input type="text" name="cep" class="form-control" value="{{ @uni.cep }}" id="cep"/>
 			</div>
 			<div class="form-group col-md-2">
-			  <label for="responsavel">Estado</label>
+			  <label for="responsavel" class="label">Estado</label>
 			  <select name="estado" id="estado" class="form-control">
 			  	<repeat group="{{ @estados }}" value="{{ @estado }}">
 			  		<option value="{{ @estado.uf }}" <check if="{{ @uni.estado == @estado.uf }}">selected</check>>{{ @estado.nome }}</option>
@@ -43,7 +43,7 @@
 			  </select>
 			</div>
 			<div class="form-group col-md-6">
-			  <label for="responsavel">Cidade</label>
+			  <label for="responsavel" class="label">Cidade</label>
 			  <select name="cidade" id="cidade" class="form-control">
 			  	<option>Selecione um estado</option>
 			  	<check if="{{ @cidades }}">

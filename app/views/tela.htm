@@ -11,10 +11,14 @@
 </head>
 <body>
 	<div id="container">
+		<div class="purple"></div>
+		<div class="blue"></div>
 		<check if="{{ @SESSION.idusr }}">
 			<include href="admin/navbaradmin.html" />
 		</check>
-		<include href="{{ @content }}" />
+		<div id="content">
+			<include href="{{ @content }}" />
+		</div>
 	</div>
 </body>
 </html>
