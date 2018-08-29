@@ -8,14 +8,13 @@
 	<link rel="stylesheet" type="text/css" href="{{ @BASE }}/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="{{ @BASE }}/css/style.css" />
 	<link rel="stylesheet" type="text/css" href="{{ @BASE }}/fontawesome-free/css/all.css" />
+	<link rel="icon" href="{{ @BASE }}/img/favicon.png">
 </head>
 <body>
 	<div id="container">
 		<div class="purple"></div>
 		<div class="blue"></div>
-		<check if="{{ @SESSION.idusr }}">
-			<include href="admin/navbaradmin.html" />
-		</check>
+		<include href="admin/navbaradmin.html" />
 		<div id="content">
 			<include href="{{ @content }}" />
 		</div>
