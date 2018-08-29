@@ -15,8 +15,8 @@ class Universidade extends Controller{
 	function nova(){
 		$this->isAdmin();
 		if ($this->f3->get('POST.universidade')) {
-			echo 'chegou';
-			var_dump($this->f3->get('POST'));
+			//echo 'chegou';
+			//var_dump($this->f3->get('POST'));
 			$campos   				= array();
 			$campos["nome"] 		= $this->f3->get('POST.universidade');
 			$campos["responsavel"]  = $this->f3->get('POST.responsavel','');

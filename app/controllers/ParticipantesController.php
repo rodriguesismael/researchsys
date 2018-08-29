@@ -19,7 +19,6 @@ class ParticipantesController extends Controller{
 			$emails = $this->f3->get('POST.maillist');
 			$quests = $this->f3->get('POST.questionarios');
 			$camposLista['questionarios'] = serialize($quests);
-			//var_dump($this->f3->get('POST'));die();
 			$listaObj = new ListaConvidadosDAO();
 			$listaObj->saveLista($camposLista);
 			if($listaObj->saveConvidados($emails)){
@@ -83,6 +82,9 @@ class ParticipantesController extends Controller{
 
 	function convidar(){
 		$this->isAdmin();
+		$obs="<strong>OBSERVAÇÃO: O sistema está em período de testes. Ao preencher os dados demográficos, favor acrescentar 'Teste' por útimo no campo nome. 
+				Após finalizar o processo, favor elaborar um texto com impressões e/ou problemas encontrados bem como sugestões de melhorias. Encaminhar para isrodrigues5@gmail.com 
+				com o assunto \"Testes Autorregular\".</strong>";
 		$link="";
 		$msgEmail = "<h4>Prezado(a) aluno(a),</h4>
 		<p style='text-ident:2em;text-align:justify;'>
@@ -100,7 +102,7 @@ class ParticipantesController extends Controller{
 			Sua colaboração é muito valiosa! Para participar da pesquisa, por favor, acesse o
 			seguinte link: <a href='REPLACE'>REPLACE</a>
 		</p>
-		<p>Muito obrigada!</p>";
+		<p>Muito obrigada!</p><br/>$obs";
 
 		$smtp = new SMTP ( 'smtp.gmail.com', '587', 'tls', $this->f3->get('SMTP_MAIL'), $this->f3->get('SMTP_PASS') );
 
@@ -221,14 +223,12 @@ class ParticipantesController extends Controller{
 		$result = $participante->getEstadoAcesso($email,true);
 		unset($participante);
 		$cookie = unserialize($result[0]["estadoAcesso"]);
-		//var_dump($result);
-		//die();
 		foreach ($cookie as $key => $value) {
 			$this->f3->set("COOKIE.$key",$value);
 		}
 		$this->f3->set('SESSION.participante',$result[0]['uid']);
 		$this->f3->set('SESSION.mail',$result[0]['email']);
-		var_dump($this->f3->get("COOKIE"));
+		//var_dump($this->f3->get("COOKIE"));
 		$questionarios = unserialize($this->f3->get('COOKIE.questionarios')); 
 		if(empty($questionarios)){
 			//não há mais questionários para reponder

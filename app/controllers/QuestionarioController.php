@@ -95,7 +95,7 @@ class QuestionarioController extends Controller{
 			} catch (Exception $e) {
 				$this->f3->set('error',$e->getMessage());
 			}
-			var_dump($dadosL);
+			//var_dump($dadosL);
 
 			$this->f3->set('label','Editar');
 			$this->f3->set('content','admin/formQuestionarios.html');
@@ -132,7 +132,7 @@ class QuestionarioController extends Controller{
 			$questoes = $this->f3->get('POST.questoes');
 			$arrayRespostas = array();
 			$str="";
-			var_dump($questoes);
+			//var_dump($questoes);
 			$questionario = new QuestionariosDAO();
 			foreach ($questoes as $id) {
 				$resposta = $this->f3->get('POST.questao'.$id);
@@ -152,13 +152,11 @@ class QuestionarioController extends Controller{
 				//reroute pagina retornar
 			$this->f3->set('COOKIE.questionarios',serialize($questionarios));
 			$estadoAcesso = serialize($this->f3->get('COOKIE'));
-			//var_dump($estadoAcesso);
-			//die();
 			$participanteObj = new ParticipantesDAO();
 			$update = $participanteObj->updateEstadoAcesso($estadoAcesso,$participante);
 			if ($update) {
 				$this->f3->reroute('/retornar/'.md5($this->f3->get('SESSION.mail')));
-				var_dump($questionarios);
+				//var_dump($questionarios);
 			}
 			// $this->db->exec("UPDATE participantes SET estadoAcesso=? WHERE uid=?",array($estadoAcesso,$participante));
 		}

@@ -19,7 +19,6 @@ class Administrator extends Controller{
 
 			$userData = $this->userAuth($usuario,md5($senha));
 			if (!empty($userData[0])) {
-				//die('man');
 				$this->f3->set('SESSION.nomeusr',$userData[0]['nome']);
 				$this->f3->set('SESSION.papelusr',$userData[0]['papel']);
 				$this->f3->set('SESSION.idusr',$userData[0]['id']);

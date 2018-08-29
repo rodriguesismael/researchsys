@@ -71,7 +71,7 @@ class MainController extends Controller{
 	}
 
 	function hello(){
-		echo "Hello Fucker!";
+		echo "Hello!";
 	}
 
 	function admin(){
