@@ -269,4 +269,8 @@ class ParticipantesController extends Controller{
 		return ($valA == md5($valB)); 
 	}
 
+	function instrucoes(){
+		$this->f3->set('content','instrucoes.html');
+		echo \Template::instance()->render('tela_nonav.htm');		
+	}
 }

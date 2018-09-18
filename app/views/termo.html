@@ -48,14 +48,18 @@
 		</li>
 	</ol>
 	<p>Diante do exposto, concordo em participar dessa pesquisa:</p>
-	<div class="button-group">
-		<form action="" method="POST">
-			<input type="hidden" name="aceito" value="1"/>
-			<button type="submit" name="botaoaceito" class="btn btn-info"><span class="fa fa-thumbs-up"></span> Aceito</button>
-		</form>
-		<form action="/finalizar/{{ @who }}" method="POST">
-			<input type="hidden" name="naoaceito" value="1"/>		
-			<button type="submit" name="botaonaceito" class="btn btn-danger"><span class="fa fa-thumbs-down"></span> Não Aceito</button>
-		</form>
+	<div class="row justify-content-center">
+		<div class="col-md-1">
+			<form action="" method="POST">
+				<input type="hidden" name="aceito" value="1"/>
+				<button type="submit" name="botaoaceito" class="btn btn-info"><span class="fa fa-thumbs-up"></span> Concordo</button>
+			</form>
+		</div>
+		<div class="col-md-1">
+			<form action="/finalizar/{{ @who }}" method="POST">
+				<input type="hidden" name="naoaceito" value="1"/>		
+				<button type="submit" name="botaonaceito" class="btn btn-danger"><span class="fa fa-thumbs-down"></span> Não Concordo</button>
+			</form>
+		</div>
 	</div>
 </div>

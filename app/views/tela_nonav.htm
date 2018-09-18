@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home - {{@SITE_NAME}}</title>
+	<script type="text/javascript" src="{{ @BASE }}/js/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="{{ @BASE }}/js/popper.js"></script>
+	<script type="text/javascript" src="{{ @BASE }}/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="{{ @BASE }}/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="{{ @BASE }}/css/style.css" />
+	<link rel="stylesheet" type="text/css" href="{{ @BASE }}/fontawesome-free/css/all.css" />
+	<link rel="icon" href="{{ @BASE }}/img/favicon.png">
+</head>
+<body>
+	<div id="container">
+		<div class="purple"></div>
+		<div class="blue"></div>
+		<div id="content">
+			<include href="{{ @content }}" />
+		</div>
+	</div>
+</body>
+</html>

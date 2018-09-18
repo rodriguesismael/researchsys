@@ -1,114 +1,161 @@
-<h1 class="purple-text">Dados Pessoais</h1>
-
 <form action="" method="POST">
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="nome" class="label">Nome</label>
-      <input type="text" class="form-control" name="nome" id="nome" required/>
-    </div>
-    <div class="form-group col-md-6">
-      <label for="ra" class="label">RA</label>
-      <input type="text" name="ra" class="form-control" id="ra" required/>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="mail" class="label">e-mail</label>
-      <input type="email" class="form-control" name="email" id="email" value="{{ @email }}" readonly required/>
-    </div>
-    <div class="form-group col-md-3">
-      <label for="nasc" class="label">
-        Data de Nascimento 
-      </label>
-        <span class="fa fa-question-circle purple-text" data-toggle="popover" tabindex="0" data-trigger="focus" title="Não consigo selecionar meu nascimento!" data-content="Lamentamos informar que essa pesquisa só
-pode ser realizada com maiores de 18 anos, por não precisarem da autorização dos pais
-e/ou responsáveis para respondê-la. Aguarde novo contato, em futuro próximo."></span>      
-      <input type="date" class="form-control" max="2000-08-01" name="nasc" id="nasc" required/>
-    </div>
-    <div class="form-group col-md-3">
-      <label for="genero" class="label">Gênero</label>
-      <select name="genero" class="form-control" id="genero">
-        <option value="F">Feminino</option>
-        <option value="M">Masculino</option>
-        <option value="O">Outro</option>
-      </select>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="universidade" class="label">Universidade</label>
-      <select id="universidade" class="form-control" name="universidade" required>
-        <repeat group="{{ @universidades }}" value="{{ @universidade }}">
-          <option value="{{ @universidade.id }}">{{ @universidade.nome }}</option>
-        </repeat>
-      </select>
-    </div>
-    <div class="form-group col-md-6">
-      <label for="curso" class="label">Curso</label>
-      <select id="curso" name="curso" class="form-control" required>
-        <repeat group="{{ @cursos }}" value="{{ @curso }}">
-          <option value="{{ @curso.id }}">{{ @curso.nome }}</option>
-        </repeat>
-      </select>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <span class="label">Período</span>
-      <div class="row">
-        <div class="col-md-6">
-          <input type="radio" name="periodo" id="i" value="I"/> <label form="i">Integral</label>
-        </div>
-        <div class="col-md-6">
-          <input type="radio" name="periodo" id="m" value="M"/> <label form="m">Matutino</label>
-        </div>
+  <fieldset>
+    <legend class="purple-text">Dados Pessoais</legend>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="nome" class="label">Nome</label>
+        <input type="text" class="form-control" name="nome" id="nome" required/>
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <input type="radio" name="periodo" id="v" value="V"/> <label form="v">Vespertino</label>
-        </div>
-        <div class="col-md-6">
-          <input type="radio" name="periodo" id="n" value="N"/> <label form="n">Noturno</label>
-        </div>
+      <div class="form-group col-md-6">
+        <label for="ra" class="label">RA</label>
+        <input type="text" name="ra" class="form-control" id="ra" required/>
       </div>
     </div>
-    <div class="form-group col-md-6">
-      <label for="semestre" class="label">Semestre em que estou</label>
-      <select id="semestre" class="form-control" name="semestre" required>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-      </select>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="mail" class="label">e-mail</label>
+        <input type="email" class="form-control" name="email" id="email" value="{{ @email }}" readonly required/>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="nasc" class="label">
+          Data de Nascimento 
+        </label>
+          <span class="fa fa-question-circle purple-text" data-toggle="popover" tabindex="0" data-trigger="focus" title="Não consigo selecionar meu nascimento!" data-content="Lamentamos informar que essa pesquisa só
+  pode ser realizada com maiores de 18 anos, por não precisarem da autorização dos pais
+  e/ou responsáveis para respondê-la. Aguarde novo contato, em futuro próximo."></span>      
+        <input type="date" class="form-control" max="2000-08-01" name="nasc" id="nasc" required/>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="genero" class="label">Gênero</label>
+        <select name="genero" class="form-control" id="genero">
+          <option value="F">Feminino</option>
+          <option value="M">Masculino</option>
+          <option value="O">Outro</option>
+        </select>
+      </div>
     </div>
-  </div>
-  <div>
-    <span class="label">Cursei o Ensino médio em</span>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="tipoEnsino" id="pub" value="1"/>
-      <label class="form-check-label" for="pub">
-        Escola Pública
-      </label>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="universidade" class="label">Universidade</label>
+        <select id="universidade" class="form-control" name="universidade" required>
+          <repeat group="{{ @universidades }}" value="{{ @universidade }}">
+            <option value="{{ @universidade.id }}">{{ @universidade.nome }}</option>
+          </repeat>
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="curso" class="label">Curso</label>
+        <select id="curso" name="curso" class="form-control" required>
+          <repeat group="{{ @cursos }}" value="{{ @curso }}">
+            <option value="{{ @curso.id }}">{{ @curso.nome }}</option>
+          </repeat>
+        </select>
+      </div>
     </div>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="tipoEnsino" id="part" value="2"/>
-      <label class="form-check-label" for="part">
-        Escola Particular
-      </label>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <span class="label">Período</span>
+        <div class="row">
+          <div class="col-md-6">
+            <input type="radio" name="periodo" id="i" value="I"/> <label form="i">Integral</label>
+          </div>
+          <div class="col-md-6">
+            <input type="radio" name="periodo" id="m" value="M"/> <label form="m">Matutino</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <input type="radio" name="periodo" id="v" value="V"/> <label form="v">Vespertino</label>
+          </div>
+          <div class="col-md-6">
+            <input type="radio" name="periodo" id="n" value="N"/> <label form="n">Noturno</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="semestre" class="label">Semestre em que estou</label>
+        <select id="semestre" class="form-control" name="semestre" required>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+      </div>
     </div>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="tipoEnsino" id="both" value="3"/>
-      <label class="form-check-label" for="both">
-        Uma parte em escola pública e outra em particular
-      </label>
+    <div>
+      <span class="label">Cursei o Ensino médio em</span>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="tipoEnsino" id="pub" value="1"/>
+        <label class="form-check-label" for="pub">
+          Escola Pública
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="tipoEnsino" id="part" value="2"/>
+        <label class="form-check-label" for="part">
+          Escola Particular
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="tipoEnsino" id="both" value="3"/>
+        <label class="form-check-label" for="both">
+          Uma parte em escola pública e outra em particular
+        </label>
+      </div>
     </div>
-  </div>
+  </fieldset>
+  <hr>
+  <fieldset>
+    <legend class="purple-text">Dados Demográficos</legend>
+    
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="etnia" class="label">Qual é a sua principal identificação racial ou étnica?</label>
+        <select id="etnia" class="form-control" name="etnia" required>
+            <option value="1">Branca</option>
+            <option value="2">Negra</option>
+            <option value="3">Parda</option>
+            <option value="4">Indígena</option>
+            <option value="5">Oriental</option>
+            <option value="6">Outra</option>
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="intencao" class="label">
+          Indique de 1 a 7 o seu grau de intenção em continuar a cursar a 
+          universidade no próximo ano acadêmico.
+        </label>
+        <select id="intencao" class="form-control" name="intencao" required>
+            <option value="1">1 - Nenhuma Intenção</option>
+            <option value="2">2 - Muito Pouca Intenção</option>
+            <option value="3">3 - Pouca Intenção</option>
+            <option value="4">4 - Moderada Intenção</option>
+            <option value="5">5 - Muita Intenção</option>
+            <option value="6">6 - Muitíssima Intenção</option>
+            <option value="7">7 - Total Intenção</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="notas" class="label">As suas notas, na maioria das vezes, ficam:</label>
+        <select id="notas" class="form-control" name="notas" required>
+            <option value="1">Bem acima da nota média que o seu curso exige para passar</option>
+            <option value="2">Acima da nota média que o seu curso exige para passar</option>
+            <option value="3">Em torno da nota média que o seu curso exige para passar</option>
+            <option value="4">Abaixo da nota média que o seu curso exige para passar</option>
+            <option value="5">Bem abaixo da nota média que o seu curso exige para passar</option>
+            <option value="6">Ainda não tenho ideia, pois acabei de ingressar na universidade.</option>
+        </select>
+      </div>
+    </div> 
+  </fieldset>
 <!--   <div class="form-row">
     <div class="form-group col-md-12">
       Cursei o Ensino médio em
