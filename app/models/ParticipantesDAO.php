@@ -27,13 +27,9 @@ class ParticipantesDAO extends DAO{
 
 	}
 
-	public function getEstadoAcesso($email,$crypt=false){
-		$strField="p.email";
-		if ($crypt) {
-			$strField="md5(p.email)";
-		}
+	public function getEstadoAcesso($usuario){
 		$sql = "SELECT p.email,p.uid,p.estadoAcesso,l.questionarios FROM participantes p JOIN 
-			convidados c on p.email= c.email JOIN listas l on c.idlista = l.id WHERE $strField='$email'";
+			convidados c on p.email= c.email JOIN listas l on c.idlista = l.id WHERE uid='$usuario'";
 		return $this->getAll($sql);
 
 	}

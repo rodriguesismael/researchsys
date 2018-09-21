@@ -143,7 +143,8 @@ class ParticipantesController extends Controller{
 			$this->f3->reroute('/convidado404');
 		}		
 		$listaObj = new ListaConvidadosDAO();
-		$result = $listaObj->getConvidadoByEmail($hash,true);
+		$checkStr = explode(".", $hash);
+		$result = $listaObj->getConvidadoByMailAndId($checkStr[0],$checkStr[1]);
 		//var_dump($result);
 		if(count($result) == 0){
 			$this->f3->error(404);
@@ -209,7 +210,8 @@ class ParticipantesController extends Controller{
 			$universidade = new UniversidadeDAO();
 			$universidades = $universidade->getList();
 			$cursos = $universidade->getCursos();
-			$result = $listaObj->getConvidadoByEmail($email,true);
+			$checkStr = explode(".", $guestString);
+			$result = $listaObj->getConvidadoByMailAndId($checkStr[0],$checkStr[1]);			
 			unset($universidade);
 			unset($listaObj);
 			if(count($result) > 0){
@@ -226,10 +228,10 @@ class ParticipantesController extends Controller{
 	}
 
 	function retornar(){
-		$email = $this->f3->get('PARAMS.usuario');
+		$usuario = $this->f3->get('PARAMS.usuario');
 		$participante = new ParticipantesDAO();
 
-		$result = $participante->getEstadoAcesso($email,true);
+		$result = $participante->getEstadoAcesso($usuario,true);
 		unset($participante);
 		$cookie = unserialize($result[0]["estadoAcesso"]);
 		foreach ($cookie as $key => $value) {
@@ -280,7 +282,7 @@ class ParticipantesController extends Controller{
 
 	function isGuest($string){
 		$tempObj = new ListaConvidadosDAO();
-		$checkStr = explode(".", $string)
+		$checkStr = explode(".", $string);
 		return $tempObj->getConvidadoByMailAndId($checkStr[0],$checkStr[1]) > 0;
 	}
 
