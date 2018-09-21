@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 09/08/2018 às 20:15
+-- Tempo de geração: 21/09/2018 às 18:04
 -- Versão do servidor: 10.1.26-MariaDB
 -- Versão do PHP: 7.0.25
 
@@ -19,7 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `sistema_pesquisa_fe`
 --
-DROP DATABASE IF EXISTS `sistema_pesquisa_fe`;
 CREATE DATABASE IF NOT EXISTS `sistema_pesquisa_fe` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `sistema_pesquisa_fe`;
 
@@ -30,14 +29,12 @@ USE `sistema_pesquisa_fe`;
 --
 
 DROP TABLE IF EXISTS `alternativas`;
-CREATE TABLE IF NOT EXISTS `alternativas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `alternativas` (
+  `id` int(11) NOT NULL,
   `alternativa` varchar(45) DEFAULT NULL,
   `questionarios_id` int(11) NOT NULL,
-  `ordem` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_alternativas_questionarios1_idx` (`questionarios_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+  `ordem` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Fazendo dump de dados para tabela `alternativas`
@@ -71,11 +68,10 @@ INSERT INTO `alternativas` (`id`, `alternativa`, `questionarios_id`, `ordem`) VA
 --
 
 DROP TABLE IF EXISTS `cidades`;
-CREATE TABLE IF NOT EXISTS `cidades` (
+CREATE TABLE `cidades` (
   `id` int(11) NOT NULL,
   `nome` varchar(45) DEFAULT NULL,
-  `estado_uf` char(2) NOT NULL,
-  PRIMARY KEY (`id`)
+  `estado_uf` char(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -5664,22 +5660,12 @@ INSERT INTO `cidades` (`id`, `nome`, `estado_uf`) VALUES
 --
 
 DROP TABLE IF EXISTS `convidados`;
-CREATE TABLE IF NOT EXISTS `convidados` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `convidados` (
+  `id` int(11) NOT NULL,
+  `randomid` varchar(50) NOT NULL,
   `email` varchar(45) NOT NULL,
-  `idlista` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_convidados_1_idx` (`idlista`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
---
--- Fazendo dump de dados para tabela `convidados`
---
-
-INSERT INTO `convidados` (`id`, `email`, `idlista`) VALUES
-(3, 'isrodrigues5@gmail.com', 16),
-(4, 'ismael@ic.unicamp.br', 16),
-(5, 'ismael@students.ic.unicamp.br', 16);
+  `idlista` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -5688,11 +5674,10 @@ INSERT INTO `convidados` (`id`, `email`, `idlista`) VALUES
 --
 
 DROP TABLE IF EXISTS `cursos`;
-CREATE TABLE IF NOT EXISTS `cursos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=206 DEFAULT CHARSET=utf8;
+CREATE TABLE `cursos` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Fazendo dump de dados para tabela `cursos`
@@ -5912,10 +5897,9 @@ INSERT INTO `cursos` (`id`, `nome`) VALUES
 --
 
 DROP TABLE IF EXISTS `estados`;
-CREATE TABLE IF NOT EXISTS `estados` (
+CREATE TABLE `estados` (
   `uf` char(2) NOT NULL,
-  `nome` varchar(45) NOT NULL,
-  PRIMARY KEY (`uf`)
+  `nome` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -5958,19 +5942,11 @@ INSERT INTO `estados` (`uf`, `nome`) VALUES
 --
 
 DROP TABLE IF EXISTS `listas`;
-CREATE TABLE IF NOT EXISTS `listas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `listas` (
+  `id` int(11) NOT NULL,
   `titulo` varchar(45) CHARACTER SET utf8 COLLATE utf8_persian_ci DEFAULT NULL,
-  `questionarios` varchar(255) CHARACTER SET utf8 COLLATE utf8_persian_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
-
---
--- Fazendo dump de dados para tabela `listas`
---
-
-INSERT INTO `listas` (`id`, `titulo`, `questionarios`) VALUES
-(16, 'Lista de Participantes #16', 'a:3:{i:0;s:1:\"4\";i:1;s:1:\"5\";i:2;s:1:\"6\";}');
+  `questionarios` varchar(255) CHARACTER SET utf8 COLLATE utf8_persian_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -5979,33 +5955,25 @@ INSERT INTO `listas` (`id`, `titulo`, `questionarios`) VALUES
 --
 
 DROP TABLE IF EXISTS `participantes`;
-CREATE TABLE IF NOT EXISTS `participantes` (
-  `uid` int(11) NOT NULL,
+CREATE TABLE `participantes` (
+  `uid` varchar(50) NOT NULL,
+  `ra` bigint(20) NOT NULL,
   `nome` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
   `genero` char(1) NOT NULL,
+  `etnia` int(11) NOT NULL,
   `nascimento` date NOT NULL,
   `semestre` int(11) NOT NULL,
   `tipo_ensino` int(11) NOT NULL,
   `periodo_curso` char(1) NOT NULL,
+  `intencao_academica` int(11) NOT NULL,
+  `minhas_notas` int(11) NOT NULL,
   `estadoAcesso` longtext,
   `universidades_id` int(11) NOT NULL,
   `curso_id` int(11) NOT NULL,
   `cidade` int(11) DEFAULT NULL,
-  `estado` char(2) DEFAULT NULL,
-  PRIMARY KEY (`uid`),
-  KEY `fk_participantes_universidades1_idx` (`universidades_id`),
-  KEY `curso_id` (`curso_id`)
+  `estado` char(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Fazendo dump de dados para tabela `participantes`
---
-
-INSERT INTO `participantes` (`uid`, `nome`, `email`, `genero`, `nascimento`, `semestre`, `tipo_ensino`, `periodo_curso`, `estadoAcesso`, `universidades_id`, `curso_id`, `cidade`, `estado`) VALUES
-(12345, 'Ismael Rodrigues', 'isrodrigues5@gmail.com', 'M', '1990-05-08', 3, 1, 'I', 'a:4:{s:5:\"termo\";s:1:\"1\";s:8:\"cadastro\";s:1:\"1\";s:13:\"questionarios\";s:6:\"a:0:{}\";s:9:\"PHPSESSID\";s:32:\"12b8acbc7d5c700429f88035c203a63b\";}', 1, 20, NULL, NULL),
-(153426, 'Teste Usuario 2', 'ismael@students.ic.unicamp.br', 'M', '1957-09-08', 5, 2, 'V', 'a:4:{s:5:\"termo\";s:1:\"1\";s:8:\"cadastro\";s:1:\"1\";s:13:\"questionarios\";s:30:\"a:2:{i:0;s:1:\"5\";i:1;s:1:\"6\";}\";s:9:\"PHPSESSID\";s:32:\"a806de6b2ab258edd1c127de55001b1e\";}', 1, 78, NULL, NULL),
-(654321, 'Teste Usuario', 'ismael@ic.unicamp.br', 'F', '1989-03-10', 5, 3, 'N', 'a:4:{s:5:\"termo\";s:1:\"1\";s:8:\"cadastro\";s:1:\"1\";s:13:\"questionarios\";s:6:\"a:0:{}\";s:9:\"PHPSESSID\";s:32:\"a806de6b2ab258edd1c127de55001b1e\";}', 1, 90, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -6014,15 +5982,14 @@ INSERT INTO `participantes` (`uid`, `nome`, `email`, `genero`, `nascimento`, `se
 --
 
 DROP TABLE IF EXISTS `questionarios`;
-CREATE TABLE IF NOT EXISTS `questionarios` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `questionarios` (
+  `id` int(11) NOT NULL,
   `titulo` varchar(255) DEFAULT NULL,
   `autores` varchar(255) DEFAULT NULL,
   `tradutores` varchar(255) DEFAULT NULL,
   `descricao` longtext,
-  `tipo` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+  `tipo` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Fazendo dump de dados para tabela `questionarios`
@@ -6041,14 +6008,12 @@ INSERT INTO `questionarios` (`id`, `titulo`, `autores`, `tradutores`, `descricao
 --
 
 DROP TABLE IF EXISTS `questoes`;
-CREATE TABLE IF NOT EXISTS `questoes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `questoes` (
+  `id` int(11) NOT NULL,
   `questao` longtext,
   `questionarios_id` int(11) NOT NULL,
-  `ordem` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_questoes_questionarios1_idx` (`questionarios_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
+  `ordem` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Fazendo dump de dados para tabela `questoes`
@@ -6112,90 +6077,12 @@ INSERT INTO `questoes` (`id`, `questao`, `questionarios_id`, `ordem`) VALUES
 --
 
 DROP TABLE IF EXISTS `respostas`;
-CREATE TABLE IF NOT EXISTS `respostas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `participante` int(11) NOT NULL,
+CREATE TABLE `respostas` (
+  `id` int(11) NOT NULL,
+  `participante` varchar(50) NOT NULL,
   `questao_id` int(11) NOT NULL,
-  `alternativa_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_respostas_participantes_idx` (`participante`),
-  KEY `fk_respostas_questoes1_idx` (`questao_id`),
-  KEY `fk_respostas_alternativas1_idx` (`alternativa_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
-
---
--- Fazendo dump de dados para tabela `respostas`
---
-
-INSERT INTO `respostas` (`id`, `participante`, `questao_id`, `alternativa_id`) VALUES
-(1, 12345, 1, 1),
-(2, 12345, 2, 1),
-(3, 12345, 3, 1),
-(4, 12345, 4, 1),
-(5, 12345, 5, 1),
-(6, 12345, 6, 1),
-(7, 12345, 7, 1),
-(8, 12345, 8, 1),
-(9, 12345, 9, 7),
-(10, 12345, 10, 9),
-(11, 12345, 11, 8),
-(12, 12345, 12, 9),
-(13, 12345, 13, 10),
-(14, 12345, 14, 8),
-(15, 12345, 15, 7),
-(16, 12345, 16, 8),
-(17, 12345, 17, 8),
-(18, 12345, 18, 7),
-(19, 12345, 19, 12),
-(20, 12345, 20, 11),
-(21, 12345, 21, 12),
-(22, 12345, 22, 14),
-(23, 12345, 23, 13),
-(24, 12345, 24, 15),
-(25, 12345, 25, 14),
-(26, 12345, 26, 14),
-(27, 12345, 27, 13),
-(28, 12345, 28, 12),
-(29, 12345, 29, 15),
-(30, 12345, 30, 15),
-(31, 654321, 1, 3),
-(32, 654321, 2, 2),
-(33, 654321, 3, 2),
-(34, 654321, 4, 4),
-(35, 654321, 5, 3),
-(36, 654321, 6, 1),
-(37, 654321, 7, 5),
-(38, 654321, 8, 4),
-(42, 654321, 9, 8),
-(43, 654321, 10, 7),
-(44, 654321, 11, 8),
-(45, 654321, 12, 7),
-(46, 654321, 13, 7),
-(47, 654321, 14, 8),
-(48, 654321, 15, 8),
-(49, 654321, 16, 8),
-(50, 654321, 17, 8),
-(51, 654321, 18, 7),
-(52, 654321, 19, 11),
-(53, 654321, 20, 12),
-(54, 654321, 21, 13),
-(55, 654321, 22, 13),
-(56, 654321, 23, 14),
-(57, 654321, 24, 13),
-(58, 654321, 25, 13),
-(59, 654321, 26, 13),
-(60, 654321, 27, 14),
-(61, 654321, 28, 15),
-(62, 654321, 29, 13),
-(63, 654321, 30, 13),
-(64, 153426, 1, 2),
-(65, 153426, 2, 5),
-(66, 153426, 3, 2),
-(67, 153426, 4, 1),
-(68, 153426, 5, 2),
-(69, 153426, 6, 2),
-(70, 153426, 7, 1),
-(71, 153426, 8, 1);
+  `alternativa_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -6204,8 +6091,8 @@ INSERT INTO `respostas` (`id`, `participante`, `questao_id`, `alternativa_id`) V
 --
 
 DROP TABLE IF EXISTS `universidades`;
-CREATE TABLE IF NOT EXISTS `universidades` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `universidades` (
+  `id` int(11) NOT NULL,
   `nome` varchar(45) NOT NULL,
   `responsavel` varchar(45) DEFAULT NULL,
   `endereco` varchar(80) DEFAULT NULL,
@@ -6213,18 +6100,16 @@ CREATE TABLE IF NOT EXISTS `universidades` (
   `telefone` varchar(13) DEFAULT NULL,
   `cep` varchar(9) DEFAULT NULL,
   `cidade` int(11) NOT NULL,
-  `estado` char(2) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_universidades_cidades1_idx` (`cidade`),
-  KEY `fk_estado_1_idx` (`estado`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  `estado` char(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Fazendo dump de dados para tabela `universidades`
 --
 
 INSERT INTO `universidades` (`id`, `nome`, `responsavel`, `endereco`, `complemento`, `telefone`, `cep`, `cidade`, `estado`) VALUES
-(1, 'Universidade Estatual de Campinas - UNICAMP', 'Evely Boruchovitch', '', '', NULL, '', 3509502, 'SP');
+(1, 'Universidade Estatual de Campinas - UNICAMP', 'Evely Boruchovitch', '', '', NULL, '', 3509502, 'SP'),
+(14, 'Universidade Estadual de Londrina', '', '', '', NULL, '', 4113700, 'PR');
 
 -- --------------------------------------------------------
 
@@ -6233,14 +6118,13 @@ INSERT INTO `universidades` (`id`, `nome`, `responsavel`, `endereco`, `complemen
 --
 
 DROP TABLE IF EXISTS `usuarios`;
-CREATE TABLE IF NOT EXISTS `usuarios` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL,
   `login` varchar(45) COLLATE utf8_persian_ci NOT NULL,
   `nome` varchar(45) COLLATE utf8_persian_ci NOT NULL,
   `senha` varchar(45) COLLATE utf8_persian_ci NOT NULL,
-  `papel` int(11) NOT NULL DEFAULT '2',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_persian_ci;
+  `papel` int(11) NOT NULL DEFAULT '2'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_persian_ci;
 
 --
 -- Fazendo dump de dados para tabela `usuarios`
@@ -6249,6 +6133,142 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 INSERT INTO `usuarios` (`id`, `login`, `nome`, `senha`, `papel`) VALUES
 (1, 'admin', 'Administrador', '21232f297a57a5a743894a0e4a801fc3', 1);
 
+--
+-- Índices de tabelas apagadas
+--
+
+--
+-- Índices de tabela `alternativas`
+--
+ALTER TABLE `alternativas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_alternativas_questionarios1_idx` (`questionarios_id`);
+
+--
+-- Índices de tabela `cidades`
+--
+ALTER TABLE `cidades`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `convidados`
+--
+ALTER TABLE `convidados`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `idx_randomid` (`randomid`),
+  ADD KEY `fk_convidados_1_idx` (`idlista`);
+
+--
+-- Índices de tabela `cursos`
+--
+ALTER TABLE `cursos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `estados`
+--
+ALTER TABLE `estados`
+  ADD PRIMARY KEY (`uf`);
+
+--
+-- Índices de tabela `listas`
+--
+ALTER TABLE `listas`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `participantes`
+--
+ALTER TABLE `participantes`
+  ADD PRIMARY KEY (`uid`),
+  ADD KEY `fk_participantes_universidades1_idx` (`universidades_id`),
+  ADD KEY `curso_id` (`curso_id`);
+
+--
+-- Índices de tabela `questionarios`
+--
+ALTER TABLE `questionarios`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `questoes`
+--
+ALTER TABLE `questoes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_questoes_questionarios1_idx` (`questionarios_id`);
+
+--
+-- Índices de tabela `respostas`
+--
+ALTER TABLE `respostas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_respostas_participantes_idx` (`participante`),
+  ADD KEY `fk_respostas_questoes1_idx` (`questao_id`),
+  ADD KEY `fk_respostas_alternativas1_idx` (`alternativa_id`);
+
+--
+-- Índices de tabela `universidades`
+--
+ALTER TABLE `universidades`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_universidades_cidades1_idx` (`cidade`),
+  ADD KEY `fk_estado_1_idx` (`estado`);
+
+--
+-- Índices de tabela `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT de tabelas apagadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `alternativas`
+--
+ALTER TABLE `alternativas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT de tabela `convidados`
+--
+ALTER TABLE `convidados`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de tabela `cursos`
+--
+ALTER TABLE `cursos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=206;
+--
+-- AUTO_INCREMENT de tabela `listas`
+--
+ALTER TABLE `listas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT de tabela `questionarios`
+--
+ALTER TABLE `questionarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT de tabela `questoes`
+--
+ALTER TABLE `questoes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+--
+-- AUTO_INCREMENT de tabela `respostas`
+--
+ALTER TABLE `respostas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de tabela `universidades`
+--
+ALTER TABLE `universidades`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+--
+-- AUTO_INCREMENT de tabela `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- Restrições para dumps de tabelas
 --
