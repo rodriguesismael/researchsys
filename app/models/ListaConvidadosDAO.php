@@ -18,12 +18,14 @@ class ListaConvidadosDAO extends DAO{
 	}
 
 	public function saveConvidados($convidados){
-		$sql = "INSERT INTO convidados (idlista,email) VALUES (:idLista,:email)";
+		$sql = "INSERT INTO convidados (idlista,email,randomid) VALUES (:idLista,:email,:random)";
 		$statement = $this->db->prepare($sql);
 		$r = true;
 		foreach ($convidados as $email) {
 			$statement->bindParam(':idLista',$this->listId,PDO::PARAM_INT);
 			$statement->bindParam(':email',$email,PDO::PARAM_STR);
+			//this random value will compose the participant id in the participantes table
+			$statement->bindParam(':random',uniqid(rand()),PDO::PARAM_STR);
 			try {
 				$statement->execute();
 			} catch (PDOException $e) {
@@ -66,6 +68,12 @@ class ListaConvidadosDAO extends DAO{
 		$sql = "SELECT * FROM convidados WHERE $strField='$email'";
 
 		return $this->getAll($sql);
-	}	
+	}
+
+	public function getConvidadoByMailAndId($email,$randomid){
+		$sql = "SELECT * FROM convidados WHERE email LIKE '$email%' AND randomid='$randomid'";
+
+		return $this->getAll($sql);
+	}
 
 }

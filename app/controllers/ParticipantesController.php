@@ -122,8 +122,10 @@ class ParticipantesController extends Controller{
 				$sendTo =array();
 				foreach ($dados as $emails) {
 					$smtp->set('To', $emails['email']);
+					$unameMail = explode("@", $emails['email']);
+					$guestString = $unameMail[0].".".$emails['randomid'];
 					$sendTo[] = $emails['email'];
-					$link= $this->f3->get('BASE_URL')."/participar/".$this->encryptMail($emails['email']);
+					$link= $this->f3->get('BASE_URL')."/participar/$guestString";
 					//$msgEmail = str_replace('REPLACE', $link, $msgEmail);
 					$smtp->send(str_replace('REPLACE', $link, $msgEmail)) or die("ERRO ".$smtp->log());
 				}
@@ -137,6 +139,9 @@ class ParticipantesController extends Controller{
 
 	function participar(){
 		$hash = $this->f3->get('PARAMS.hash');
+		if(!$this->isGuest($hash)){
+			$this->f3->reroute('/convidado404');
+		}		
 		$listaObj = new ListaConvidadosDAO();
 		$result = $listaObj->getConvidadoByEmail($hash,true);
 		//var_dump($result);
@@ -155,10 +160,14 @@ class ParticipantesController extends Controller{
 		}
 	}
 	function cadastrar(){
-		$email = $this->f3->get('PARAMS.email');
+		$guestString = $this->f3->get('PARAMS.email');
+		if(!$this->isGuest($guestString)){
+			$this->f3->reroute('/convidado404');
+		}
 
 		if($this->f3->get('POST.nome')){
 			$camposParticipante = array();
+			$camposParticipante['uid'] = $guestString; 
 			$camposParticipante['nome'] = $this->f3->get('POST.nome');
 			$camposParticipante['ra'] = $this->f3->get('POST.ra');
 			$camposParticipante['genero'] = $this->f3->get('POST.genero');
@@ -267,6 +276,12 @@ class ParticipantesController extends Controller{
 
 	function checkSum($valA,$valB){
 		return ($valA == md5($valB)); 
+	}
+
+	function isGuest($string){
+		$tempObj = new ListaConvidadosDAO();
+		$checkStr = explode(".", $string)
+		return $tempObj->getConvidadoByMailAndId($checkStr[0],$checkStr[1]) > 0;
 	}
 
 	function instrucoes(){

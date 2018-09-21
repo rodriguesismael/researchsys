@@ -1,9 +1,10 @@
 <?php
 class ParticipantesDAO extends DAO{
 	public function save($campos){
-		$sql = "INSERT INTO participantes (uid,nome,email,genero,nascimento,tipo_ensino,universidades_id,curso_id,periodo_curso,semestre,estadoAcesso)
-				 VALUES (:ra,:nome,:email,:genero,:nasc,:tipoEnsino,:universidade,:curso,:periodo,:semestre,:estado)";
+		$sql = "INSERT INTO participantes (uid,ra,nome,email,genero,nascimento,tipo_ensino,universidades_id,curso_id,periodo_curso,semestre,estadoAcesso)
+				 VALUES (:uid,:ra,:nome,:email,:genero,:nasc,:tipoEnsino,:universidade,:curso,:periodo,:semestre,:estado)";
 		$statement = $this->db->prepare($sql);
+		$statement->bindParam(":uid",$campos['uid'], PDO::PARAM_STR);
 		$statement->bindParam(":ra",$campos['ra'], PDO::PARAM_INT);
 		$statement->bindParam(":nome",$campos['nome'], PDO::PARAM_STR);
 		$statement->bindParam(":email",$campos['email'], PDO::PARAM_STR);
