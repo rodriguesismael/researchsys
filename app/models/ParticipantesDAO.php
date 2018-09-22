@@ -1,8 +1,8 @@
 <?php
 class ParticipantesDAO extends DAO{
 	public function save($campos){
-		$sql = "INSERT INTO participantes (uid,ra,nome,email,genero,nascimento,tipo_ensino,universidades_id,curso_id,periodo_curso,semestre,estadoAcesso)
-				 VALUES (:uid,:ra,:nome,:email,:genero,:nasc,:tipoEnsino,:universidade,:curso,:periodo,:semestre,:estado)";
+		$sql = "INSERT INTO participantes (uid,ra,nome,email,genero,nascimento,tipo_ensino,universidades_id,curso_id,periodo_curso,semestre,etnia,intencao_academica,minhas_notas,estadoAcesso)
+				 VALUES (:uid,:ra,:nome,:email,:genero,:nasc,:tipoEnsino,:universidade,:curso,:periodo,:semestre,:etnia,:intencao,:notas,:estado)";
 		$statement = $this->db->prepare($sql);
 		$statement->bindParam(":uid",$campos['uid'], PDO::PARAM_STR);
 		$statement->bindParam(":ra",$campos['ra'], PDO::PARAM_INT);
@@ -15,6 +15,9 @@ class ParticipantesDAO extends DAO{
 		$statement->bindParam(":curso",$campos['curso'], PDO::PARAM_INT);
 		$statement->bindParam(":periodo",$campos['periodo'], PDO::PARAM_STR);
 		$statement->bindParam(":semestre",$campos['semestre'], PDO::PARAM_INT);
+		$statement->bindParam(":etnia",$campos['etnia'], PDO::PARAM_INT);
+		$statement->bindParam(":intencao",$campos['intencao'], PDO::PARAM_INT);
+		$statement->bindParam(":notas",$campos['notas'], PDO::PARAM_INT);
 		$statement->bindParam(":estado",$campos['estadoAcesso'], PDO::PARAM_STR);
 		try {
 			$r = $statement->execute();

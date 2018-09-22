@@ -155,7 +155,7 @@ class QuestionarioController extends Controller{
 			$participanteObj = new ParticipantesDAO();
 			$update = $participanteObj->updateEstadoAcesso($estadoAcesso,$participante);
 			if ($update) {
-				$this->f3->reroute('/retornar/'.md5($this->f3->get('SESSION.mail')));
+				$this->f3->reroute('/retornar/'.$this->f3->get('SESSION.participante'));
 				//var_dump($questionarios);
 			}
 			// $this->db->exec("UPDATE participantes SET estadoAcesso=? WHERE uid=?",array($estadoAcesso,$participante));

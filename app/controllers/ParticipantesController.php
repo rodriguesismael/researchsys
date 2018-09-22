@@ -179,6 +179,9 @@ class ParticipantesController extends Controller{
 			$camposParticipante['periodo'] = $this->f3->get('POST.periodo');
 			$camposParticipante['tipoEnsino'] = $this->f3->get('POST.tipoEnsino');
 			$camposParticipante['semestre'] = $this->f3->get('POST.semestre');
+			$camposParticipante['etnia'] = $this->f3->get('POST.etnia');
+			$camposParticipante['intencao'] = $this->f3->get('POST.intencao');
+			$camposParticipante['notas'] = $this->f3->get('POST.notas');
 			$this->f3->set('COOKIE.cadastro',true);
 			//$queryEstado = "SELECT questionarios FROM convidados c JOIN listas l on c.idlista = l.id WHERE c.email=?";
 			$questionario = new QuestionariosDAO();
