@@ -1,32 +1,32 @@
 <h1 class="purple-text">{{ @label }} Questionário</h1>
 
-<form action="/admin/questionarios/adicionar" method="POST">
+<form action="{{ @action }}" method="POST">
 	<div class="form-group">
 		<label for="titulo" class="label">Título</label>
-		<input type="text" class="form-control" name="titulo" id="titulo" required/>
+		<input type="text" class="form-control" name="titulo" id="titulo" value="{{ @questionario.titulo }}" required/>
 	</div>
 	<div class="form-row">
 		<div class="form-group col-md-6">
 			<label for="autores" class="label">Autor(es)</label>
-			<input type="text" class="form-control" name="autores"required/>
+			<input type="text" class="form-control" value="{{ @questionario.autores }}" name="autores"required/>
 		</div>
 		<div class="form-group col-md-6">
 			<label for="tradutores" class="label">Tradutor(es)</label>
-			<input type="text" class="form-control" name="tradutores"/>
+			<input type="text" class="form-control" value="{{ @questionario.tradutores }}" name="tradutores"/>
 		</div>
 	</div>		
 	<div class="form-group">
 		<label for="descricao" class="label">Descrição</label>
-		<textarea name="descricao" id="descricao" class="form-control" rows="8"></textarea>
+		<textarea name="descricao" id="descricao" class="form-control" rows="8">{{ @questionario.descricao }}</textarea>
 	</div>
-	<div class="form-group">
+<!-- 	<div class="form-group">
 		<label for="tipo" class="label">Diagramação</label>
 		<select name="tipo" id="tipo" class="form-control">
 			<option value="1">Percentual</option>
 			<option value="2">Tabela</option>
 			<option value="3">Alternativas em cada Questao</option>
 		</select>
-	</div>
+	</div> -->
 	<div class="form-group">
 	  	<label for="universidade" class="label">Alternativas</label>
 		<div class="input-group mb-3">
@@ -39,7 +39,7 @@
 	</div>
 	<div class="form-row">
 		<div class="form-group" id="listaalternativas">
-			<repeat group="{{ @alternativas }}" value="{{ @alternativas }}">
+			<repeat group="{{ @alternativas }}" value="{{ @alternativa }}">
 					<p>
 						{{ @alternativa.ordem }}
 						<input type="hidden" name="alternativas[]" value="{{ @alternativa.alternativa }}"/> {{ @alternativa.alternativa }}
@@ -49,7 +49,7 @@
 		</div>
 	</div>
 	<div class="button-group">
-		<button type="submit" name="concluir" class="btn btn-primary">Salvar e Incluir Questões</button>
+		<button type="submit" name="concluir" class="btn btn-primary">{{ @submit_button }}</button>
 		<a href="/admin/participantes" class="btn btn-danger" role="button">Voltar</a>
 	</div>	
 </form>

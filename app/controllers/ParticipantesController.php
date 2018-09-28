@@ -104,11 +104,11 @@ class ParticipantesController extends Controller{
 		</p>
 		<p>Muito obrigada!</p><br/>$obs";
 
-		$smtp = new SMTP ( 'smtp.gmail.com', '587', 'tls', $this->f3->get('SMTP_MAIL'), $this->f3->get('SMTP_PASS') );
+		$smtp = new SMTP ( $this->f3->get('SMTP_SERVER'), $this->f3->get('SMTP_PORT'), $this->f3->get('SMTP_SCHEME'), $this->f3->get('SMTP_MAIL'), $this->f3->get('SMTP_PASS') );
 
 		$smtp->set('MIME-Version', '1.0');
 		$smtp->set('Content-type', 'text/html;charset=UTF-8');
-		$smtp->set('From', '"NoReply" <isrmdevonly@gmail.com>');
+		$smtp->set('From', '"NoReply" <'.$this->f3->get('SMTP_MAIL').'>');
 		$smtp->set('Subject', 'Convite');
 
 		if ($this->f3->get('GET.lista')) {

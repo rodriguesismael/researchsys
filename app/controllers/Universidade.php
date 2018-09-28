@@ -20,6 +20,7 @@ class Universidade extends Controller{
 			$campos   				= array();
 			$campos["nome"] 		= $this->f3->get('POST.universidade');
 			$campos["responsavel"]  = $this->f3->get('POST.responsavel','');
+			$campos["desc_resp"]    = $this->f3->get('POST.desc_resp','');
 			$campos["endereco"]		= $this->f3->get('POST.endereco','');
 			$campos["complemento"] 	= $this->f3->get('POST.complemento','');
 			$campos["telefone"]		= $this->f3->get('POST.telefone','');
@@ -42,6 +43,8 @@ class Universidade extends Controller{
 		$locais = new CidadesEstadosDAO();
 		$estados = $locais->getEstados();
 		unset($locais);
+		$this->f3->set('action','/admin/universidades/adicionar');
+		$this->f3->set('submit_button','Incluir');
 		$this->f3->set('estados',$estados);
 		$this->f3->set('content','/admin/formUniversidades.html');
 		echo \Template::instance()->render('tela.htm');
@@ -49,8 +52,29 @@ class Universidade extends Controller{
 
 	function editar($params){
 		$this->isAdmin();
+		if ($this->f3->get('POST.unicode')) {
+			$campos   				= array();
+			$id 					= $this->f3->get('POST.unicode');
+			$campos["nome"] 		= $this->f3->get('POST.universidade');
+			$campos["responsavel"]  = $this->f3->get('POST.responsavel','');
+			$campos["desc_resp"]    = $this->f3->get('POST.desc_resp','');
+			$campos["endereco"]		= $this->f3->get('POST.endereco','');
+			$campos["complemento"] 	= $this->f3->get('POST.complemento','');
+			$campos["telefone"]		= $this->f3->get('POST.telefone','');
+			$campos["cep"]			= $this->f3->get('POST.cep','');
+			$campos["estado"] 		= $this->f3->get('POST.estado','');
+			$campos["cidade"]		= $this->f3->get('POST.cidade','');
+			
+			$universidade = new UniversidadeDAO();
+
+			$r = $universidade->save($id,$campos);
+			if($r){
+				unset($universidade);
+				$this->f3->reroute('/admin/universidades');	
+			}
+		}
 		$universidade = new UniversidadeDAO();
-		$id = ($this->f3->get('PARAMS.id'));
+		$id = $this->f3->get('PARAMS.id');
 
 		$dados = $universidade->getById($id);
 		$locais = new CidadesEstadosDAO();
@@ -61,9 +85,11 @@ class Universidade extends Controller{
 		$this->f3->set('estados',$estados);
 		$this->f3->set('cidades',$cidades);
 		$this->f3->set('uni',$dados[0]);
-
+		//var_dump($dados[0]);
+		$this->f3->set('action','/admin/universidades/editar/'.$id);
+		$this->f3->set('submit_button','Salvar');
 		$this->f3->set('content','admin/formUniversidades.html');
-		echo \Template::instance()->render('tela.htm');		
+		echo \Template::instance()->render('tela.htm');
 
 	}
 

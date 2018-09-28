@@ -7,15 +7,22 @@ class QuestionariosDAO extends DAO{
 		$this->mapper = new \DB\SQL\Mapper($this->db, 'questionarios');
 	}
 
-	public function save($campos){
+	public function save($campos,$id=0){
+		if($id > 0){
+			$this->mapper->load("id=".$id);
+		}
 		$this->mapper->set('titulo',$campos['titulo']);
 		$this->mapper->set('autores',$campos['autores']);
 		$this->mapper->set('tradutores',$campos['tradutores']);
 		$this->mapper->set('descricao',$campos['descricao']);
 		$this->mapper->set('tipo',$campos['tipo']);
-		$this->mapper->insert();
-		
-		$this->id = $this->mapper->get('_id');		
+		if($id > 0){
+			$this->mapper->update();
+		}else{
+			$this->mapper->insert();
+			$this->id = $this->mapper->get('_id');
+		}
+		return true;
 	}
 
 	public function  saveAlternativas($alts){
@@ -38,23 +45,31 @@ class QuestionariosDAO extends DAO{
 		return $r;
 	}
 
-	public function saveQuestoes($questoes,$questionario){
-		$sql = "INSERT INTO questoes (questao, questionarios_id, ordem) VALUES (:questao, :questionario, :ordem)";
+	public function saveQuestao($campos,$id=0){
+		if ($id>0) {
+			$sql = "UPDATE questoes SET questao=:questao WHERE id=:id";
+		}else{
+			$sql = "INSERT INTO questoes (questao, questionarios_id, ordem) VALUES (:questao, :questionario, :ordem)";	
+		}
+		
 		$statement = $this->db->prepare($sql);
 		$r=true;
-		foreach ($questoes as $key => $questao) {
-			$statement->bindParam(":questao",$questao,PDO::PARAM_STR);
-			$statement->bindParam(":questionario",$questionario,PDO::PARAM_INT);
-			$ordem = $chave+1;
-			$statement->bindParam(":ordem",$ordem,PDO::PARAM_INT);
-			try {
-				$statement->execute();
-			} catch (PDOException $e) {
-				$this->exception = $e;
-				$r=false;
-				echo $e->getMessage();
-			}			
+		// foreach ($questoes as $key => $questao) {
+		$statement->bindParam(":questao",$campos['questao'],PDO::PARAM_STR);
+		if ($id>0) {
+			$statement->bindParam(":id",$id,PDO::PARAM_INT);
+		}else{
+			$statement->bindParam(":questionario",$campos['questionario'],PDO::PARAM_INT);
+			$statement->bindParam(":ordem",$campos['ordem'],PDO::PARAM_INT);
 		}
+		try {
+			$statement->execute();
+		} catch (PDOException $e) {
+			$this->exception = $e;
+			$r=false;
+			echo $e->getMessage();
+		}			
+		// }
 		return $r;
 	}
 

@@ -1,0 +1,66 @@
+<a href="/sobre/universidades" class="link">Opção 1</a>
+<br>
+<h1 class="purple-text">Universidades Parcipantes</h1>
+
+
+<h4>Universidade Estadual de Campinas</h4>
+<p>
+	Profa Dra Evely Boruchovitch- Professora Titular da Faculdade de Educação- (Coordenadora
+	Geral do Projeto). Contato: evely@unicamp.br
+</p>
+
+<h4>Equipe</h4>
+<p>
+	<strong>Pós-doutorandos</strong><br>
+	Profa Dra Liz Cristiane Dias (UFpel)<br>
+	Prof Dr Guilherme Cordeiro da Graça de Oliveira (UFRJ)<br>
+</p>
+<p>
+	<strong>Doutorandos</strong><br>
+	Angela Regina dos Reis Santos
+	Bruna Casiraghi (co-orientação)
+	Carolina Moreira Felicori
+	Natália Moraes Góes
+</p>
+<p>
+	<strong>Mestrandos</strong><br>
+	Ana Maria Calixto Dantas
+	Érica Medeiros
+	Rosinete Setubal
+</p>
+<p>
+	<strong>Apoio Técnico</strong><br>
+	Vinícius Daldon (Bolsista SAE)
+</p>
+
+<h4>Universidades Co-participantes- Pesquisadores Estrangeiros</h4>
+
+<p>
+	<strong>Profa Dra Ana Margarida da Veiga Simão</strong>. Profa Catedrática do Instituto de Psicologia da Universidade de Lisboa.
+</p>
+<p>
+	<strong>Profa Dra Claire Helen Weinstein</strong>- Professora Emérita da University of Texas, Austin (em Memória)
+</p>
+<p>
+	<strong>Prof. Dr Hefer Bembenutty</strong> Professor Assistente na área de Educational Psychology at Queens College of The City 
+	University of New York in the Department of Secondary and Youth Services.
+</p>
+<p>
+	<strong>Profa Dra Lucia C. Miranda.</strong> Professora da Universidade da Madeira, Portugal
+</p>
+<p>
+	<strong>Prof Dr Taylor W. Acee</strong> Professor Associado Department of Curriculum and Instruction in the College of Education at Texas State University - San Marcos.
+</p>
+
+<h4>Universidades Co-participantes- Pesquisadores Nacionais</h4>
+<repeat group="{{ @universidades }}" value="{{ @universidade }}">
+	<p class="purple-text">{{ @universidade.nome }}</p>
+	<check if="{{ @universidade.responsavel }}">
+		<p>Pesquisador(a) Responsável <strong>{{ @universidade.responsavel }}</strong>. {{ @universidade.descricao_responsavel }}</p>
+	</check>
+	<check if="{{ @universidade.endereco }}">
+		<p>
+			<u>Contatos do Comitê de Ética:</u> {{ @universidade.endereco }}. <check if="{{ @universidade.complemento }}">{{ @universidade.complemento }}.</check> 
+			CEP: {{ @universidade.cep }}, {{ @universidade.cidade }}, {{ @universidade.estado }}. Telefone: {{ @universidade.telefone }}</p>
+	</check>	
+</repeat>

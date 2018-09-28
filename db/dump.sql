@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 21/09/2018 às 18:04
+-- Tempo de geração: 28/09/2018 às 17:12
 -- Versão do servidor: 10.1.26-MariaDB
 -- Versão do PHP: 7.0.25
 
@@ -59,7 +59,12 @@ INSERT INTO `alternativas` (`id`, `alternativa`, `questionarios_id`, `ordem`) VA
 (16, 'Não tem nada a ver comigo', 7, 1),
 (17, 'Tem pouco a ver comigo', 7, 2),
 (18, 'Me descreve bem', 7, 3),
-(19, 'Me descreve realmente bem', 7, 4);
+(19, 'Me descreve realmente bem', 7, 4),
+(20, NULL, 8, 1),
+(21, NULL, 8, 2),
+(22, NULL, 8, 3),
+(23, NULL, 8, 4),
+(24, NULL, 8, 5);
 
 -- --------------------------------------------------------
 
@@ -5999,7 +6004,8 @@ INSERT INTO `questionarios` (`id`, `titulo`, `autores`, `tradutores`, `descricao
 (4, 'ESCALA DE CONCEPÇÕES DE INTELIGÊNCIA', 'Dweck (2006)', 'Evely Boruchovitch (2009 - revisada 2018)', 'Gostaríamos de conhecer o que você pensa sobre inteligência. Pense no que você acredita sobre sua inteligência e marque a opção que melhor representa a sua opinião. Não há respostas certas ou erradas. Nós estamos interessados em saber o que você realmente pensa e acredita.', 3),
 (5, 'ESCALA DE ADIAMENTO DA RECOMPENSA ACADÊMICA (EARA)', 'Héfer Bembenutty e Stuart A. Karabenick (1998)', 'Evely Boruchovitch, Natália Moraes Góes e Carolina Moreira Felicori (2018)', 'A seguir, você vai encontrar uma série de escolhas entre dois planos alternativos de ação. Por favor, leia cada conjunto de afirmações cuidadosamente e relacione cada afirmação à disciplinas da sua grade curricular que você esteja cursando no momento. Então, diga qual plano de ação você teria maior probabilidade de escolher e quão forte seria essa escolha. Não existem respostas certas ou erradas. Por favor, responda de acordo com as suas verdadeiras convicções e não em termos de como você pensa que deveria responder.', 3),
 (6, 'BREVE ESCALA DE REGULAÇÃO DA MOTIVAÇÃO (BERM)', 'Yeo-eun Kim, Anna C. Brady, Christopher A. Wolters (2018)', 'Evely Boruchovitch, Carolina Moreira Felicori, Natália Moraes Góes (2018)', 'Leia cada afirmação cuidadosamente e, então, indique quão bem ela descreve o que você faz quando está lendo, estudando ou fazendo tarefas das disciplinas que está cursando nesse semestre. Seja honesto(a); não existem respostas certas ou erradas.', 3),
-(7, 'ESCALA DE ESTRATÉGIAS AUTOPREJUDICIAIS', 'Evely Boruchovitch & Danielle Ribeiro Ganda, 2013b1', '-', 'Alguns alunos, sem se dar conta, empregam determinadas estratégias durante sua vida acadêmica que acabam funcionando como uma “desculpa” para seu mau desempenho na universidade. Esta escala tem o objetivo de conhecer o possível uso destas estratégias por estudantes.\r\n\r\nVocê deve ler com atenção cada item, pensar em como a situação proposta lhe descreve e marcar um X na lacuna. Lembre-se que quanto mais próximo do 1 você marcar, isso significará que aquela situação tem pouco a ver com você. Já quanto mais próximo de 4, mais a situação descreve como você é. Nesta escala não existem respostas certas ou erradas, apenas queremos saber se essas situações acontecem com você. Ressaltamos que as respostas são totalmente confidenciais. Por favor, seja o mais sincero (a) possível.', 2);
+(7, 'ESCALA DE ESTRATÉGIAS AUTOPREJUDICIAIS', 'Evely Boruchovitch & Danielle Ribeiro Ganda, 2013b1', '-', 'Alguns alunos, sem se dar conta, empregam determinadas estratégias durante sua vida acadêmica que acabam funcionando como uma “desculpa” para seu mau desempenho na universidade. Esta escala tem o objetivo de conhecer o possível uso destas estratégias por estudantes.\r\n\r\nVocê deve ler com atenção cada item, pensar em como a situação proposta lhe descreve e marcar um X na lacuna. Lembre-se que quanto mais próximo do 1 você marcar, isso significará que aquela situação tem pouco a ver com você. Já quanto mais próximo de 4, mais a situação descreve como você é. Nesta escala não existem respostas certas ou erradas, apenas queremos saber se essas situações acontecem com você. Ressaltamos que as respostas são totalmente confidenciais. Por favor, seja o mais sincero (a) possível.', NULL),
+(8, 'Questionário de Estratégias de Autorregulação do Controle do Desempenho', 'Veiga Simão e Lopes da Silva (2015)', '', 'As afirmações que seguem permitem aos estudantes descreverem-se a si próprios. Por favor, leia a frase completa na horizontal e assinale a resposta com a qual mais se identifica, numa escala de um a cinco (sendo que 1 = “Nunca”; 2 = “Poucas Vezes”; 3 = “Algumas Vezes”; 4 = “Muitas Vezes”; 5 = “Sempre”) à direita de cada questão. \r\nToda a informação será mantida confidencial. A sua colaboração sincera é fundamental para o estudo.', 3);
 
 -- --------------------------------------------------------
 
@@ -6020,7 +6026,7 @@ CREATE TABLE `questoes` (
 --
 
 INSERT INTO `questoes` (`id`, `questao`, `questionarios_id`, `ordem`) VALUES
-(1, 'Você tem uma certa quantidade de inteligência e você não pode realmente fazer muita coisa para modificá-la (o).', 4, 1),
+(1, 'Você tem uma certa quantidade de inteligência e você não pode realmente fazer muita coisa para modificá-la (o). MAN', 4, 1),
 (2, 'A sua inteligência é algo a seu respeito que você não pode mudar muito.', 4, 2),
 (3, 'Não importa quem você é, você pode mudar significativamente o seu nível de inteligência.', 4, 3),
 (4, 'Para ser sincero, você não pode realmente mudar o quão inteligente você é.', 4, 4),
@@ -6068,7 +6074,28 @@ INSERT INTO `questoes` (`id`, `questao`, `questionarios_id`, `ordem`) VALUES
 (46, 'Alguns alunos não organizam bem seu tempo e então precisam ficar várias noites seguidas acordados para realizar um trabalho importante. Caso se saiam mal, dizem que estavam com muito sono.', 7, 16),
 (47, 'Alguns alunos ficam muito focados em detalhes não essenciais de uma atividade importante e acabam se dedicando menos ao seu conteúdo. Caso a nota não seja a esperada, dizem que não tiveram tempo de fazer um bom trabalho.', 7, 17),
 (48, 'Alguns estudantes não investem tempo suficiente na realização de um trabalho importante e se o resultado não é bom dizem que não se engajaram.', 7, 18),
-(49, 'Alguns alunos ficam lendo revistas de entretenimento durante as aulas. Caso se saiam mal dizem que foi porque não entenderam a matéria.', 7, 19);
+(49, 'Alguns alunos ficam lendo revistas de entretenimento durante as aulas. Caso se saiam mal dizem que foi porque não entenderam a matéria.', 7, 19),
+(50, 'Quando me preparo para as avaliações, elaboro questões para ver se sei responder.', 8, 1),
+(51, 'Quando tenho dúvidas durante o meu estudo, peço ajuda aos meus colegas.', 8, 2),
+(52, 'Durante o estudo verifico se cumpri os objetivos que estabeleci.', 8, 3),
+(53, 'Faço a gestão do tempo de forma a cumprir todas as tarefas.', 8, 4),
+(54, 'Procuro focar-me no estudo, mesmo que um colega tente me desconcentrar.', 8, 5),
+(55, 'Cumpro os meus objetivos durante o tempo de estudo.', 8, 6),
+(56, 'Participo das aulas, mesmo quando isso me provoca ansiedade.', 8, 7),
+(57, 'Só estudo às vésperas das provas/exames.', 8, 8),
+(58, 'Desisto de estudar, quando tenho dificuldade em realizar uma tarefa com sucesso.', 8, 9),
+(59, 'Quando estudo, reviso os meus trabalhos acadêmicos.', 8, 10),
+(60, 'Quando inicio o estudo, penso que tenho de estar concentrado(a) no que estou fazendo', 8, 11),
+(61, 'Peço ajuda aos professores para esclarecer as minhas dúvidas.', 8, 12),
+(62, 'Realizo todas as tarefas propostas para compreender melhor a matéria.', 8, 13),
+(63, 'Para estudar, faço exercícios de revisão.', 8, 14),
+(64, 'Quando termino um teste, faço a revisão antes de entregá-lo.', 8, 15),
+(65, 'Peço ajuda quando tenho dificuldade em resolver uma tarefa sozinho(a).', 8, 16),
+(66, 'Faço uma pausa quando começo a sentir que estou cansado(a) de estudar.', 8, 17),
+(67, 'Quando me preparo para as avaliações, tento responder sozinho as questões que eu mesmo(a) formulei.', 8, 18),
+(68, 'Enquanto estou estudando tento ignorar o que pode me distrair.', 8, 19),
+(69, 'Quando estou realizando uma avaliação, controlo o tempo que tenho para responder às questões.', 8, 20),
+(70, 'Procuro controlar minha ansiedade ao longo da realização de um exame/prova.', 8, 21);
 
 -- --------------------------------------------------------
 
@@ -6093,23 +6120,51 @@ CREATE TABLE `respostas` (
 DROP TABLE IF EXISTS `universidades`;
 CREATE TABLE `universidades` (
   `id` int(11) NOT NULL,
-  `nome` varchar(45) NOT NULL,
+  `nome` varchar(62) NOT NULL,
   `responsavel` varchar(45) DEFAULT NULL,
+  `descricao_responsavel` varchar(255) DEFAULT NULL,
   `endereco` varchar(80) DEFAULT NULL,
-  `complemento` varchar(50) DEFAULT NULL,
+  `complemento` varchar(255) DEFAULT NULL,
   `telefone` varchar(13) DEFAULT NULL,
   `cep` varchar(9) DEFAULT NULL,
-  `cidade` int(11) NOT NULL,
-  `estado` char(2) NOT NULL
+  `cidade` int(11) DEFAULT NULL,
+  `estado` char(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Fazendo dump de dados para tabela `universidades`
 --
 
-INSERT INTO `universidades` (`id`, `nome`, `responsavel`, `endereco`, `complemento`, `telefone`, `cep`, `cidade`, `estado`) VALUES
-(1, 'Universidade Estatual de Campinas - UNICAMP', 'Evely Boruchovitch', '', '', NULL, '', 3509502, 'SP'),
-(14, 'Universidade Estadual de Londrina', '', '', '', NULL, '', 4113700, 'PR');
+INSERT INTO `universidades` (`id`, `nome`, `responsavel`, `descricao_responsavel`, `endereco`, `complemento`, `telefone`, `cep`, `cidade`, `estado`) VALUES
+(1, 'Universidade Estatual de Campinas - UNICAMP', 'Evely Boruchovitch', 'Professora Titular da Faculdade de Educação- (Coordenadora Geral do Projeto)', 'Rua Tessália Vieira de Camargo, 126', '', '(019)35217187', '13083-887', 3509502, 'SP'),
+(14, 'Universidade Estadual de Londrina', 'Paula Mariza Zedu Alliprandini', 'Professora da Faculdade de Educação e do\nPrograma de Pós-graduação em Educação', 'Rodovia Celso Garcia Cid, Km 380 (PR 445)', 'Comitê de Ética em Pesquisa Envolvendo Seres Humanos - CEP/UEL LABESC - Laboratório Escola de Pós- Graduação - sala 14 - ao lado do Banco Itaú', '(43)3371-5455', '86057-970', 4113700, 'PR'),
+(15, 'Instituto Federal de Educação Ciências e Tecnologia do Piauí', '', NULL, '', '', NULL, '', 2211001, 'PI'),
+(16, 'Universidade Federal de Pelotas', 'Lourdes Maria Bragagnolo Frison', 'Professora Adjunta do Departamento de\nFundamentos da Faculdade de Educação', 'Rua Gonçalves Chaves, 457', 'Centro', '(53)3222-6741', '96015-560', 4314407, 'RS'),
+(17, 'Universidade Federal do Rio de Janeiro', 'Guilherme Cordeiro da Graça de Oliveira', 'Professor do Instituto de Química', 'Rua Bruno Lobo, 50', 'Cidade Universitária', '(21)3938-6129', '', 3304557, 'RJ'),
+(18, 'Universidade Federal de São Carlos', 'Patricia W. Schelini', NULL, 'Rodovia Washington Luis, s/n. Km. 235', 'Pró-reitoria de Pesquisa – ProPq', '(16)3351-8028', '13565-905', 3548906, 'SP'),
+(19, 'Universidade Federal de Goias', 'Elis Regina da Costa', 'Professora Adjunta da Faculdade de Educação', 'Campus Catalão Pró-reitoria de Pesquisa e Inovação', 'Caixa Postal: 131, Prédio da Reitoria, Piso 1 Campus II (Samambaia)', '(62)3521-1215', '74001-970', 5208707, 'GO'),
+(20, 'Universidade São Francisco', 'Acácia Aparecida Angeli dos Santos', NULL, 'Av. São Francisco de Assis, 218', 'Jardim São José', '(11)2454-8981', '12916-900', 3507605, 'SP'),
+(21, 'Faculdade Patos de Minas', '', NULL, '', '', NULL, '', 3148004, 'MG'),
+(22, 'Faculdade Instituto Superior de Educação do Paraná –FAINSEP', '', NULL, '', '', NULL, '', 4113700, 'PR'),
+(23, 'Universidade Padre Anchieta- Jundiai', '', NULL, '', '', NULL, '', 3525904, 'SP'),
+(24, 'UFRGS - Universidade Federal do Rio Grande do Sul', '', NULL, 'Avenida Paulo Gama, 110', 'Sala 321. Prédio Anexo 1 da Reitoria - Campus Centro', '(51)3308-3738', '90040-060', 4314902, 'RS'),
+(25, 'FURG - Universidade Federal de Rio Grande', '', NULL, 'Rua Visconde de Paranaguá, 10', 'Hospital Universitário Dr. Miguel Riet Corrêa Júnior - 1o Andar (Em frente ao laboratório)', '(53)3237-4652', '96201-900', 4315602, 'RS'),
+(26, 'UFSM - Universidade Federal de Santa Maria', '', NULL, 'Avenida Roraima, 1000', 'Prédio da Reitoria - 2o andar - Sala Cômite de Ética. Cidade Universitária - Bairro Camobi', '(55)3220-9362', '97105-900', 4316907, 'RS'),
+(27, 'UFFS - Universidade Federal da Fronteira Sul', '', NULL, 'Rodovia SC 484 Km 02', 'Bloco da Biblioteca, Sala 310, 3o andar', '(49)2049-3745', '89815-899', 4204202, 'SC'),
+(28, 'Universidade Federal de Uberlândia', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(29, 'Instituto Federal de Educação e Tecnologia do Pará', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(30, 'Pontifícia Universidade Católica-Campinas', '', NULL, '', '', NULL, '', 3509502, 'SP'),
+(31, 'Centro Universitário de Volta Redonda-Unifol', '', NULL, '', '', NULL, '', 3306305, 'RJ'),
+(32, 'Universidade Federal de São Paulo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(33, 'Universidade Estadual Paulista Júlio de Mesquita Filho', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(34, 'Universidade do Estado do Rio de Janeiro', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(35, 'Universidade Federal Fluminense', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(36, 'Universidade Estácio de Sá - RJ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(38, 'Universidade Federal da Bahia', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(39, 'Universidade Federal do Recôncavo baiano', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(40, 'Universidade Federal do Piauí', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(41, 'Universidade Federal do Rio Grande do Norte', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(42, 'Universidade Federal do Amazonas', '', NULL, '', '', NULL, '', 1302603, 'AM');
 
 -- --------------------------------------------------------
 
@@ -6228,12 +6283,12 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `alternativas`
 --
 ALTER TABLE `alternativas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT de tabela `convidados`
 --
 ALTER TABLE `convidados`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de tabela `cursos`
 --
@@ -6243,17 +6298,17 @@ ALTER TABLE `cursos`
 -- AUTO_INCREMENT de tabela `listas`
 --
 ALTER TABLE `listas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT de tabela `questionarios`
 --
 ALTER TABLE `questionarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT de tabela `questoes`
 --
 ALTER TABLE `questoes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 --
 -- AUTO_INCREMENT de tabela `respostas`
 --
@@ -6263,7 +6318,7 @@ ALTER TABLE `respostas`
 -- AUTO_INCREMENT de tabela `universidades`
 --
 ALTER TABLE `universidades`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --

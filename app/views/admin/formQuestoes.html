@@ -2,17 +2,25 @@
 <h3 class="purple-text">Questionário {{ @questionario.titulo }}</h3>
 <form action="/admin/questionarios/questoes/adicionar" method="POST">
 	<div id="questoes" class="form-group">
-		<label class="label">Questão</label>
-		<div class="input-group questao">
-			<textarea class="form-control" name="aquestao" id="aquestao" aria-label="With textarea"></textarea>
-			<input type="hidden" name="questionario" value="{{ @questionario.id }}">
-			<div class="input-group-append">
-				<button type="button" class="btn btn-primary" id="novaQuestao"><span class="fa fa-plus"></span></button>
-			</div>		
-		</div>
 		<div id="listaquestoes">
+			<repeat group="{{ @questoes }}" value="{{ @questao }}">
+				<div class="input-group questao">{{ @questao.ordem }}. 
+					<textarea class="form-control" name="{{ @questao.id }}" id="{{ @questao.id }}" aria-label="With textarea">{{ @questao.questao }}</textarea>
+					<div class="input-group-append">
+						<button type="button" class="btn btn-info" onclick="updateQuestao({{ @questao.id }})"><span class="fa fa-edit"></span></button>
+					</div>
+				</div>
+			</repeat>
 			
 		</div>
+		<label class="label">Nova Questão</label>
+		<div class="input-group questao">
+			<textarea class="form-control" name="aquestao" id="aquestao" aria-label="With textarea"></textarea>
+			<input type="hidden" name="questionario" id="questionario" value="{{ @questionario.id }}">
+			<div class="input-group-append">
+				<button type="button" class="btn btn-primary" id="novaQuestao"><span class="fa fa-plus"></span></button>
+			</div>
+		</div>		
 		<div class="button-group">
 			<button type="submit" name="concluir" class="btn btn-primary">Salvar</button>
 			<a href="/admin/questionarios" class="btn btn-danger" role="button">Cancelar</a>
@@ -33,6 +41,14 @@
 	});
 	$('#remover').click(function(){
 		$(this).parent().remove();
-		//console.log((this).parent());
 	});
+
+	function updateQuestao(id){
+		console.log($("#"+id).val());
+		$.ajax({'url':'/admin/questionarios/questoes/editar/'+$("#questionario").val(),
+				'method':'POST',
+				'dataType':'json',
+				'data':{'id':id,'questao':$("#"+id).val()},
+				'success':alert("Questao Atualizada")});
+	}
 </script>
