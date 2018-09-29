@@ -30,7 +30,7 @@ class QuestionariosDAO extends DAO{
 		$statement = $this->db->prepare($sql);
 		$r = true;
 		foreach ($alts as $chave=>$alternativa) {
-			$statement->bindParam(':alternativa',$this->alternativa,PDO::PARAM_STR);
+			$statement->bindParam(':alternativa',$alternativa,PDO::PARAM_STR);
 			$statement->bindParam(':idQ',$this->id,PDO::PARAM_INT);
 			$ordem = $chave+1;
 			$statement->bindParam(':ordem',$ordem,PDO::PARAM_INT);
