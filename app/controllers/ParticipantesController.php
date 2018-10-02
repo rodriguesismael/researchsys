@@ -94,7 +94,7 @@ class ParticipantesController extends Controller{
 		Ao participar, você será solicitado a manifestar o seu aceite em um termo de consentimento. Na sequência, 
 		você será direcionado a algumas perguntas rápidas sobre você e a dois questionários com questões de 
 		múltipla escolha. Assim que terminar de respondê-los, você receberá, por e-mail, resultados e informações 
-		importantes, em linhas gerais, sobre como você aprende. Receberá também orientações utéis para melhorar a 
+		importantes, em linhas gerais, sobre como você aprende. Receberá também orientações úteis para melhorar a 
 		sua aprendizagem. As suas respostas são confidenciais e asseguro o sigilo da sua identificação. Os dados 
 		a serem obtidos contribuirão para o desenvolvimento de melhores práticas educativas e para o fortalecimento 
 		da capacidade de aprender dos alunos do Ensino Superior.</p>
@@ -108,7 +108,11 @@ class ParticipantesController extends Controller{
 
 		$smtp->set('MIME-Version', '1.0');
 		$smtp->set('Content-type', 'text/html;charset=UTF-8');
-		$smtp->set('From', '"NoReply" <'.$this->f3->get('SMTP_MAIL').'>');
+		$append="";
+		if(strpos($this->f3->get('SMTP_MAIL'), "@") === FALSE){
+			$append = "@".$this->f3->get('SMTP_DOMAIN');
+		}
+		$smtp->set('From', '"NoReply" <'.$this->f3->get('SMTP_MAIL').$append.'>');
 		$smtp->set('Subject', 'Convite');
 
 		if ($this->f3->get('GET.lista')) {
@@ -261,7 +265,7 @@ class ParticipantesController extends Controller{
 		$this->f3->set('SESSION.mail','');
 		$this->f3->set('COOKIE','');
 		$header = "Final da Pesquisa";
-		$texto = "Muito obrigada(o) por participar da pesquisa! A sua contribuição será muito
+		$texto = "Muito obrigada por participar da pesquisa! A sua contribuição será muito
 					valiosa para a continuidade dos estudos sobre os fatores que favorecem a aprendizagem
 					de estudantes universitários brasileiros. Muito sucesso para você!";
 		if ($this->f3->get("POST.naoaceito")) {
