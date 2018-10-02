@@ -95,7 +95,7 @@ class ParticipantesController extends Controller{
 		você será direcionado a algumas perguntas rápidas sobre você e a dois questionários com questões de 
 		múltipla escolha. Assim que terminar de respondê-los, você receberá, por e-mail, resultados e informações 
 		importantes, em linhas gerais, sobre como você aprende. Receberá também orientações utéis para melhorar a 
-		sua aprendizagem. As suas respostas são confidenciais e asseguro o sigilo da sua identificação.o. Os dados 
+		sua aprendizagem. As suas respostas são confidenciais e asseguro o sigilo da sua identificação. Os dados 
 		a serem obtidos contribuirão para o desenvolvimento de melhores práticas educativas e para o fortalecimento 
 		da capacidade de aprender dos alunos do Ensino Superior.</p>
 		<p>
@@ -203,7 +203,10 @@ class ParticipantesController extends Controller{
 				echo "<br>Redirecting to https://ssl.collegelassi.com/portuguese/lassi.html$queryString";
 				unset($participante);
 				unset($uniObj);
-				$this->f3->reroute("https://ssl.collegelassi.com/portuguese/lassi.html$queryString");
+				$this->f3->set('redirect',"https://ssl.collegelassi.com/portuguese/lassi.html$queryString");
+				$this->f3->set('content','instrucoes.html');
+				echo \Template::instance()->render('tela.htm');				
+				//$this->f3->reroute("https://ssl.collegelassi.com/portuguese/lassi.html$queryString");
 			}
 		}
 		
@@ -246,7 +249,7 @@ class ParticipantesController extends Controller{
 		$questionarios = unserialize($this->f3->get('COOKIE.questionarios')); 
 		if(empty($questionarios)){
 			//não há mais questionários para reponder
-			$this->f3->reroute('/finalizar/'.md5($this->f3->get('SESSION.mail')));
+			$this->f3->reroute('/finalizar/'.$usuario);
 		}
 		$this->f3->call("QuestionarioController->mostrarQuestionario");
 	}

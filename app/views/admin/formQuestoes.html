@@ -4,27 +4,37 @@
 	<div id="questoes" class="form-group">
 		<div id="listaquestoes">
 			<repeat group="{{ @questoes }}" value="{{ @questao }}">
-				<div class="input-group questao">{{ @questao.ordem }}. 
-					<textarea class="form-control" name="{{ @questao.id }}" id="{{ @questao.id }}" aria-label="With textarea">{{ @questao.questao }}</textarea>
-					<div class="input-group-append">
-						<button type="button" class="btn btn-info" onclick="updateQuestao({{ @questao.id }})"><span class="fa fa-edit"></span></button>
+				<p>
+					<div class="input-group questao">{{ @questao.ordem }}. 
+						<textarea class="form-control" name="{{ @questao.id }}" id="{{ @questao.id }}" aria-label="With textarea">{{ @questao.questao }}</textarea>
+						<div class="input-group-append">
+							<button type="button" class="btn btn-info" onclick="updateQuestao({{ @questao.id }})"><span class="fa fa-edit"></span></button>
+						</div>
 					</div>
-				</div>
+				</p>
 			</repeat>
 			
 		</div>
-		<label class="label">Nova Questão</label>
-		<div class="input-group questao">
-			<textarea class="form-control" name="aquestao" id="aquestao" aria-label="With textarea"></textarea>
-			<input type="hidden" name="questionario" id="questionario" value="{{ @questionario.id }}">
-			<div class="input-group-append">
-				<button type="button" class="btn btn-primary" id="novaQuestao"><span class="fa fa-plus"></span></button>
+		<check if="{{ @questoes }}">
+			<false>
+			<label class="label">Nova Questão</label>
+			<div class="input-group questao">
+				<textarea class="form-control" name="aquestao" id="aquestao" aria-label="With textarea"></textarea>
+				<input type="hidden" name="questionario" id="questionario" value="{{ @questionario.id }}">
+				<div class="input-group-append">
+					<button type="button" class="btn btn-primary" id="novaQuestao"><span class="fa fa-plus"></span></button>
+				</div>
 			</div>
-		</div>		
+			</false>		
+		</check>
 		<div class="button-group">
-			<button type="submit" name="concluir" class="btn btn-primary">Salvar</button>
+			<check if="{{ @questoes }}">
+				<false>
+					<button type="submit" name="concluir" class="btn btn-primary">Salvar</button>
+				</false>
+			</check>
 			<a href="/admin/questionarios" class="btn btn-danger" role="button">Cancelar</a>
-		</div>	
+		</div>		
 	</div>
 </form>
 
@@ -32,10 +42,10 @@
 	
 	$("#novaQuestao").click(function(){
 		console.log($("#aquestao").val());
-		var node = "<div class=\"input-group\"><textarea class=\"form-control\" name=\"questoes[]\">"+$("#aquestao").val()+"</textarea>"+
+		var node = "<p><div class=\"input-group\"><textarea class=\"form-control\" name=\"questoes[]\">"+$("#aquestao").val()+"</textarea>"+
 		"<div class=\"input-group-append\">"+
 		"<button type=\"button\" class=\"btn btn-danger\"><span class=\"fa fa-minus\"></span></button>"+
-		"</div></div>";
+		"</div></div></p>";
 		$("#listaquestoes").append(node);
 		$("#aquestao").val("");
 	});
