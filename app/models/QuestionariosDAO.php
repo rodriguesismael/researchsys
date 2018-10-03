@@ -78,7 +78,7 @@ class QuestionariosDAO extends DAO{
 		$sql = "INSERT INTO respostas (participante,questao_id,alternativa_id) VALUES(:participante,:questao,:resposta)";
 		$statement = $this->db->prepare($sql);
 		$r=true;
-		$statement->bindParam(":participante",$participante,PDO::PARAM_INT);
+		$statement->bindParam(":participante",$participante,PDO::PARAM_STR);
 		$statement->bindParam(":questao",$questao,PDO::PARAM_INT);
 		$statement->bindParam(":resposta",$resposta,PDO::PARAM_INT);
 		try{
