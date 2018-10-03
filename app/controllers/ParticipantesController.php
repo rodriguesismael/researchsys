@@ -170,7 +170,7 @@ class ParticipantesController extends Controller{
 			$this->f3->reroute('/convidado404');
 		}
 
-		if($this->f3->get('POST.nome')){
+		if($this->f3->get('POST.nome')){//submit do cadastro de participantes
 			$camposParticipante = array();
 			$camposParticipante['uid'] = $guestString; 
 			$camposParticipante['nome'] = $this->f3->get('POST.nome');
@@ -204,7 +204,6 @@ class ParticipantesController extends Controller{
 				$uni = $uniObj->getById($camposParticipante['universidade']);
 				$queryString = "?invnum=80010&ak=brazil&u=gyxc&p=wxk&requiredFirstName=$firstName&requiredLastName=$lastName&";
 				$queryString.= "school=".str_replace(" ", "", $uni[0]['nome'])."&idnum=".$this->f3->get('PARAMS.email')."&email=".$camposParticipante['email']."&check_box=yes";
-				echo "<br>Redirecting to https://ssl.collegelassi.com/portuguese/lassi.html$queryString";
 				unset($participante);
 				unset($uniObj);
 				$this->f3->set('redirect',"https://ssl.collegelassi.com/portuguese/lassi.html$queryString");
@@ -212,9 +211,7 @@ class ParticipantesController extends Controller{
 				echo \Template::instance()->render('tela.htm');				
 				//$this->f3->reroute("https://ssl.collegelassi.com/portuguese/lassi.html$queryString");
 			}
-		}
-		
-		if($this->f3->get('COOKIE.termo')){
+		}elseif($this->f3->get('COOKIE.termo')){//verifica se convidado aceitou o termo e renderiza o formulario de demograficos
 			$result = array();
 			$listaObj = new ListaConvidadosDAO();
 			$universidade = new UniversidadeDAO();
@@ -235,6 +232,7 @@ class ParticipantesController extends Controller{
 		}else{
 			$this->f3->reroute('/participar/'.$this->f3->get('PARAMS.email'));
 		}
+
 	}
 
 	function retornar(){
