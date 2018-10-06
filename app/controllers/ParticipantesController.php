@@ -127,7 +127,7 @@ class ParticipantesController extends Controller{
 				foreach ($dados as $emails) {
 					$smtp->set('To', $emails['email']);
 					$unameMail = explode("@", $emails['email']);
-					$guestString = $unameMail[0]."&".$emails['randomid'];
+					$guestString = $unameMail[0]."$".$emails['randomid'];
 					$sendTo[] = $emails['email'];
 					$link= $this->f3->get('BASE_URL')."/participar/$guestString";
 					//$msgEmail = str_replace('REPLACE', $link, $msgEmail);
@@ -147,7 +147,7 @@ class ParticipantesController extends Controller{
 			$this->f3->reroute('/convidado404');
 		}		
 		$listaObj = new ListaConvidadosDAO();
-		$checkStr = explode(".", $hash);
+		$checkStr = explode("$", $hash);
 		$result = $listaObj->getConvidadoByMailAndId($checkStr[0],$checkStr[1]);
 		//var_dump($result);
 		if(count($result) == 0){
@@ -217,7 +217,7 @@ class ParticipantesController extends Controller{
 			$universidade = new UniversidadeDAO();
 			$universidades = $universidade->getList();
 			$cursos = $universidade->getCursos();
-			$checkStr = explode(".", $guestString);
+			$checkStr = explode("$", $guestString);
 			$result = $listaObj->getConvidadoByMailAndId($checkStr[0],$checkStr[1]);			
 			unset($universidade);
 			unset($listaObj);
@@ -290,8 +290,10 @@ class ParticipantesController extends Controller{
 
 	function isGuest($string){
 		$tempObj = new ListaConvidadosDAO();
-		$checkStr = explode("&", $string);
-		return $tempObj->getConvidadoByMailAndId($checkStr[0],$checkStr[1]) > 0;
+		$checkStr = explode("$", $string);
+		//var_dump($checkStr);
+		var_dump($tempObj->getConvidadoByMailAndId($checkStr[0],$checkStr[1]));
+		return count($tempObj->getConvidadoByMailAndId($checkStr[0],$checkStr[1])) > 0;
 	}
 
 	function instrucoes(){
