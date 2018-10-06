@@ -127,7 +127,7 @@ class ParticipantesController extends Controller{
 				foreach ($dados as $emails) {
 					$smtp->set('To', $emails['email']);
 					$unameMail = explode("@", $emails['email']);
-					$guestString = $unameMail[0]."#".$emails['randomid'];
+					$guestString = $unameMail[0]."&".$emails['randomid'];
 					$sendTo[] = $emails['email'];
 					$link= $this->f3->get('BASE_URL')."/participar/$guestString";
 					//$msgEmail = str_replace('REPLACE', $link, $msgEmail);
@@ -290,7 +290,7 @@ class ParticipantesController extends Controller{
 
 	function isGuest($string){
 		$tempObj = new ListaConvidadosDAO();
-		$checkStr = explode("#", $string);
+		$checkStr = explode("&", $string);
 		return $tempObj->getConvidadoByMailAndId($checkStr[0],$checkStr[1]) > 0;
 	}
 
