@@ -291,8 +291,6 @@ class ParticipantesController extends Controller{
 	function isGuest($string){
 		$tempObj = new ListaConvidadosDAO();
 		$checkStr = explode("$", $string);
-		//var_dump($checkStr);
-		var_dump($tempObj->getConvidadoByMailAndId($checkStr[0],$checkStr[1]));
 		return count($tempObj->getConvidadoByMailAndId($checkStr[0],$checkStr[1])) > 0;
 	}
 
