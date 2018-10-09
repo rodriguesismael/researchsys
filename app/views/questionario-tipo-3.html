@@ -16,7 +16,7 @@
       <input type="hidden" name="questoes[]" value="{{ @questao.id }}">
       <div class="options-group">
         <repeat group="{{ @alternativas }}" value="{{ @alternativa }}">
-          <p><input type="radio" name="questao{{ @questao.id }}" value="{{ @alternativa.id }}" /> {{  @alternativa.alternativa  }}</p>  
+          <p><input type="radio" name="questao{{ @questao.id }}" value="{{ @alternativa.id }}" required/> {{  @alternativa.alternativa  }}</p>  
         </repeat>
       </div>
     </repeat>
