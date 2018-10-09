@@ -149,10 +149,20 @@ class ParticipantesController extends Controller{
 		$listaObj = new ListaConvidadosDAO();
 		$checkStr = explode("$", $hash);
 		$result = $listaObj->getConvidadoByMailAndId($checkStr[0],$checkStr[1]);
-		//var_dump($result);
+		$participante  = new ParticipantesDAO();
+		$estaCadastrado = $participante->getEstadoAcesso($hash,true);
+		//var_dump($estaCadastrado);
+		//die();
+		unset($participante);
 		if(count($result) == 0){
 			$this->f3->error(404);
 		}
+		if(count($estaCadastrado) > 0){
+			$cookie = unserialize($estaCadastrado[0]["estadoAcesso"]);
+			//$this->f3->set('COOKIE.demograficos',$cookie['demograficos']);
+			$this->f3->call('ParticipantesController->instructionsLASSI',$cookie['demograficos']);
+			die();
+		}		
 		if ($this->f3->get('POST.aceito')) {
 			$this->f3->set('COOKIE.termo',true);
 		}
@@ -193,23 +203,23 @@ class ParticipantesController extends Controller{
 			//$result = $this->db->exec($queryEstado,$camposParticipante['email']);
 			unset($questionario);
 			$this->f3->set('COOKIE.questionarios',$result[0]['questionarios']);			
+			
+			$uniObj = new UniversidadeDAO();
+			$uni = $uniObj->getById($camposParticipante['universidade']);
+			$nomePartes = explode(" ", $camposParticipante['nome']);
+			$firstName = array_shift($nomePartes);
+			$lastName = implode(" ", $nomePartes);
+			$queryString = "?invnum=80010&ak=brazil&u=gyxc&p=wxk&requiredFirstName=$firstName&requiredLastName=$lastName&";
+			$queryString.= "school=".str_replace(" ", "", $uni[0]['nome'])."&idnum=".$this->f3->get('PARAMS.email')."&email=".$camposParticipante['email']."&check_box=yes";			
+			$redirectUrl = "https://ssl.collegelassi.com/portuguese/lassi.html$queryString";
+			$this->f3->set('COOKIE.demograficos',$redirectUrl);
 			$estadoAtual = $this->f3->get('COOKIE');
 			$camposParticipante['estadoAcesso'] = serialize($estadoAtual);
 			$participante = new ParticipantesDAO();
 			if($participante->save($camposParticipante)){
-				$nomePartes = explode(" ", $camposParticipante['nome']);
-				$firstName = array_shift($nomePartes);
-				$lastName = implode(" ", $nomePartes);
-				$uniObj = new UniversidadeDAO();
-				$uni = $uniObj->getById($camposParticipante['universidade']);
-				$queryString = "?invnum=80010&ak=brazil&u=gyxc&p=wxk&requiredFirstName=$firstName&requiredLastName=$lastName&";
-				$queryString.= "school=".str_replace(" ", "", $uni[0]['nome'])."&idnum=".$this->f3->get('PARAMS.email')."&email=".$camposParticipante['email']."&check_box=yes";
 				unset($participante);
 				unset($uniObj);
-				$this->f3->set('redirect',"https://ssl.collegelassi.com/portuguese/lassi.html$queryString");
-				$this->f3->set('content','instrucoes.html');
-				echo \Template::instance()->render('tela.htm');				
-				//$this->f3->reroute("https://ssl.collegelassi.com/portuguese/lassi.html$queryString");
+				$this->f3->call($this->instructionsLASSI,$redirectUrl);
 			}
 		}elseif($this->f3->get('COOKIE.termo')){//verifica se convidado aceitou o termo e renderiza o formulario de demograficos
 			$result = array();
@@ -278,6 +288,12 @@ class ParticipantesController extends Controller{
 		$this->f3->set('content','agradecimento.html');
 		echo \Template::instance()->render('tela.htm');
 
+	}
+
+	function instructionsLASSI($url){
+		$this->f3->set('redirect',$url);
+		$this->f3->set('content','instrucoes.html');
+		echo \Template::instance()->render('tela.htm');		
 	}
 
 	function encryptMail($mail){
