@@ -219,7 +219,7 @@ class ParticipantesController extends Controller{
 			if($participante->save($camposParticipante)){
 				unset($participante);
 				unset($uniObj);
-				$this->f3->call($this->instructionsLASSI,$redirectUrl);
+				$this->f3->call('ParticipantesController->instructionsLASSI',$redirectUrl);
 			}
 		}elseif($this->f3->get('COOKIE.termo')){//verifica se convidado aceitou o termo e renderiza o formulario de demograficos
 			$result = array();
