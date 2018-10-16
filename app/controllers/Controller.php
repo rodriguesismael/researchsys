@@ -1,4 +1,5 @@
 <?php
+
 class Controller{
 	protected $f3;
     protected $db;
@@ -17,7 +18,7 @@ class Controller{
 		}		
 	}	
 	function __construct() {
-		
+		//require 'vendor/autoload.php';
 		$f3=Base::instance();
 		$this->f3=$f3;
 	    $db=new DB\SQL(

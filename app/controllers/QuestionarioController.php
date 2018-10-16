@@ -134,7 +134,8 @@ class QuestionarioController extends Controller{
 
 		$result = $questionario->getQuestById($idQuestionario);
 		if(count($result) > 0){
-			
+			//var_dump(nl2br($result[0]['descricao']));
+			$result[0]['descricao']=nl2br($result[0]['descricao']);
 			$this->f3->set('questionario',$result[0]);
 			$alternativas = $questionario->getAlternativas($idQuestionario);
 			$questoes = $questionario->getQuestoes($idQuestionario);

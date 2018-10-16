@@ -2,7 +2,7 @@
 <h4 style="text-align: center">Criado por {{ @questionario.autores }}; <check if="{{ @questionario.tradutores }}">Traduzida e adaptada por {{ @questionario.tradutores }}</check></h4>
 <div class="description-box">
   <p>
-    {{ @questionario.descricao }}
+    {{ @questionario.descricao | raw }}
   </p>
 </div>
 <div id="questions-container">

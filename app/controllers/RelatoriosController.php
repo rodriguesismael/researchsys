@@ -1,5 +1,7 @@
 <?php
-//require 'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class RelatoriosController extends Controller{
 	function home(){
 		$this->isAdmin();
@@ -24,68 +26,39 @@ class RelatoriosController extends Controller{
 	}
 
 
-	function relatorio(){
+	function relatorio3(){
 		
-		// $spreadsheet = new PhpOffice\PhpSpreadsheet\Spreadsheet();  //----Spreadsheet object-----
-		// $Excel_writer = new PhpOffice\PhpSpreadsheet\Writer\Xls($spreadsheet);  //----- Excel (Xls) Object
-		// $spreadsheet->setActiveSheetIndex(0);
-		// $activeSheet = $spreadsheet->getActiveSheet();
-		// $activeSheet->setCellValue('A1' , 'TESTANDOOO')->getStyle('A1')->getFont()->setBold(true);
 		$filtros=array();
 
-		$filtros['universidade'] 	 = $this->f3->get('POST.universidade');
+		$filtros['universidades_id'] 	 = $this->f3->get('POST.universidade');
 		$filtros['questionarios_id'] = $this->f3->get('POST.questionario');
 		$filtros['c.id'] 		 	 = $this->f3->get('POST.curso');
 		$filtros['genero']		 	 = $this->f3->get('POST.genero');
-		// $filtrosArr = array("universidade"=>false,"questionario"=>false,"curso"=>false,"genero"=>false);
-		// $filtrosParam = array();
-		// if($universidade != -1){
-		// 	$filtrosArr['universidade'] = true;
-		// 	$filtros.="u.id=:universidade";
-		// 	$filtrosParam[":universidade"] = $universidade;
-		// }
-		// if($questionario != -1){
-		// 	$filtrosArr['questionario'] = true;
-		// 	$filtros.="q.questionarios_id=:questionario AND ";
-		// 	$filtrosParam[":questionario"] = $questionario;
-		// }
-		// if($curso != -1){
-		// 	$filtrosArr['curso'] = true;
-		// 	$filtros.="c.id=:curso AND ";
-		// 	$filtrosParam[":curso"] = $curso;
-		// }
-		// if($genero != -1){
-		// 	$filtrosArr['genero'] = true;
-		// 	$filtros.="p.genero=:genero AND ";
-		// 	$filtrosParam[":genero"] = $genero;
-		// }
-		
-		// if (!empty($filtros)) {
-		// 	$filtros=1;
-		// }
 
 		$relatorio = new RelatoriosDAO();
 		$participantes = $relatorio->getParticipantes($filtros);
-		//die($filtros);
-
-		// $queryParticipantes = "SELECT r.participante, p.nome, timestampdiff(YEAR, nascimento,now()) as idade,email,genero,u.nome universidade,c.nome curso, 
-		// 			semestre, periodo_curso, tipo_ensino FROM participantes p JOIN respostas r on p.uid = r.participante JOIN questoes q on r.questao_id = q.id 
-		// 			JOIN universidades u ON p.universidades_id = u.id JOIN cursos c ON p.curso_id = c.id WHERE $filtros group by r.participante";
 		
-		// $resultParticipantes = $this->db->exec($queryParticipantes,array($questionario));
-
-		$queryRespostas = "SELECT q.ordem,a.ordem alternativa FROM respostas r JOIN alternativas a ON r.alternativa_id = a.id JOIN 
-    questoes q on r.questao_id = q.id JOIN questionarios qr on q.questionarios_id = qr.id 
-    WHERE qr.id=? and r.participante=?";
+		//$queryRespostas = "SELECT q.ordem,a.ordem alternativa FROM respostas r JOIN alternativas a ON r.alternativa_id = a.id JOIN 
+  //   questoes q on r.questao_id = q.id JOIN questionarios qr on q.questionarios_id = qr.id 
+  //   WHERE qr.id=? and r.participante=?";
 
 		
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-		header('Content-Type: application/xls; charset=utf-8');
+		header("Cache-Control: private",false);
+		header('Content-Type: application/vnd.ms-excel; charset=utf-8');
 		header("Content-Disposition: attachment;filename=test.xls");
-		header("Content-Transfer-Encoding: binary");
+		//header("Content-Transfer-Encoding: binary");
 		echo "<table>";
-		echo $this->getQuestHeader($questionario);
-		foreach ($resultParticipantes as $participante) {
+		echo $this->getQuestHeader($filtros['questionarios_id']);
+
+		foreach ($participantes as $participante) {
+			$ensino   = array("1"=>"Escola Pública","2"=>"Escola Particular","3"=>"Ambas");
+			$periodo  = array("N"=>"Noturno","V"=>"Vespertino","M"=>"Matutino","I"=>"Integral");
+			$etnia	  = array("1"=>"Branca","2"=>"Negra","3"=>"Parda","4"=>"Indígena","5"=>"Oriental","6"=>"Outra");
+			$intencao = array("1"=>"Nenhuma Intenção","2"=>"Muito Pouca Intenção",
+							  "3"=>"Pouca Intenção","4"=>"Moderada Intenção",
+							  "5"=>"Muita Intenção","6"=>"Muitíssima Intenção","7"=>"Total Intenção");
+			$notas 	  = array("1"=>"Bem Acima","2"=>"Bem Abaixo","3"=>"Em torno","4"=>"Abaixo","5"=>"Bem abaixo","6"=>"Ainda não tenho ideia");
 
 			echo "<tr><td>$participante[nome]</td>";
 			echo "<td>$participante[idade]</td>";
@@ -94,10 +67,13 @@ class RelatoriosController extends Controller{
 			echo "<td>$participante[universidade]</td>";
 			echo "<td>$participante[curso]</td>";
 			echo "<td>$participante[semestre]</td>";
-			echo "<td>$participante[periodo_curso]</td>";
-			echo "<td>$participante[tipo_ensino]</td>";
+			echo "<td>".$periodo[$participante["periodo_curso"]]."</td>";
+			echo "<td>".$ensino[$participante["tipo_ensino"]]."</td>";
+			echo "<td>".$etnia[$participante["etnia"]]."</td>";
+			echo "<td>".$notas[$participante["minhas_notas"]]."</td>";
+			echo "<td>".$intencao[$participante["intencao_academica"]]."</td>";
 			// $resultRespostas = $this->db->exec($queryRespostas,array($questionario,$participante["participante"]));
-			$resultRespostas = $relatorio->getEstatisticas($filtros['questionarios_id'],$participante);
+			$resultRespostas = $relatorio->getEstatisticas($filtros['questionarios_id'],$participante['participante']);
 			foreach ($resultRespostas as $resposta) {
 				echo "<td>$resposta[alternativa]</td>";
 			}
@@ -111,16 +87,27 @@ class RelatoriosController extends Controller{
 		//$qry = "SELECT q.titulo,qr.ordem from questionarios q JOIN questoes qr ON q.id = qr.questionarios_id WHERE q.id=? order by qr.ordem";
 		// $result = $this->db->exec($qry,array($quest));
 		$relatorio = new RelatoriosDAO();
-		$result = $relatorio->getRelatorioHeader();
+		$result = $relatorio->getRelatorioHeader($quest);
+		// var_dump($result);die();
 		unset($relatorio);
-		$string = "<tr><td colspan='".(count($result)+9)."'><strong>Questionario: ".$result[0]['titulo']."</strong></td></tr>";
-		$string.="<tr><td colspan='9' align='center'><strong>Participantes</strong></td><td colspan='".count($result)."' align='center'><strong>Respostas</strong></td></tr>";
-		$string.="<tr><td>Nome</td><td>Idade</td><td>E-mail</td><td>Gênero</td><td>Universidade</td><td>Curso</td><td>Semestre</td><td>Periodo</td><td>Tipo de Ensino</td>";
+		$string = "<tr><td colspan='".(count($result)+12)."'><strong>Questionario: ".$result[0]['titulo']."</strong></td></tr>";
+		$string.="<tr><td colspan='12' align='center'><strong>Participantes</strong></td><td colspan='".count($result)."' align='center'><strong>Respostas</strong></td></tr>";
+		$string.="<tr><td>Nome</td><td>Idade</td><td>E-mail</td><td>Gênero</td><td>Universidade</td><td>Curso</td><td>Semestre</td><td>Periodo</td>";
+		$string.="<td>Cursou Ensino Médio</td><td>Etnia</td><td>Minhas Notas</td><td>Intenção Acadêmica</td>";
 		foreach ($result as $lista) {
 			$string.="<td align='center'>$lista[ordem]</td>";
 		}
 		$string.="</tr>";
 		return $string;
 
+	}
+
+	function relatorio(){
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+		$sheet->setCellValue('A1', 'Hello World !');
+
+		$writer = new Xlsx($spreadsheet);
+		$writer->save('hello world.xlsx');		
 	}
 }
