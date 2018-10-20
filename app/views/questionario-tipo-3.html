@@ -16,7 +16,14 @@
       <input type="hidden" name="questoes[]" value="{{ @questao.id }}">
       <div class="options-group">
         <repeat group="{{ @alternativas }}" value="{{ @alternativa }}">
-          <p><input type="radio" name="questao{{ @questao.id }}" value="{{ @alternativa.id }}" required/> {{  @alternativa.alternativa  }}</p>  
+          <check if="{{ @questionario.id == 11 }}">
+            <true>
+              <input type="radio" name="questao{{ @questao.id }}" value="{{ @alternativa.id }}" required/> {{  @alternativa.alternativa  }} &nbsp;&nbsp;
+            </true>
+            <false>
+              <p><input type="radio" name="questao{{ @questao.id }}" value="{{ @alternativa.id }}" required/> {{  @alternativa.alternativa  }}</p>  
+            </false>            
+          </check>
         </repeat>
       </div>
     </repeat>

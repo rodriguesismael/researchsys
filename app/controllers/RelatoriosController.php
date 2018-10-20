@@ -26,7 +26,7 @@ class RelatoriosController extends Controller{
 	}
 
 
-	function relatorio3(){
+	function relatorio(){
 		
 		$filtros=array();
 
@@ -43,11 +43,11 @@ class RelatoriosController extends Controller{
   //   WHERE qr.id=? and r.participante=?";
 
 		
-		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-		header("Cache-Control: private",false);
-		header('Content-Type: application/vnd.ms-excel; charset=utf-8');
-		header("Content-Disposition: attachment;filename=test.xls");
-		//header("Content-Transfer-Encoding: binary");
+		// header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+		// header("Cache-Control: private",false);
+		// header('Content-Type: application/vnd.ms-excel; charset=utf-8');
+		// header("Content-Disposition: inline;filename=test.xls");
+		// header("Content-Transfer-Encoding: binary");
 		echo "<table>";
 		echo $this->getQuestHeader($filtros['questionarios_id']);
 
@@ -60,18 +60,18 @@ class RelatoriosController extends Controller{
 							  "5"=>"Muita Intenção","6"=>"Muitíssima Intenção","7"=>"Total Intenção");
 			$notas 	  = array("1"=>"Bem Acima","2"=>"Bem Abaixo","3"=>"Em torno","4"=>"Abaixo","5"=>"Bem abaixo","6"=>"Ainda não tenho ideia");
 
-			echo "<tr><td>$participante[nome]</td>";
+			echo "<tr><td>".$this->sanitizeWords($participante["nome"])."</td>";
 			echo "<td>$participante[idade]</td>";
 			echo "<td>$participante[email]</td>";
 			echo "<td>$participante[genero]</td>";
 			echo "<td>$participante[universidade]</td>";
-			echo "<td>$participante[curso]</td>";
+			echo "<td>".$this->sanitizeWords($participante[curso])."</td>";
 			echo "<td>$participante[semestre]</td>";
 			echo "<td>".$periodo[$participante["periodo_curso"]]."</td>";
-			echo "<td>".$ensino[$participante["tipo_ensino"]]."</td>";
-			echo "<td>".$etnia[$participante["etnia"]]."</td>";
-			echo "<td>".$notas[$participante["minhas_notas"]]."</td>";
-			echo "<td>".$intencao[$participante["intencao_academica"]]."</td>";
+			echo "<td>$participante[tipo_ensino]</td>";
+			echo "<td>$participante[etnia]</td>";
+			echo "<td>$participante[minhas_notas]</td>";
+			echo "<td>$participante[intencao_academica]</td>";
 			// $resultRespostas = $this->db->exec($queryRespostas,array($questionario,$participante["participante"]));
 			$resultRespostas = $relatorio->getEstatisticas($filtros['questionarios_id'],$participante['participante']);
 			foreach ($resultRespostas as $resposta) {
@@ -90,19 +90,47 @@ class RelatoriosController extends Controller{
 		$result = $relatorio->getRelatorioHeader($quest);
 		// var_dump($result);die();
 		unset($relatorio);
-		$string = "<tr><td colspan='".(count($result)+12)."'><strong>Questionario: ".$result[0]['titulo']."</strong></td></tr>";
-		$string.="<tr><td colspan='12' align='center'><strong>Participantes</strong></td><td colspan='".count($result)."' align='center'><strong>Respostas</strong></td></tr>";
+		$string = "<tr><td colspan='".(count($result)+12)."'><strong>".$this->sanitizeWords($result[0]['titulo'])."</strong></td></tr>";
+		// $string.="<tr><td colspan='12' align='center'><strong>Participantes</strong></td><td colspan='".count($result)."' align='center'><strong>Respostas</strong></td></tr>";
 		$string.="<tr><td>Nome</td><td>Idade</td><td>E-mail</td><td>Gênero</td><td>Universidade</td><td>Curso</td><td>Semestre</td><td>Periodo</td>";
 		$string.="<td>Cursou Ensino Médio</td><td>Etnia</td><td>Minhas Notas</td><td>Intenção Acadêmica</td>";
 		foreach ($result as $lista) {
-			$string.="<td align='center'>$lista[ordem]</td>";
+			$string.="<td align='center'>Q$lista[ordem]</td>";
 		}
 		$string.="</tr>";
 		return $string;
 
 	}
 
-	function relatorio(){
+	function sanitizeWords($field){
+	    $letters = [
+	        0 => "a à á â ä æ ã å ā",
+	        1 => "c ç ć č",
+	        2 => "e é è ê ë ę ė ē",
+	        3 => "i ī į í ì ï î",
+	        4 => "l ł",
+	        5 => "n ñ ń",
+	        6 => "o ō ø œ õ ó ò ö ô",
+	        7 => "s ß ś š",
+	        8 => "u ū ú ù ü û",
+	        9 => "w ŵ",
+	        10 => "y ŷ ÿ",
+	        11 => "z ź ž ż",
+	    ];
+	    foreach ($letters as &$values){
+	        $newValue = substr($values, 0, 1);
+	        $values = substr($values, 2, strlen($values));
+	        $values = explode(" ", $values);
+	        foreach ($values as &$oldValue){
+	            while (strpos($field,$oldValue) !== false){
+	                $field = preg_replace("/" . $oldValue . '/', $newValue, $field, 1);
+	            }
+	        }
+	    }
+	    return $field;
+	}
+
+	function relatorio3(){
 		$spreadsheet = new Spreadsheet();
 		$sheet = $spreadsheet->getActiveSheet();
 		$sheet->setCellValue('A1', 'Hello World !');
