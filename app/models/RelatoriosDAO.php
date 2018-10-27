@@ -22,9 +22,9 @@ class RelatoriosDAO extends DAO{
 	}
 
 	public function getEstatisticas($questionario,$participante){
-		$sql= "SELECT q.ordem,a.ordem alternativa FROM respostas r JOIN alternativas a ON r.alternativa_id = a.id JOIN 
+		$sql= "SELECT q.ordem,a.ordem alternativa, a.alternativa texto FROM respostas r JOIN alternativas a ON r.alternativa_id = a.id JOIN 
 			    questoes q on r.questao_id = q.id JOIN questionarios qr on q.questionarios_id = qr.id 
-			    WHERE qr.id='$questionario' and r.participante='$participante'";
+			    WHERE qr.id='$questionario' and r.participante='$participante'";	
 		return $this->getAll($sql);
 	}
 

@@ -8,12 +8,12 @@ class ParticipantesDAO extends DAO{
 		$statement->bindParam(":ra",$campos['ra'], PDO::PARAM_INT);
 		$statement->bindParam(":nome",$campos['nome'], PDO::PARAM_STR);
 		$statement->bindParam(":email",$campos['email'], PDO::PARAM_STR);
-		$statement->bindParam(":genero",$campos['genero'], PDO::PARAM_STR);
+		$statement->bindParam(":genero",$campos['genero'], PDO::PARAM_INT);
 		$statement->bindParam(":nasc",$campos['nasc'], PDO::PARAM_STR);
 		$statement->bindParam(":tipoEnsino",$campos['tipoEnsino'], PDO::PARAM_INT);
 		$statement->bindParam(":universidade",$campos['universidade'], PDO::PARAM_INT);
 		$statement->bindParam(":curso",$campos['curso'], PDO::PARAM_INT);
-		$statement->bindParam(":periodo",$campos['periodo'], PDO::PARAM_STR);
+		$statement->bindParam(":periodo",$campos['periodo'], PDO::PARAM_INT);
 		$statement->bindParam(":semestre",$campos['semestre'], PDO::PARAM_INT);
 		$statement->bindParam(":etnia",$campos['etnia'], PDO::PARAM_INT);
 		$statement->bindParam(":intencao",$campos['intencao'], PDO::PARAM_INT);

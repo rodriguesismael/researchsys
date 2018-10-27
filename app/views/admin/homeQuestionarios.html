@@ -5,6 +5,7 @@
 </div>
 <table class="table">
 	<thead>
+		<th>Código</th>
 		<th>Questionario</th>
 		<th>Ações</th>
 	</thead>
@@ -12,6 +13,7 @@
 		<repeat group="{{ @questionarios }}" value="{{ @questionario }}">
 			
 				<tr>
+					<td class="purple-text">{{ @questionario.id }}</td>
 					<td>{{ @questionario.titulo }}</td>
 					<td>
 						<a href="/admin/questionarios/editar/{{ @questionario.id }}" class="btn btn-info" role="button">Editar</a>

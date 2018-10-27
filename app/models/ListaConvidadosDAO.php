@@ -17,12 +17,12 @@ class ListaConvidadosDAO extends DAO{
 
 	}
 
-	public function saveConvidados($convidados){
+	public function saveConvidados($convidados,$lista=0){
 		$sql = "INSERT INTO convidados (idlista,email,randomid) VALUES (:idLista,:email,:random)";
 		$statement = $this->db->prepare($sql);
 		$r = true;
 		foreach ($convidados as $email) {
-			$statement->bindParam(':idLista',$this->listId,PDO::PARAM_INT);
+			$statement->bindParam(':idLista',($lista > 0)?$lista:$this->listId,PDO::PARAM_INT);
 			$statement->bindParam(':email',$email,PDO::PARAM_STR);
 			//this random value will compose the participant id in the participantes table
 			$statement->bindParam(':random',uniqid(rand()),PDO::PARAM_STR);

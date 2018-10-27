@@ -290,6 +290,32 @@ class ParticipantesController extends Controller{
 
 	}
 
+	function assinar(){
+		$turma = $this->f3->get('PARAMS.turma');
+		$listaObj = new ListaConvidadosDAO();
+		$lista = $listaObj->getListaById($turma);
+		if (count($lista) == 0) {
+			$this->f3->set('notfound',"Link Inválido!");
+		}else{
+			$this->f3->set('turma',$lista[0]);
+		}
+
+		if ($this->f3->get('POST.email')) {
+			$email = $this->f3->get('POST.email');
+			$r=$listaObj->saveConvidados(array($email),$turma);
+			if ($r) {
+				$this->f3->set('return','success');
+				$this->f3->set('msg','Obrigado! você vai receber um convite em breve.');
+			}else{
+				$this->f3->set('return','danger');
+				$this->f3->set('msg','Ocorreu um problema, por favor notifique o administrador.');
+			}
+			unset($listaObj);
+		}
+		$this->f3->set('content','subscribe.html');
+		echo \Template::instance()->render('tela_nonav.htm');
+	}
+
 	function instructionsLASSI($url){
 		$this->f3->set('redirect',$url);
 		$this->f3->set('content','instrucoes.html');

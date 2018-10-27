@@ -75,7 +75,11 @@ class RelatoriosController extends Controller{
 			// $resultRespostas = $this->db->exec($queryRespostas,array($questionario,$participante["participante"]));
 			$resultRespostas = $relatorio->getEstatisticas($filtros['questionarios_id'],$participante['participante']);
 			foreach ($resultRespostas as $resposta) {
-				echo "<td>$resposta[alternativa]</td>";
+				if($filtros['questionarios_id'] == 11){
+					echo "<td>$resposta[texto]</td>";
+				}else{
+					echo "<td>$resposta[alternativa]</td>";
+				}
 			}
 			echo "</tr>";
 		}

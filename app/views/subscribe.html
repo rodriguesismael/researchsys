@@ -1,0 +1,23 @@
+<div id="subscribe" class="form-group">
+	<check if="{{ @notfound }}">
+		<true>{{ @notfound }}</true>
+		<false>
+			<form action="" method="POST">
+				<check if="{{ @return }}">
+					<div class="alert alert-{{ @return }}" role="alert">
+					  {{ @msg }}
+					</div>
+				</check>
+				<p>Subscrever à {{ @turma.titulo }}</p>
+				<input type="hidden" name="turma" value="{{ @turma }}" class="form-control">
+				<div class="input-group mb-3">
+				  <input type="email" required class="form-control" placeholder="E-mail" aria-label="E-mail">
+				  <div class="input-group-append">
+				    <button class="btn btn-outline-secondary" type="submit">Assinar</button>
+				  </div>
+				</div>				
+			</form>			
+		</false>
+	</check>
+
+</div>
