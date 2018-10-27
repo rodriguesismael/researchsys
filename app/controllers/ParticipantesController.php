@@ -25,21 +25,6 @@ class ParticipantesController extends Controller{
 				unset($listaObj);
 				$this->f3->reroute('/admin/participantes');
 			}
-
-
-			// try {
-			// 	$this->mapper->set('titulo',$titulo);
-			// 	$this->mapper->set('questionarios',serialize($quests));
-			// 	$this->mapper->insert();
-			// 	$idLista = $this->mapper->get('_id');
-			// 	foreach ($emails as $mail) {
-			// 		$queryEmails = "INSERT INTO convidados (idlista,email) VALUES (:idLista,:email)";
-			// 		$this->db->exec($queryEmails,array(':idLista'=>$idLista,':email'=>$mail));
-			// 	}
-			// 	$this->f3->reroute('/admin/participantes');
-			// } catch (Exception $e) {
-			// 	$this->f3->set('error',$e->getMessage());
-			// }
 		}
 		$questionario = new QuestionariosDAO();
 		$questionarios = $questionario->getList();
@@ -102,7 +87,9 @@ class ParticipantesController extends Controller{
 			Sua colaboração é muito valiosa! Para participar da pesquisa, por favor, acesse o
 			seguinte link: <a href='REPLACE'>REPLACE</a>
 		</p>
-		<p>Muito obrigada!</p><br/>$obs";
+		<p>Muito obrigada!</p><br/>$obs
+		<hr>
+		<p><img src='https://autorregular.fe.unicamp.br/img/logo.png' width='380'></p>";
 
 		$smtp = new SMTP ( $this->f3->get('SMTP_SERVER'), $this->f3->get('SMTP_PORT'), $this->f3->get('SMTP_SCHEME'), $this->f3->get('SMTP_MAIL'), $this->f3->get('SMTP_PASS') );
 
@@ -171,6 +158,7 @@ class ParticipantesController extends Controller{
 		}else{
 			$this->f3->set('who',$this->f3->get('PARAMS.hash'));
 			$this->f3->set('content','termo.html');
+			$this->f3->set('noMenu',true);
 			echo \Template::instance()->render('tela.htm');			
 		}
 	}
@@ -236,6 +224,7 @@ class ParticipantesController extends Controller{
 				$this->f3->set('universidades',$universidades);
 				$this->f3->set('cursos',$cursos);
 				$this->f3->set('content','demograficos.html');
+				$this->f3->set('noMenu',true);
 				echo \Template::instance()->render('tela.htm');
 			}
 
@@ -275,7 +264,7 @@ class ParticipantesController extends Controller{
 		$header = "Final da Pesquisa";
 		$texto = "Muito obrigada por participar da pesquisa! A sua contribuição será muito
 					valiosa para a continuidade dos estudos sobre os fatores que favorecem a aprendizagem
-					de estudantes universitários brasileiros. Muito sucesso para você!";
+					de estudantes universitários brasileiros. Caso queira saber mais sobre a pesquisa, ou entrar em contato conosco, clique nos links no menu acima. Muito sucesso para você!";
 		if ($this->f3->get("POST.naoaceito")) {
 			$header = "Prezado estudante,";
 			$texto = "Agradecemos a sua atenção. Esperamos poder contar com a sua participação em outro momento.";
@@ -319,6 +308,7 @@ class ParticipantesController extends Controller{
 	function instructionsLASSI($url){
 		$this->f3->set('redirect',$url);
 		$this->f3->set('content','instrucoes.html');
+		$this->f3->set('noMenu',true);
 		echo \Template::instance()->render('tela.htm');		
 	}
 
@@ -338,6 +328,7 @@ class ParticipantesController extends Controller{
 
 	function instrucoes(){
 		$this->f3->set('content','instrucoes.html');
-		echo \Template::instance()->render('tela_nonav.htm');		
+		$this->f3->set('noMenu',true);
+		echo \Template::instance()->render('tela.htm');		
 	}
 }

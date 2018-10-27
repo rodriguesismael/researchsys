@@ -144,6 +144,7 @@ class QuestionarioController extends Controller{
 			//$this->f3->set('questionario',$idQuestionario);
 			$this->f3->set('questoes',$questoes);			
 			$this->f3->set('content',"questionario-tipo-3.html");
+			$this->f3->set('noMenu',true);
 			echo \Template::instance()->render('tela.htm');
 		}
 

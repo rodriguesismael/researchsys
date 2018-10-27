@@ -6,12 +6,15 @@
 				<check if="{{ @return }}">
 					<div class="alert alert-{{ @return }}" role="alert">
 					  {{ @msg }}
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    <span aria-hidden="true">&times;</span>
+					  </button>					  
 					</div>
 				</check>
 				<p>Subscrever à {{ @turma.titulo }}</p>
-				<input type="hidden" name="turma" value="{{ @turma }}" class="form-control">
+				<input type="hidden" name="turma" value="{{ @turma.id }}" class="form-control">
 				<div class="input-group mb-3">
-				  <input type="email" required class="form-control" placeholder="E-mail" aria-label="E-mail">
+				  <input type="email" name="email" required class="form-control" placeholder="E-mail" aria-label="E-mail">
 				  <div class="input-group-append">
 				    <button class="btn btn-outline-secondary" type="submit">Assinar</button>
 				  </div>

@@ -21,8 +21,14 @@ class ListaConvidadosDAO extends DAO{
 		$sql = "INSERT INTO convidados (idlista,email,randomid) VALUES (:idLista,:email,:random)";
 		$statement = $this->db->prepare($sql);
 		$r = true;
+
+		if ($lista == 0) {
+			$param = $this->listId;
+		}else{
+			$param = $lista;
+		}
 		foreach ($convidados as $email) {
-			$statement->bindParam(':idLista',($lista > 0)?$lista:$this->listId,PDO::PARAM_INT);
+			$statement->bindParam(':idLista',$param,PDO::PARAM_INT);
 			$statement->bindParam(':email',$email,PDO::PARAM_STR);
 			//this random value will compose the participant id in the participantes table
 			$statement->bindParam(':random',uniqid(rand()),PDO::PARAM_STR);
