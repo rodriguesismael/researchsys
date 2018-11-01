@@ -94,7 +94,7 @@ class RelatoriosController extends Controller{
 		$result = $relatorio->getRelatorioHeader($quest);
 		// var_dump($result);die();
 		unset($relatorio);
-		$string = "<tr><td colspan='".(count($result)+12)."'><strong>".$this->sanitizeWords($result[0]['titulo'])."</strong></td></tr>";
+		$string = "<tr><td colspan='".(count($result)+12)."'><strong>".$this->sanitizeWords($result[0]['titulo'],true)."</strong></td></tr>";
 		// $string.="<tr><td colspan='12' align='center'><strong>Participantes</strong></td><td colspan='".count($result)."' align='center'><strong>Respostas</strong></td></tr>";
 		$string.="<tr><td>Nome</td><td>Idade</td><td>E-mail</td><td>Gênero</td><td>Universidade</td><td>Curso</td><td>Semestre</td><td>Periodo</td>";
 		$string.="<td>Cursou Ensino Médio</td><td>Etnia</td><td>Minhas Notas</td><td>Intenção Acadêmica</td>";
@@ -106,7 +106,7 @@ class RelatoriosController extends Controller{
 
 	}
 
-	function sanitizeWords($field){
+	function sanitizeWords($field,$capital=false){
 	    $letters = [
 	        0 => "a à á â ä æ ã å ā",
 	        1 => "c ç ć č",

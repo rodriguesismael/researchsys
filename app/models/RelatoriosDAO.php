@@ -14,7 +14,7 @@ class RelatoriosDAO extends DAO{
 			$whereClause = substr($whereClause, 0, (strlen($whereClause)-4));
 		}
 
-		$sql="SELECT r.participante, p.nome, timestampdiff(YEAR, nascimento,now()) as idade,email,genero,u.nome universidade,c.nome curso, 
+		$sql="SELECT r.participante, p.nome, timestampdiff(YEAR, nascimento,now()) as idade,email,genero,universidades_id universidade,curso_id curso, 
 					semestre, periodo_curso, tipo_ensino, etnia, intencao_academica, minhas_notas
 					FROM participantes p JOIN respostas r on p.uid = r.participante JOIN questoes q on r.questao_id = q.id 
 					JOIN universidades u ON p.universidades_id = u.id JOIN cursos c ON p.curso_id = c.id WHERE $whereClause group by r.participante";

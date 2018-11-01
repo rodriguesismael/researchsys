@@ -41,7 +41,7 @@
 		<div class="form-group" id="listaalternativas">
 			<repeat group="{{ @alternativas }}" value="{{ @alternativa }}">
 					<p>
-						{{ @alternativa.ordem }}
+						<div class="numberCircle">{{ @alternativa.ordem }}</div>
 						<input type="hidden" name="alternativas[]" value="{{ @alternativa.alternativa }}"/> {{ @alternativa.alternativa }}
 						<button type="button" class="btn btn-link remove-mail" onclick="remove(this)"><span class="fa fa-minus"></span></button>
 					</p>
