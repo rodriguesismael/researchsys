@@ -68,7 +68,7 @@ class ParticipantesController extends Controller{
 	function convidar(){
 		$this->isAdmin();
 		$obs="<strong>OBSERVAÇÃO: O sistema está em período de testes. Ao preencher os dados demográficos, favor acrescentar 'Teste' por útimo no campo nome. 
-				Após finalizar o processo, favor elaborar um texto com impressões e/ou problemas encontrados bem como sugestões de melhorias. Encaminhar para isrodrigues5@gmail.com 
+				Após finalizar o processo, favor elaborar um texto com impressões e/ou problemas encontrados bem como sugestões de melhorias. Encaminhar para isrodrigues5@gmail.com até 13 de novembro. 
 				com o assunto \"Testes Autorregular\".</strong>";
 		$link="";
 		$msgEmail = "<h4>Prezado(a) aluno(a),</h4>
