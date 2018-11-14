@@ -65,9 +65,9 @@ class RelatoriosController extends Controller{
 			echo "<td>$participante[email]</td>";
 			echo "<td>$participante[genero]</td>";
 			echo "<td>$participante[universidade]</td>";
-			echo "<td>".$this->sanitizeWords($participante[curso])."</td>";
+			echo "<td>".$participante["curso"]."</td>";
 			echo "<td>$participante[semestre]</td>";
-			echo "<td>".$periodo[$participante["periodo_curso"]]."</td>";
+			echo "<td>".$participante["periodo_curso"]."</td>";
 			echo "<td>$participante[tipo_ensino]</td>";
 			echo "<td>$participante[etnia]</td>";
 			echo "<td>$participante[minhas_notas]</td>";

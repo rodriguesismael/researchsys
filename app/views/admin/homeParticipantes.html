@@ -6,6 +6,7 @@
 <table class="table">
 	<thead>
 		<th>Lista</th>
+		<th>Link para assinatura</th>
 		<th>Ações</th>
 	</thead>
 	<tbody>
@@ -13,6 +14,7 @@
 			
 				<tr>
 					<td>{{ @lista.titulo }}</td>
+					<td><a target="_blank" href="https://autorregular.fe.unicamp.br/assinar/{{ @lista.id }}">https://autorregular.fe.unicamp.br/assinar/{{ @lista.id }}</a></td>
 					<td>
 						<a href="/admin/participantes/editar/{{ @lista.id }}" id="{{ @lista.id }}" class="btn btn-info sendmail" role="button">Enviar Emails</a>
 						&nbsp;
