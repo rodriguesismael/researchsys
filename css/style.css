@@ -125,3 +125,27 @@ h1,h2,h3{
 
   /*font: 12px Arial, sans-serif;*/
 }
+
+.subscribe-box{
+  width: 800px;
+  margin: 0 auto;
+  text-align: justify;
+  background-color: rgba(225, 237, 237, 1);
+  padding: 20px;
+}
+.subscribe-box p{
+  font-family: courier;
+  font-size: 50px;
+  font-weight: bold;
+  color: rgba(120, 42, 152, 1);
+}
+
+.btn-subscribe{
+  background-color: rgba(120, 42, 152, 1);
+  color: white;
+}
+
+.btn-subscribe:hover{
+  background-color: rgba(120, 42, 152, 0.55);
+  color: white;
+}
