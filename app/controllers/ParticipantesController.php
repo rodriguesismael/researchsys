@@ -6,6 +6,10 @@ class ParticipantesController extends Controller{
 		$this->isAdmin();
 		$listaObj = new ListaConvidadosDAO();
 		$listas = $listaObj->getListas();
+		foreach ($listas as $key=>$val) {
+			$listas[$key]['link'] = $this->get_tiny_url($this->f3->get("BASE_URL")."/assinar/".$listas[$key]["id"]);
+			//var_dump($lista['link']);
+		}
 		unset($listaObj);
 		$this->f3->set('listas',$listas);
 		$this->f3->set('content','admin/homeParticipantes.html');
@@ -14,17 +18,18 @@ class ParticipantesController extends Controller{
 
 	function nova(){
 		$this->isAdmin();
-		if ($this->f3->get('POST.maillist')) {		
+		if ($this->f3->get('POST.questionarios')) {		
 			$camposLista['titulo'] = $this->f3->get('POST.turma');
 			$emails = $this->f3->get('POST.maillist');
 			$quests = $this->f3->get('POST.questionarios');
 			$camposLista['questionarios'] = serialize($quests);
 			$listaObj = new ListaConvidadosDAO();
 			$listaObj->saveLista($camposLista);
-			if($listaObj->saveConvidados($emails)){
-				unset($listaObj);
-				$this->f3->reroute('/admin/participantes');
+			if (is_array($emails) && count($emails) > 0) {
+				$listaObj->saveConvidados($emails);
 			}
+			unset($listaObj);
+			$this->f3->reroute('/admin/participantes');
 		}
 		$questionario = new QuestionariosDAO();
 		$questionarios = $questionario->getList();
@@ -290,15 +295,23 @@ class ParticipantesController extends Controller{
 
 		if ($this->f3->get('POST.email')) {
 			$email = $this->f3->get('POST.email');
-			$r=$listaObj->saveConvidados(array($email),$turma);
-			if ($r) {
-				$this->f3->set('return','success');
-				$this->f3->set('msg','Obrigado! você vai receber um convite em breve.');
+			//need to check if the email already exists before inserting it
+			
+			$tememail = $listaObj->getConvidadoByEmail($email);
+			if (count($tememail)==0) {	
+				$r=$listaObj->saveConvidados(array($email),$turma);
+				if ($r) {
+					$this->f3->set('return','success');
+					$this->f3->set('msg','Obrigado! você vai receber um convite em breve.');
+				}else{
+					$this->f3->set('return','danger');
+					$this->f3->set('msg','Ocorreu um problema ao tentar incluir o e-mail, por favor notifique o administrador.');
+				}
+				unset($listaObj);
 			}else{
 				$this->f3->set('return','danger');
-				$this->f3->set('msg','Ocorreu um problema, por favor notifique o administrador.');
+				$this->f3->set('msg','Este e-mail já está participando da pesquisa, não e possível incluí-lo novamente.');
 			}
-			unset($listaObj);
 		}
 		$this->f3->set('content','subscribe.html');
 		echo \Template::instance()->render('tela_nonav.htm');
@@ -330,4 +343,16 @@ class ParticipantesController extends Controller{
 		$this->f3->set('noMenu',true);
 		echo \Template::instance()->render('tela.htm');		
 	}
+
+	function get_tiny_url($url)  {  
+		$ch = curl_init();  
+		$timeout = 5;  
+		curl_setopt($ch,CURLOPT_URL,'http://tinyurl.com/api-create.php?url='.$url);  
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);  
+		curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);  
+		$data = curl_exec($ch);  
+		curl_close($ch);  
+		return $data;  
+	}
+
 }

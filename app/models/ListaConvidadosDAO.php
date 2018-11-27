@@ -13,7 +13,7 @@ class ListaConvidadosDAO extends DAO{
 		$this->mapper->set('questionarios',$values['questionarios']);
 		$this->mapper->insert();
 		$this->listId = $this->mapper->get('_id');
-		var_dump($this->listId);
+		//var_dump($this->listId);
 
 	}
 

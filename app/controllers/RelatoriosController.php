@@ -76,6 +76,7 @@ class RelatoriosController extends Controller{
 			$resultRespostas = $relatorio->getEstatisticas($filtros['questionarios_id'],$participante['participante']);
 			foreach ($resultRespostas as $resposta) {
 				if($filtros['questionarios_id'] == 11){
+					$resposta["texto"] = str_replace("%", "", $resposta["texto"]);
 					echo "<td>$resposta[texto]</td>";
 				}else{
 					echo "<td>$resposta[alternativa]</td>";
