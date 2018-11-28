@@ -11,7 +11,8 @@ class ListaConvidadosDAO extends DAO{
 	public function saveLista($values){
 		$this->mapper->set('titulo',$values['titulo']);
 		$this->mapper->set('questionarios',$values['questionarios']);
-		$this->mapper->set('id_aleatorio',rand(1,999999));
+		$this->mapper->set('id_aleatorio',$values['random_id']);
+		$this->mapper->set('link_assinatura',$values['link']);
 		$this->mapper->insert();
 		$this->listId = $this->mapper->get('_id');
 		//var_dump($this->listId);

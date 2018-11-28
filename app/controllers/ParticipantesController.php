@@ -6,10 +6,6 @@ class ParticipantesController extends Controller{
 		$this->isAdmin();
 		$listaObj = new ListaConvidadosDAO();
 		$listas = $listaObj->getListas();
-		foreach ($listas as $key=>$val) {
-			$listas[$key]['link'] = $this->get_tiny_url($this->f3->get("BASE_URL")."/assinar/".$listas[$key]["id_aleatorio"]);
-			//var_dump($lista['link']);
-		}
 		unset($listaObj);
 		$this->f3->set('listas',$listas);
 		$this->f3->set('content','admin/homeParticipantes.html');
@@ -23,6 +19,8 @@ class ParticipantesController extends Controller{
 			$emails = $this->f3->get('POST.maillist');
 			$quests = $this->f3->get('POST.questionarios');
 			$camposLista['questionarios'] = serialize($quests);
+			$camposLista['random_id'] = rand(1,999999);
+			$camposLista['link'] = $this->get_tiny_url($this->f3->get("BASE_URL")."/assinar/".$camposLista['random_id']);
 			$listaObj = new ListaConvidadosDAO();
 			$listaObj->saveLista($camposLista);
 			if (is_array($emails) && count($emails) > 0) {
