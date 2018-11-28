@@ -7,7 +7,7 @@ class ParticipantesController extends Controller{
 		$listaObj = new ListaConvidadosDAO();
 		$listas = $listaObj->getListas();
 		foreach ($listas as $key=>$val) {
-			$listas[$key]['link'] = $this->get_tiny_url($this->f3->get("BASE_URL")."/assinar/".$listas[$key]["id"]);
+			$listas[$key]['link'] = $this->get_tiny_url($this->f3->get("BASE_URL")."/assinar/".$listas[$key]["id_aleatorio"]);
 			//var_dump($lista['link']);
 		}
 		unset($listaObj);
@@ -286,7 +286,7 @@ class ParticipantesController extends Controller{
 	function assinar(){
 		$turma = $this->f3->get('PARAMS.turma');
 		$listaObj = new ListaConvidadosDAO();
-		$lista = $listaObj->getListaById($turma);
+		$lista = $listaObj->getListaById($turma,true);
 		if (count($lista) == 0) {
 			$this->f3->set('notfound',"Link Inválido!");
 		}else{
@@ -299,7 +299,7 @@ class ParticipantesController extends Controller{
 			
 			$tememail = $listaObj->getConvidadoByEmail($email);
 			if (count($tememail)==0) {	
-				$r=$listaObj->saveConvidados(array($email),$turma);
+				$r=$listaObj->saveConvidados(array($email),$this->f3->get('POST.turma'));
 				if ($r) {
 					$this->f3->set('return','success');
 					$this->f3->set('msg','Obrigado! você vai receber um convite em breve.');

@@ -143,4 +143,26 @@ class RelatoriosController extends Controller{
 		$writer = new Xlsx($spreadsheet);
 		$writer->save('hello world.xlsx');		
 	}
+
+	function unir(){
+		$handle = fopen("tmp/planilha_lassi.csv", "r");
+		$LassiArr = array();
+		$i=0;
+		while($linha=fgetcsv($handle)){
+			$LassiArr[$i] = $linha;
+			$i++;
+		}
+		echo "<table>";
+		foreach ($LassiArr as $key => $linha) {
+			echo "<tr><td>$key</td>";
+			foreach ($linha as $campo) {
+				echo "<td>".$campo."</td>";
+			}
+			echo "</tr>";
+		}
+
+		echo "</table>";
+
+		fclose($handle);
+	}
 }

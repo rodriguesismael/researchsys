@@ -11,6 +11,7 @@ class ListaConvidadosDAO extends DAO{
 	public function saveLista($values){
 		$this->mapper->set('titulo',$values['titulo']);
 		$this->mapper->set('questionarios',$values['questionarios']);
+		$this->mapper->set('id_aleatorio',rand(1,999999));
 		$this->mapper->insert();
 		$this->listId = $this->mapper->get('_id');
 		//var_dump($this->listId);
@@ -48,8 +49,12 @@ class ListaConvidadosDAO extends DAO{
 		return $this->getAll($sql);
 	}
 
-	public function getListaById($id){
-		$sql = "SELECT * FROM listas WHERE id=$id";
+	public function getListaById($id,$random=false){
+		$column = "id";
+		if($random){
+			$column = "id_aleatorio";
+		}
+		$sql = "SELECT * FROM listas WHERE $column=$id";
 
 		return $this->getAll($sql);
 	}
