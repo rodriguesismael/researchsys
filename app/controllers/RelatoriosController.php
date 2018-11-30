@@ -3,6 +3,8 @@
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class RelatoriosController extends Controller{
+
+	private $rel=array();
 	function home(){
 		$this->isAdmin();
 		$universidade = new UniversidadeDAO();
@@ -48,9 +50,13 @@ class RelatoriosController extends Controller{
 		// header('Content-Type: application/vnd.ms-excel; charset=utf-8');
 		// header("Content-Disposition: inline;filename=test.xls");
 		// header("Content-Transfer-Encoding: binary");
-		echo "<table>";
-		echo $this->getQuestHeader($filtros['questionarios_id']);
+		
+		// echo "<table>";
+		// echo $this->getQuestHeader($filtros['questionarios_id']);
 
+		$relobj=array();
+		$relobj = $participantes;
+		$i=0;
 		foreach ($participantes as $participante) {
 			$ensino   = array("1"=>"Escola Pública","2"=>"Escola Particular","3"=>"Ambas");
 			$periodo  = array("N"=>"Noturno","V"=>"Vespertino","M"=>"Matutino","I"=>"Integral");
@@ -60,31 +66,40 @@ class RelatoriosController extends Controller{
 							  "5"=>"Muita Intenção","6"=>"Muitíssima Intenção","7"=>"Total Intenção");
 			$notas 	  = array("1"=>"Bem Acima","2"=>"Bem Abaixo","3"=>"Em torno","4"=>"Abaixo","5"=>"Bem abaixo","6"=>"Ainda não tenho ideia");
 
-			echo "<tr><td>".$this->sanitizeWords($participante["nome"])."</td>";
-			echo "<td>$participante[idade]</td>";
-			echo "<td>$participante[email]</td>";
-			echo "<td>$participante[genero]</td>";
-			echo "<td>$participante[universidade]</td>";
-			echo "<td>".$participante["curso"]."</td>";
-			echo "<td>$participante[semestre]</td>";
-			echo "<td>".$participante["periodo_curso"]."</td>";
-			echo "<td>$participante[tipo_ensino]</td>";
-			echo "<td>$participante[etnia]</td>";
-			echo "<td>$participante[minhas_notas]</td>";
-			echo "<td>$participante[intencao_academica]</td>";
+			// echo "<tr><td>".$this->sanitizeWords($participante["nome"])."</td>";
+			// echo "<td>$participante[idade]</td>";
+			// echo "<td>$participante[email]</td>";
+			// echo "<td>$participante[genero]</td>";
+			// echo "<td>$participante[universidade]</td>";
+			// echo "<td>".$participante["curso"]."</td>";
+			// echo "<td>$participante[semestre]</td>";
+			// echo "<td>".$participante["periodo_curso"]."</td>";
+			// echo "<td>$participante[tipo_ensino]</td>";
+			// echo "<td>$participante[etnia]</td>";
+			// echo "<td>$participante[minhas_notas]</td>";
+			// echo "<td>$participante[intencao_academica]</td>";
 			// $resultRespostas = $this->db->exec($queryRespostas,array($questionario,$participante["participante"]));
 			$resultRespostas = $relatorio->getEstatisticas($filtros['questionarios_id'],$participante['participante']);
+			$questao=1;
+
 			foreach ($resultRespostas as $resposta) {
+
 				if($filtros['questionarios_id'] == 11){
 					$resposta["texto"] = str_replace("%", "", $resposta["texto"]);
-					echo "<td>$resposta[texto]</td>";
+					$outputResposta = $resposta["texto"];
 				}else{
-					echo "<td>$resposta[alternativa]</td>";
+					$outputResposta = $resposta["alternativa"];
 				}
+				// echo "<td>$outputResposta</td>";
+				$relobj[$i]["q".$questao]=$outputResposta;
+				$questao++;
 			}
-			echo "</tr>";
+			// echo "</tr>";
+			$i++;
 		}
-		echo "</table>";
+		$this->rel = $relobj;
+		// echo "</table>";
+		$this->unir();
 		unset($relatorio);
 	}
 
@@ -148,20 +163,70 @@ class RelatoriosController extends Controller{
 		$handle = fopen("tmp/planilha_lassi.csv", "r");
 		$LassiArr = array();
 		$i=0;
+		$header = fgetcsv($handle);
+		foreach ($header as $key => $value) {
+			$header[$key] = strtolower($value);
+		}
 		while($linha=fgetcsv($handle)){
-			$LassiArr[$i] = $linha;
+			foreach ($linha as $key => $campo) {
+				$LassiArr[$i][$header[$key]] = $campo;
+			}
+			// $LassiArr[$i] = $linha;
 			$i++;
 		}
-		echo "<table>";
-		foreach ($LassiArr as $key => $linha) {
+		// echo "<table>";
+		// foreach ($LassiArr as $key => $linha) {
+		// 	echo "<tr><td>$key</td>";
+		// 	foreach ($linha as $campo) {
+		// 		echo "<td>".$campo."</td>";
+		// 	}
+		// 	echo "</tr>";
+		// }
+
+		// echo "</table>";
+		
+		// echo "<br>";
+		// echo "<table>";
+
+		// foreach ($this->rel as $key => $linha) {
+		// 	echo "<tr><td>$key</td>";
+		// 	foreach ($linha as $campo) {
+		// 		echo "<td>".$campo."</td>";
+		// 	}
+		// 	echo "</tr>";
+		// }
+
+		// echo "</table>";
+
+		$newArr = array();
+		foreach ($this->rel as $Skey => $linhaSys) {
+			foreach ($LassiArr as $Lkey=>$linhaLassi) {
+				if($linhaSys["email"] == $linhaLassi["email"]){
+
+					$newArr[] = array_merge($linhaSys, $linhaLassi);
+				}
+			}
+		}
+		// echo "<br>";
+		$cabecalho = array_keys($newArr[0]);
+		array_unshift($cabecalho, "ordem");
+		echo "<table border=1>";
+		echo "<tr>";
+		foreach ($cabecalho as $campo) {
+			echo "<td>$campo</td>";
+		}
+		echo "<tr>";
+		foreach ($newArr as $key => $linha) {
 			echo "<tr><td>$key</td>";
 			foreach ($linha as $campo) {
 				echo "<td>".$campo."</td>";
 			}
 			echo "</tr>";
-		}
+		}		
+
 
 		echo "</table>";
+		//var_dump(array_intersect($this->rel, $LassiArr));
 
 		fclose($handle);
 	}
