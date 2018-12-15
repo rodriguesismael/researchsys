@@ -32,6 +32,27 @@ class RelatoriosController extends Controller{
 		
 		$filtros=array();
 
+		if ($this->f3->get('FILES')) {
+			$this->web = \Web::instance();
+			$this->f3->set('UPLOADS','lassi_files/'); // don't forget to set an Upload directory, and make it writable!
+
+			$overwrite = true; // set to true, to overwrite an existing file; Default: false
+			$slug = false; // rename file to filesystem-friendly version
+			$files = $this->web->receive(function($file,$upload){
+			        if($file['size'] > (2 * 1024 * 1024)) // if bigger than 2 MB
+			            return false; // this file is not valid, return false will skip moving it
+			        // everything went fine, hurray!
+			        return true; // allows the file to be moved from php tmp dir to your defined upload dir
+			    },
+			    $overwrite,
+			    function($fileBaseName,$upload){
+			    	//this callback change de filename
+			        $ext = explode('.', $fileBaseName)[1];
+			        return 'novoNome.'.$ext;			    	
+			    }
+			);
+		}
+
 		$filtros['universidades_id'] 	 = $this->f3->get('POST.universidade');
 		$filtros['questionarios_id'] = $this->f3->get('POST.questionario');
 		$filtros['c.id'] 		 	 = $this->f3->get('POST.curso');
@@ -40,45 +61,10 @@ class RelatoriosController extends Controller{
 		$relatorio = new RelatoriosDAO();
 		$participantes = $relatorio->getParticipantes($filtros);
 		
-		//$queryRespostas = "SELECT q.ordem,a.ordem alternativa FROM respostas r JOIN alternativas a ON r.alternativa_id = a.id JOIN 
-  //   questoes q on r.questao_id = q.id JOIN questionarios qr on q.questionarios_id = qr.id 
-  //   WHERE qr.id=? and r.participante=?";
-
-		
-		// header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-		// header("Cache-Control: private",false);
-		// header('Content-Type: application/vnd.ms-excel; charset=utf-8');
-		// header("Content-Disposition: inline;filename=test.xls");
-		// header("Content-Transfer-Encoding: binary");
-		
-		// echo "<table>";
-		// echo $this->getQuestHeader($filtros['questionarios_id']);
-
 		$relobj=array();
 		$relobj = $participantes;
 		$i=0;
 		foreach ($participantes as $participante) {
-			$ensino   = array("1"=>"Escola Pública","2"=>"Escola Particular","3"=>"Ambas");
-			$periodo  = array("N"=>"Noturno","V"=>"Vespertino","M"=>"Matutino","I"=>"Integral");
-			$etnia	  = array("1"=>"Branca","2"=>"Negra","3"=>"Parda","4"=>"Indígena","5"=>"Oriental","6"=>"Outra");
-			$intencao = array("1"=>"Nenhuma Intenção","2"=>"Muito Pouca Intenção",
-							  "3"=>"Pouca Intenção","4"=>"Moderada Intenção",
-							  "5"=>"Muita Intenção","6"=>"Muitíssima Intenção","7"=>"Total Intenção");
-			$notas 	  = array("1"=>"Bem Acima","2"=>"Bem Abaixo","3"=>"Em torno","4"=>"Abaixo","5"=>"Bem abaixo","6"=>"Ainda não tenho ideia");
-
-			// echo "<tr><td>".$this->sanitizeWords($participante["nome"])."</td>";
-			// echo "<td>$participante[idade]</td>";
-			// echo "<td>$participante[email]</td>";
-			// echo "<td>$participante[genero]</td>";
-			// echo "<td>$participante[universidade]</td>";
-			// echo "<td>".$participante["curso"]."</td>";
-			// echo "<td>$participante[semestre]</td>";
-			// echo "<td>".$participante["periodo_curso"]."</td>";
-			// echo "<td>$participante[tipo_ensino]</td>";
-			// echo "<td>$participante[etnia]</td>";
-			// echo "<td>$participante[minhas_notas]</td>";
-			// echo "<td>$participante[intencao_academica]</td>";
-			// $resultRespostas = $this->db->exec($queryRespostas,array($questionario,$participante["participante"]));
 			$resultRespostas = $relatorio->getEstatisticas($filtros['questionarios_id'],$participante['participante']);
 			$questao=1;
 
@@ -90,28 +76,28 @@ class RelatoriosController extends Controller{
 				}else{
 					$outputResposta = $resposta["alternativa"];
 				}
-				// echo "<td>$outputResposta</td>";
 				$relobj[$i]["q".$questao]=$outputResposta;
 				$questao++;
 			}
-			// echo "</tr>";
 			$i++;
 		}
 		$this->rel = $relobj;
-		// echo "</table>";
-		$this->unir();
+
+		if ($this->f3->get('POST.join')) {
+			$this->unir();
+		}else{
+			$this->printArray($this->rel);
+		}
+
+		
 		unset($relatorio);
 	}
 
 	function getQuestHeader($quest){
-		//$qry = "SELECT q.titulo,qr.ordem from questionarios q JOIN questoes qr ON q.id = qr.questionarios_id WHERE q.id=? order by qr.ordem";
-		// $result = $this->db->exec($qry,array($quest));
 		$relatorio = new RelatoriosDAO();
 		$result = $relatorio->getRelatorioHeader($quest);
-		// var_dump($result);die();
 		unset($relatorio);
 		$string = "<tr><td colspan='".(count($result)+12)."'><strong>".$this->sanitizeWords($result[0]['titulo'],true)."</strong></td></tr>";
-		// $string.="<tr><td colspan='12' align='center'><strong>Participantes</strong></td><td colspan='".count($result)."' align='center'><strong>Respostas</strong></td></tr>";
 		$string.="<tr><td>Nome</td><td>Idade</td><td>E-mail</td><td>Gênero</td><td>Universidade</td><td>Curso</td><td>Semestre</td><td>Periodo</td>";
 		$string.="<td>Cursou Ensino Médio</td><td>Etnia</td><td>Minhas Notas</td><td>Intenção Acadêmica</td>";
 		foreach ($result as $lista) {
@@ -150,84 +136,91 @@ class RelatoriosController extends Controller{
 	    return $field;
 	}
 
-	function relatorio3(){
+	function relatorios(){
 		$spreadsheet = new Spreadsheet();
 		$sheet = $spreadsheet->getActiveSheet();
 		$sheet->setCellValue('A1', 'Hello World !');
 
 		$writer = new Xlsx($spreadsheet);
-		$writer->save('hello world.xlsx');		
+		$writer->save('lassi_files/hello_world.xlsx');		
 	}
 
 	function unir(){
-		$handle = fopen("tmp/planilha_lassi.csv", "r");
-		$LassiArr = array();
-		$i=0;
-		$header = fgetcsv($handle);
+		// $handle = fopen("tmp/planilha_bruta.csv", "r");
+		// $LassiArr = array();
+		// $i=0;
+		// $header = fgetcsv($handle);
+		// foreach ($header as $key => $value) {
+		// 	$header[$key] = strtolower($value);
+		// }
+		// while($linha=fgetcsv($handle)){
+		// 	foreach ($linha as $key => $campo) {
+		// 		$LassiArr[$i][$header[$key]] = $campo;
+		// 	}
+		// 	$i++;
+		// }
+		$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xls');
+		$reader->setReadDataOnly(TRUE);
+		$spreadsheet = $reader->load("lassi_files/planilha_lassi.xls");
+
+		$aux = $spreadsheet->getActiveSheet()
+						   ->toArray();
+		$header = $aux[0];
+		array_shift($aux);
 		foreach ($header as $key => $value) {
 			$header[$key] = strtolower($value);
 		}
-		while($linha=fgetcsv($handle)){
-			foreach ($linha as $key => $campo) {
-				$LassiArr[$i][$header[$key]] = $campo;
+		foreach ($aux as $key => $linha) {
+			foreach ($linha as $chave=>$campo) {
+				$LassiArr[$key][$header[$chave]] = $campo;
 			}
-			// $LassiArr[$i] = $linha;
-			$i++;
 		}
-		// echo "<table>";
-		// foreach ($LassiArr as $key => $linha) {
-		// 	echo "<tr><td>$key</td>";
-		// 	foreach ($linha as $campo) {
-		// 		echo "<td>".$campo."</td>";
-		// 	}
-		// 	echo "</tr>";
-		// }
-
-		// echo "</table>";
-		
-		// echo "<br>";
-		// echo "<table>";
-
-		// foreach ($this->rel as $key => $linha) {
-		// 	echo "<tr><td>$key</td>";
-		// 	foreach ($linha as $campo) {
-		// 		echo "<td>".$campo."</td>";
-		// 	}
-		// 	echo "</tr>";
-		// }
-
-		// echo "</table>";
+		var_dump($LassiArr);die();
 
 		$newArr = array();
 		foreach ($this->rel as $Skey => $linhaSys) {
 			foreach ($LassiArr as $Lkey=>$linhaLassi) {
 				if($linhaSys["email"] == $linhaLassi["email"]){
-
 					$newArr[] = array_merge($linhaSys, $linhaLassi);
 				}
 			}
 		}
-		// echo "<br>";
-		$cabecalho = array_keys($newArr[0]);
-		array_unshift($cabecalho, "ordem");
-		echo "<table border=1>";
-		echo "<tr>";
-		foreach ($cabecalho as $campo) {
-			echo "<td>$campo</td>";
-		}
-		echo "<tr>";
-		foreach ($newArr as $key => $linha) {
-			echo "<tr><td>$key</td>";
-			foreach ($linha as $campo) {
-				echo "<td>".$campo."</td>";
-			}
-			echo "</tr>";
-		}		
 
-
-		echo "</table>";
-		//var_dump(array_intersect($this->rel, $LassiArr));
+		$this->printArray($newArr);
 
 		fclose($handle);
+	}
+
+	function printArray($array,$generateFile=false){
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="test.xlsx"');
+		header('Cache-Control: max-age=0');		
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet()
+					->fromArray(array_keys($array[0]));
+		$sheet = $spreadsheet->getActiveSheet()
+					->fromArray($array,NULL,'A2');
+		$writer = new Xlsx($spreadsheet);
+		$writer->save('lassi_files/hello_world.xlsx');
+		$writer->save('php://output');
+		
+		$spreadsheet->disconnectWorksheets();
+		unset($spreadsheet);
+		$cabecalho = array_keys($array[0]);
+		array_unshift($cabecalho, "ordem");
+		// echo "<table border=1>";
+		// echo "<tr>";
+		// foreach ($cabecalho as $campo) {
+		// 	echo "<td>$campo</td>";
+		// }
+		// echo "<tr>";
+		// foreach ($array as $key => $linha) {
+		// 	echo "<tr><td>$key</td>";
+		// 	foreach ($linha as $campo) {
+		// 		echo "<td>".$campo."</td>";
+		// 	}
+		// 	echo "</tr>";
+		// }		
+		// echo "</table>";		
 	}
 }

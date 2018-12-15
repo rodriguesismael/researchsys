@@ -1,7 +1,11 @@
 <?php
 
 // Kickstart the framework
-$f3=require('lib/base.php');
+require_once('vendor/autoload.php');
+
+// $f3=require('lib/base.php');
+$f3=Base::Instance();
+
 
 $f3->set('DEBUG',3);
 if ((float)PCRE_VERSION<7.9)
