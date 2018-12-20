@@ -5,7 +5,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class RelatoriosController extends Controller{
 
 	private $rel=array();
-	function home(){
+	function home($hasError){
 		$this->isAdmin();
 		$universidade = new UniversidadeDAO();
 		$questionario = new QuestionariosDAO();
@@ -14,6 +14,10 @@ class RelatoriosController extends Controller{
 		$universidades = $universidade->getList();
 		$cursos = $universidade->getCursos();
 		$listas = $lista->getListas();
+		var_dump($hasError);
+		if (isset($hasError)) {
+			$this->f3->set('error',$hasError);	
+		}
 		$this->f3->set('questionarios',$questionarios);
 		$this->f3->set('universidades',$universidades);
 		$this->f3->set('cursos',$cursos);
@@ -38,7 +42,12 @@ class RelatoriosController extends Controller{
 
 			$overwrite = true; // set to true, to overwrite an existing file; Default: false
 			$slug = false; // rename file to filesystem-friendly version
+			$wrongtype = "";
 			$files = $this->web->receive(function($file,$upload){
+					if(strpos($file['type'], "excel") === FALSE || strpos($file['type'], "spreadsheet") === FALSE ){
+						$wrongtype = 'O arquivo precisa estar nos formatos xls ou xlsx';
+						return false;
+					}
 			        if($file['size'] > (2 * 1024 * 1024)) // if bigger than 2 MB
 			            return false; // this file is not valid, return false will skip moving it
 			        // everything went fine, hurray!
@@ -51,6 +60,12 @@ class RelatoriosController extends Controller{
 			        return 'novoNome.'.$ext;			    	
 			    }
 			);
+
+			if(isset($wrongtype)){
+				$this->f3->call('RelatoriosController->home');
+				//return;
+			}
+
 		}
 
 		$filtros['universidades_id'] 	 = $this->f3->get('POST.universidade');
@@ -159,6 +174,7 @@ class RelatoriosController extends Controller{
 		// 	}
 		// 	$i++;
 		// }
+		\PhpOffice\PhpSpreadsheet\Cell\Cell::setValueBinder( new \PhpOffice\PhpSpreadsheet\Cell\AdvancedValueBinder() );
 		$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xls');
 		$reader->setReadDataOnly(TRUE);
 		$spreadsheet = $reader->load("lassi_files/planilha_lassi.xls");
@@ -172,6 +188,12 @@ class RelatoriosController extends Controller{
 		}
 		foreach ($aux as $key => $linha) {
 			foreach ($linha as $chave=>$campo) {
+				if ($header[$chave] == 'testdate') {
+					$campo = date("d/m/Y",($campo - 25569)*86400);
+				}
+				if ($header[$chave] == 'timetaken') {
+					$campo = date("H:i:s",($campo - 25569)*86400);
+				}
 				$LassiArr[$key][$header[$chave]] = $campo;
 			}
 		}
