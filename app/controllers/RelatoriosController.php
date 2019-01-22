@@ -14,8 +14,8 @@ class RelatoriosController extends Controller{
 		$universidades = $universidade->getList();
 		$cursos = $universidade->getCursos();
 		$listas = $lista->getListas();
-		var_dump($hasError);
-		if (isset($hasError)) {
+		$paramType = gettype($hasError);
+		if (is_string($hasError)) {
 			$this->f3->set('error',$hasError);	
 		}
 		$this->f3->set('questionarios',$questionarios);
@@ -36,6 +36,7 @@ class RelatoriosController extends Controller{
 		
 		$filtros=array();
 
+		var_dump($this->f3->get('upload'));
 		if ($this->f3->get('FILES')) {
 			$this->web = \Web::instance();
 			$this->f3->set('UPLOADS','lassi_files/'); // don't forget to set an Upload directory, and make it writable!
@@ -45,7 +46,6 @@ class RelatoriosController extends Controller{
 			$wrongtype = "";
 			$files = $this->web->receive(function($file,$upload){
 					if(strpos($file['type'], "excel") === FALSE || strpos($file['type'], "spreadsheet") === FALSE ){
-						$wrongtype = 'O arquivo precisa estar nos formatos xls ou xlsx';
 						return false;
 					}
 			        if($file['size'] > (2 * 1024 * 1024)) // if bigger than 2 MB
@@ -61,14 +61,13 @@ class RelatoriosController extends Controller{
 			    }
 			);
 
-			if(isset($wrongtype)){
-				$this->f3->call('RelatoriosController->home');
-				//return;
+			if(!$files[0]){
+				$this->f3->call('RelatoriosController->home',"O arquivo do LASSI precisa estar nos formatos xls ou xlsx.");
+				return;
 			}
-
 		}
 
-		$filtros['universidades_id'] 	 = $this->f3->get('POST.universidade');
+		$filtros['universidades_id'] = $this->f3->get('POST.universidade');
 		$filtros['questionarios_id'] = $this->f3->get('POST.questionario');
 		$filtros['c.id'] 		 	 = $this->f3->get('POST.curso');
 		$filtros['genero']		 	 = $this->f3->get('POST.genero');
