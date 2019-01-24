@@ -31,13 +31,11 @@ class RelatoriosController extends Controller{
 
 	}
 
-
 	function relatorio(){
 		
 		$filtros=array();
 
-		var_dump($this->f3->get('upload'));
-		if ($this->f3->get('FILES')) {
+		if ($this->f3->get('FILES.upload.size') > 0) {
 			$this->web = \Web::instance();
 			$this->f3->set('UPLOADS','lassi_files/'); // don't forget to set an Upload directory, and make it writable!
 
@@ -101,9 +99,7 @@ class RelatoriosController extends Controller{
 			$this->unir();
 		}else{
 			$this->printArray($this->rel);
-		}
-
-		
+		}	
 		unset($relatorio);
 	}
 
@@ -160,19 +156,6 @@ class RelatoriosController extends Controller{
 	}
 
 	function unir(){
-		// $handle = fopen("tmp/planilha_bruta.csv", "r");
-		// $LassiArr = array();
-		// $i=0;
-		// $header = fgetcsv($handle);
-		// foreach ($header as $key => $value) {
-		// 	$header[$key] = strtolower($value);
-		// }
-		// while($linha=fgetcsv($handle)){
-		// 	foreach ($linha as $key => $campo) {
-		// 		$LassiArr[$i][$header[$key]] = $campo;
-		// 	}
-		// 	$i++;
-		// }
 		\PhpOffice\PhpSpreadsheet\Cell\Cell::setValueBinder( new \PhpOffice\PhpSpreadsheet\Cell\AdvancedValueBinder() );
 		$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xls');
 		$reader->setReadDataOnly(TRUE);
@@ -196,8 +179,6 @@ class RelatoriosController extends Controller{
 				$LassiArr[$key][$header[$chave]] = $campo;
 			}
 		}
-		var_dump($LassiArr);die();
-
 		$newArr = array();
 		foreach ($this->rel as $Skey => $linhaSys) {
 			foreach ($LassiArr as $Lkey=>$linhaLassi) {
@@ -208,27 +189,27 @@ class RelatoriosController extends Controller{
 		}
 
 		$this->printArray($newArr);
-
-		fclose($handle);
 	}
 
 	function printArray($array,$generateFile=false){
-		header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="test.xlsx"');
-		header('Cache-Control: max-age=0');		
 		$spreadsheet = new Spreadsheet();
 		$sheet = $spreadsheet->getActiveSheet()
 					->fromArray(array_keys($array[0]));
 		$sheet = $spreadsheet->getActiveSheet()
 					->fromArray($array,NULL,'A2');
-		$writer = new Xlsx($spreadsheet);
+		$writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+		
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="hello_world.xls"');
+		header('Cache-Control: max-age=0');
 		$writer->save('lassi_files/hello_world.xlsx');
 		$writer->save('php://output');
 		
 		$spreadsheet->disconnectWorksheets();
 		unset($spreadsheet);
-		$cabecalho = array_keys($array[0]);
-		array_unshift($cabecalho, "ordem");
+
+		// $cabecalho = array_keys($array[0]);
+		// array_unshift($cabecalho, "ordem");
 		// echo "<table border=1>";
 		// echo "<tr>";
 		// foreach ($cabecalho as $campo) {
