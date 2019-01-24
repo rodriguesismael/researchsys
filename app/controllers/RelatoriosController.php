@@ -103,21 +103,6 @@ class RelatoriosController extends Controller{
 		unset($relatorio);
 	}
 
-	function getQuestHeader($quest){
-		$relatorio = new RelatoriosDAO();
-		$result = $relatorio->getRelatorioHeader($quest);
-		unset($relatorio);
-		$string = "<tr><td colspan='".(count($result)+12)."'><strong>".$this->sanitizeWords($result[0]['titulo'],true)."</strong></td></tr>";
-		$string.="<tr><td>Nome</td><td>Idade</td><td>E-mail</td><td>Gênero</td><td>Universidade</td><td>Curso</td><td>Semestre</td><td>Periodo</td>";
-		$string.="<td>Cursou Ensino Médio</td><td>Etnia</td><td>Minhas Notas</td><td>Intenção Acadêmica</td>";
-		foreach ($result as $lista) {
-			$string.="<td align='center'>Q$lista[ordem]</td>";
-		}
-		$string.="</tr>";
-		return $string;
-
-	}
-
 	function sanitizeWords($field,$capital=false){
 	    $letters = [
 	        0 => "a à á â ä æ ã å ā",
@@ -200,9 +185,9 @@ class RelatoriosController extends Controller{
 		$writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
 		
 		header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="hello_world.xls"');
+		header('Content-Disposition: attachment;filename="relatorio_autorregular.xls"');
 		header('Cache-Control: max-age=0');
-		$writer->save('lassi_files/hello_world.xlsx');
+		$writer->save('lassi_files/relatorio_autorregular.xls');
 		$writer->save('php://output');
 		
 		$spreadsheet->disconnectWorksheets();

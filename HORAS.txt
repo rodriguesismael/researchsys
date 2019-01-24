@@ -39,6 +39,7 @@ Fase de Relaorios
 2h na quarta 12/12
 2h na quinta 13/12 (incluida hora para implementar bkp no drive)
 2h na sexta 14/12
+1h na quarta 22/01
  
 TODO participação aluno
 
