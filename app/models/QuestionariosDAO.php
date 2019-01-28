@@ -75,7 +75,7 @@ class QuestionariosDAO extends DAO{
 
 
 	public function saveResposta($questao,$resposta,$participante){
-		$sql = "INSERT INTO respostas (participante,questao_id,alternativa_id) VALUES(:participante,:questao,:resposta)";
+		$sql = "INSERT INTO respostas (participante,questao_id,alternativa_id,data_resposta) VALUES(:participante,:questao,:resposta,NOW())";
 		$statement = $this->db->prepare($sql);
 		$r=true;
 		$statement->bindParam(":participante",$participante,PDO::PARAM_STR);

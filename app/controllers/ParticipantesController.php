@@ -89,7 +89,7 @@ class ParticipantesController extends Controller{
 			Sua colaboração é muito valiosa! Para participar da pesquisa, por favor, acesse o
 			seguinte link: <a href='REPLACE'>REPLACE</a>
 		</p>
-		<p>Muito obrigada!</p><br/>$obs
+		<p>Muito obrigada!</p>
 		<hr>
 		<p><img src='https://autorregular.fe.unicamp.br/img/logo.png' width='380'></p>";
 
