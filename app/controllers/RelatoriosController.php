@@ -55,7 +55,7 @@ class RelatoriosController extends Controller{
 			    function($fileBaseName,$upload){
 			    	//this callback change de filename
 			        $ext = explode('.', $fileBaseName)[1];
-			        return 'novoNome.'.$ext;			    	
+			        return 'planilha_lassi.'.$ext;			    	
 			    }
 			);
 
