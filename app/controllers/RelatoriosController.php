@@ -43,7 +43,7 @@ class RelatoriosController extends Controller{
 			$slug = false; // rename file to filesystem-friendly version
 			$wrongtype = "";
 			$files = $this->web->receive(function($file,$upload){
-					if(strpos($file['type'], "excel") === FALSE || strpos($file['type'], "spreadsheet") === FALSE ){
+					if(strpos($file['type'], "excel") === FALSE && strpos($file['type'], "spreadsheet") === FALSE ){
 						return false;
 					}
 			        if($file['size'] > (2 * 1024 * 1024)) // if bigger than 2 MB
@@ -58,8 +58,7 @@ class RelatoriosController extends Controller{
 			        return 'planilha_lassi.'.$ext;			    	
 			    }
 			);
-
-			if(!$files[0]){
+			if(!$files){
 				$this->f3->call('RelatoriosController->home',"O arquivo do LASSI precisa estar nos formatos xls ou xlsx.");
 				return;
 			}
