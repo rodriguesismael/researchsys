@@ -23,7 +23,7 @@
           <span class="fa fa-question-circle purple-text" data-toggle="popover" tabindex="0" data-trigger="focus" title="Não consigo selecionar meu nascimento!" data-content="Lamentamos informar que essa pesquisa só
   pode ser realizada com maiores de 18 anos, por não precisarem da autorização dos pais
   e/ou responsáveis para respondê-la. Aguarde novo contato, em futuro próximo."></span>      
-        <input type="date" class="form-control" max="2000-08-01" name="nasc" id="nasc" required/>
+        <input type="date" class="form-control" max="2001-01-01" name="nasc" id="nasc" required/>
       </div>
       <div class="form-group col-md-3">
         <label for="genero" class="label">Gênero</label>
@@ -56,25 +56,25 @@
       <div class="form-group col-md-6">
         <span class="label">Período</span>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="periodo" id="i" value="1"/>
+          <input class="form-check-input" type="radio" name="periodo" id="i" value="1" required />
           <label class="form-check-label" for="i">
             Integral
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="periodo" id="m" value="2"/>
+          <input class="form-check-input" type="radio" name="periodo" id="m" value="2" required/>
           <label class="form-check-label" for="m">
             Matutino
           </label>
         </div>        
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="periodo" id="v" value="3"/>
+          <input class="form-check-input" type="radio" name="periodo" id="v" value="3" required/>
           <label class="form-check-label" for="v">
             Vespertino
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="periodo" id="n" value="4"/>
+          <input class="form-check-input" type="radio" name="periodo" id="n" value="4" required/>
           <label class="form-check-label" for="n">
             Noturno
           </label>
@@ -99,19 +99,19 @@
     <div>
       <span class="label">Cursei o Ensino médio em</span>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="tipoEnsino" id="pub" value="1"/>
+        <input class="form-check-input" type="radio" name="tipoEnsino" id="pub" value="1" required/>
         <label class="form-check-label" for="pub">
           Escola Pública
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="tipoEnsino" id="part" value="2"/>
+        <input class="form-check-input" type="radio" name="tipoEnsino" id="part" value="2" required/>
         <label class="form-check-label" for="part">
           Escola Particular
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="tipoEnsino" id="both" value="3"/>
+        <input class="form-check-input" type="radio" name="tipoEnsino" id="both" value="3" required/>
         <label class="form-check-label" for="both">
           Uma parte em escola pública e outra em particular
         </label>
