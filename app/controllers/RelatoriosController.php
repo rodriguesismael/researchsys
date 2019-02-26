@@ -68,12 +68,17 @@ class RelatoriosController extends Controller{
 		$filtros['questionarios_id'] = $this->f3->get('POST.questionario');
 		$filtros['c.id'] 		 	 = $this->f3->get('POST.curso');
 		$filtros['genero']		 	 = $this->f3->get('POST.genero');
+		$filtros['idlista']		 	 = $this->f3->get('POST.turma');
 
 		$relatorio = new RelatoriosDAO();
 		$participantes = $relatorio->getParticipantes($filtros);
 		
 		$relobj=array();
 		$relobj = $participantes;
+		if (empty($relobj)){
+			$this->f3->call('RelatoriosController->home',"A combinação de filtros retornou um conjunto vazio");
+			return;
+		}
 		$i=0;
 		foreach ($participantes as $participante) {
 			$resultRespostas = $relatorio->getEstatisticas($filtros['questionarios_id'],$participante['participante']);

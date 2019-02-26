@@ -2,24 +2,26 @@
 
 <form action="/admin/relatorio" method="POST" enctype="multipart/form-data">
 	<check if="{{ @error }}">
-		<div class="alert alert-danger" role="alert">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
 		  <strong>Ocorreu um problema!</strong> {{@error}}
-		</div>			
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</div>		
 	</check>	
 	<fieldset>
 		<legend>Filtros</legend>
 		<div class="form-group">
 			<label for="questionario">Questionário</label>
 			<select id="questionario" class="form-control" name="questionario" required>
-				<option value="-1">Todos</option>
 				<repeat group="{{ @questionarios }}" value="{{ @questionario }}">
 					<option value="{{ @questionario.id }}">{{ @questionario.titulo }}</option>
 				</repeat>
 			</select>
 		</div>
 		<div class="form-group">
-			<label for="universidade">Turma</label>
-			<select id="universidade" class="form-control" name="universidade" required>
+			<label for="turma">Turma</label>
+			<select id="turma" class="form-control" name="turma" required>
 				<option value="-1">Todas</option>
 				<repeat group="{{ @turmas }}" value="{{ @turma }}">
 					<option value="{{ @turma.id }}">{{ @turma.titulo }}</option>
