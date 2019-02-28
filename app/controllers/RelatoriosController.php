@@ -72,7 +72,6 @@ class RelatoriosController extends Controller{
 
 		$relatorio = new RelatoriosDAO();
 		$participantes = $relatorio->getParticipantes($filtros);
-		
 		$relobj=array();
 		$relobj = $participantes;
 		if (empty($relobj)){
