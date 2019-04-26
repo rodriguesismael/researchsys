@@ -33,7 +33,7 @@ class ListaConvidadosDAO extends DAO{
 			$statement->bindParam(':idLista',$param,PDO::PARAM_INT);
 			$statement->bindParam(':email',$email,PDO::PARAM_STR);
 			//this random value will compose the participant id in the participantes table
-			$statement->bindParam(':random',uniqid(rand()),PDO::PARAM_STR);
+			$statement->bindParam(':random',rand(),PDO::PARAM_STR);
 			try {
 				$statement->execute();
 			} catch (PDOException $e) {
@@ -44,18 +44,49 @@ class ListaConvidadosDAO extends DAO{
 		}
 		return $r;
 	}
-	public function getListas(){
-		$sql = "SELECT * FROM listas";
+	public function arquivarLista($id,$arquivar){
+		$sql = "UPDATE listas SET arquivado = :arquivar WHERE id=:id";
+		$statement = $this->db->prepare($sql);
+		$statement->bindParam(":id",$id,PDO::PARAM_INT);
+		$statement->bindParam(":arquivar",$arquivar,PDO::PARAM_INT);
+
+		try {
+			$r = $statement->execute();
+		} catch (PDOException $e) {
+			$this->exception = $e;
+			$r=false;
+			echo $e->getMessage();
+		}
+
+		return $r;
+	}
+	public function getListas($filter=""){
+		switch ($filter) {
+			case 0://apenas listas ativas
+				$clause = " WHERE arquivado = 0";
+				break;
+			case 1://apenas listas arquivadas
+				$clause = " WHERE arquivado = 1";
+				break;			
+			default://todas as listas
+				$clause = "";
+				break;
+		}
+		$sql = "SELECT * FROM listas$clause";
 
 		return $this->getAll($sql);
 	}
 
-	public function getListaById($id,$random=false){
+	public function getListaById($id,$random=false,$onlyActive=false){
 		$column = "id";
+		$filter = "";
 		if($random){
 			$column = "id_aleatorio";
 		}
-		$sql = "SELECT * FROM listas WHERE $column=$id";
+		if($onlyActive){
+			$filter = " AND arquivado=0";
+		}
+		$sql = "SELECT * FROM listas WHERE $column=$id$filter";
 
 		return $this->getAll($sql);
 	}

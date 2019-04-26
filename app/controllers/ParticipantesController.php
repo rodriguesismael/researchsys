@@ -5,7 +5,13 @@ class ParticipantesController extends Controller{
 	function home(){
 		$this->isAdmin();
 		$listaObj = new ListaConvidadosDAO();
-		$listas = $listaObj->getListas();
+		if($this->f3->get("GET.arquivados") == 1){
+			$this->f3->set('arquivados',1);
+			$listas = $listaObj->getListas(1);
+		}
+		else{
+			$listas = $listaObj->getListas();
+		}
 		unset($listaObj);
 		$this->f3->set('listas',$listas);
 		$this->f3->set('content','admin/homeParticipantes.html');
@@ -66,6 +72,21 @@ class ParticipantesController extends Controller{
 			$this->f3->set('content','admin/formParticipantes.html');
 			echo \Template::instance()->render('tela.htm');	
 		}
+	}
+
+	function arquivar(){
+		$this->isAdmin();
+		if ($this->f3->get('GET.turma')) {
+			$id = $this->f3->get('GET.turma');
+			$arquivar = $this->f3->get('GET.switch');
+			$queryString = (($arquivar == 1)?"":"?arquivados=1");
+			$listaObj = new ListaConvidadosDAO();
+			if ($listaObj->arquivarLista($id,$arquivar)){
+				$this->f3->reroute("/admin/participantes$queryString");
+				
+			}
+		}
+
 	}
 
 	function convidar(){
@@ -284,7 +305,9 @@ class ParticipantesController extends Controller{
 	function assinar(){
 		$turma = $this->f3->get('PARAMS.turma');
 		$listaObj = new ListaConvidadosDAO();
-		$lista = $listaObj->getListaById($turma,true);
+		$olharRandomId = true;
+		$apenasAtivos = true;
+		$lista = $listaObj->getListaById($turma,$olharRandomId,$apenasAtivos);
 		if (count($lista) == 0) {
 			$this->f3->set('notfound',"Link Inválido!");
 		}else{

@@ -1,61 +1,86 @@
 <h1 class="purple-text">Listas de Participantes</h1>
 
 <div class="button-group">
-	<a href="/admin/participantes/adicionar" class="btn btn-link" role="button">Adicionar Lista</a>
+	<a href="/admin/participantes/adicionar" class="btn btn-link" role="button">Adicionar Lista</a> |
+	<check if="{{ @arquivados }}">
+		<true>
+			<a href="/admin/participantes" class="btn btn-link" role="button">Turmar Ativas</a>
+		</true>
+		<false>
+			<a href="/admin/participantes?arquivados=1" class="btn btn-link" role="button">Turmar Arquivadas</a>
+		</false>
+	</check>
 </div>
-<table class="table">
-	<thead>
-		<th>Lista</th>
-		<th>Link para assinatura</th>
-		<th>Ações</th>
-	</thead>
-	<tbody>
-		<repeat group="{{ @listas }}" value="{{ @lista }}">
-			
-				<tr>
-					<td>{{ @lista.titulo }}</td>
-					<td>
-						<a target="_blank" href="{{ @lista.link_assinatura }}">{{ @lista.link_assinatura }}</a>
-					</td>
-					<td>
-						<a href="/admin/participantes/editar/{{ @lista.id }}" id="{{ @lista.id }}" class="btn btn-info sendmail" role="button">Enviar Emails</a>
-						&nbsp;
-						<a href="/admin/participantes/editar/{{ @lista.id }}" onclick="alert('Não implementado');return false;" class="btn btn-danger" role="button">Remover</a>
-					</td>
-				</tr>
-			
-		</repeat>
-	</tbody>
-</table>
-<script type="text/javascript">
-	$(function(){
-		$(".sendmail").click(function(){
-			var request = $.ajax({url:"/admin/participantes/convidar",
-								method:"GET",
-								data:{lista:$(this).prop('id')},
-								dataType:'json',
-								success:function(data){
-							       console.log(data);
-							       if(data['code'] === 0){
-							       	alert(data['msg']);
-							       	return false;
-							       }
-							       var sentWho="";
-							       for(var k in data){
-							       		sentWho+=data[k]+",";
-							       }
-							       alert("Email enviado para "+sentWho.substring(0,sentWho.length - 1));
-							       return true;
-								},
-								error:function(data){
-									alert('Houve um problema inesperado');
+<check if="{{ @listas }}">
+	<true>
+		<table class="table">
+			<thead>
+				<th>Lista</th>
+				<th>Link para assinatura</th>
+				<th>Ações</th>
+			</thead>
+			<tbody>
+				<repeat group="{{ @listas }}" value="{{ @lista }}">
+					
+						<tr>
+							<td>
+								<label for="lista{{ @lista.titulo }}" style="cursor:pointer">{{ @lista.titulo }}</label>
+							</td>
+							<td>
+								<a target="_blank" href="{{ @lista.link_assinatura }}">{{ @lista.link_assinatura }}</a>
+							</td>
+							<td>
+								<check if="{{ @arquivados }}">
+									<true>
+										<a href="/admin/participantes/arquivar?turma={{ @lista.id }}&switch=0"  class="btn btn-warning" role="button">Ativar</a>
+									</true>
+									<false>
+										<a href="/admin/participantes/editar/{{ @lista.id }}" id="{{ @lista.id }}" class="btn btn-info sendmail" role="button">Enviar Emails</a>
+										&nbsp;
+										<a href="/admin/participantes/arquivar?turma={{ @lista.id }}&switch=1"  class="btn btn-warning" role="button">Arquivar</a>
+									</false>
+								</check>
+							</td>
+						</tr>
+					
+				</repeat>
+			</tbody>
+		</table>
+		<script type="text/javascript">
+			$(function(){
+				$(".sendmail").click(function(){
+					var request = $.ajax({url:"/admin/participantes/convidar",
+										method:"GET",
+										data:{lista:$(this).prop('id')},
+										dataType:'json',
+										success:function(data){
+									       console.log(data);
+									       if(data['code'] === 0){
+									       	alert(data['msg']);
+									       	return false;
+									       }
+									       var sentWho="";
+									       for(var k in data){
+									       		sentWho+=data[k]+",";
+									       }
+									       alert("Email enviado para "+sentWho.substring(0,sentWho.length - 1));
+									       return true;
+										},
+										error:function(data){
+											alert('Houve um problema inesperado');
 
-									console.log(data);
-								}
-							});
+											console.log(data);
+										}
+									});
 
-			///console.log(request.responseJSON);
-			return false;
-		})
-	})
-</script>
+					///console.log(request.responseJSON);
+					return false;
+				})
+			})
+		</script>
+	</true>
+	<false>
+		<center>Nenhuma turma encontrada</center>
+	</false>
+</check>
+
