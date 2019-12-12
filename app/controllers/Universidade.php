@@ -67,7 +67,7 @@ class Universidade extends Controller{
 			
 			$universidade = new UniversidadeDAO();
 
-			$r = $universidade->save($id,$campos);
+			$r = $universidade->save($campos,$id);
 			if($r){
 				unset($universidade);
 				$this->f3->reroute('/admin/universidades');	

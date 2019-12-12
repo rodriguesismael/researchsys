@@ -1,6 +1,6 @@
 <?php
 class UniversidadeDAO extends DAO{
-	public function save($id=0, $values){
+	public function save($values,$id=0){
 		if($id == 0){
 			$sql = "INSERT into universidades (nome,responsavel,descricao_responsavel,endereco,complemento,telefone,cep,estado,cidade)
 					VALUES(:nome,:responsavel,:desc_resp,:endereco,:complemento,:telefone,:cep,:estado,:cidade)";
