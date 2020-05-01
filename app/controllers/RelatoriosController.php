@@ -213,4 +213,66 @@ class RelatoriosController extends Controller{
 		// }		
 		// echo "</table>";		
 	}
+
+	function sendPostTestMail(){
+		$this->isAdmin();
+		\PhpOffice\PhpSpreadsheet\Cell\Cell::setValueBinder( new \PhpOffice\PhpSpreadsheet\Cell\AdvancedValueBinder() );
+		$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xls');
+		$reader->setReadDataOnly(TRUE);
+		$spreadsheet = $reader->load("lassi_files/posteste.xls");
+
+		$aux = $spreadsheet->getActiveSheet()
+						   ->toArray();
+		$header = $aux[0];
+		array_shift($aux);
+		foreach ($header as $key => $value) {
+			$header[$key] = strtolower($value);
+		}
+		
+		$smtp = new SMTP ( $this->f3->get('SMTP_SERVER'), $this->f3->get('SMTP_PORT'), $this->f3->get('SMTP_SCHEME'), $this->f3->get('SMTP_MAIL'), $this->f3->get('SMTP_PASS') );
+
+		$smtp->set('MIME-Version', '1.0');
+		$smtp->set('Content-type', 'text/html;charset=UTF-8');
+		$append="";
+		if(strpos($this->f3->get('SMTP_MAIL'), "@") === FALSE){
+			$append = "@".$this->f3->get('SMTP_DOMAIN');
+		}
+		$smtp->set('From', '"[Nao-Responda] Pós-Teste" <celiaro-drigues@hotmail.com>');
+		$smtp->set('Subject', 'Convite – Como aprender na universidade');
+				
+		$mailMessage = "<h4>Olá, ESTUDANTE!</h4>
+						<p>Estás convidado a responder, novamente, ao questionário LASSI, uma vez que tu já és parte do grupo que está participando do meu 
+						projeto de doutorado com ênfase nas estratégias de estudo e aprendizagem dos estudantes da Universidade Federal de Pelotas (UFPel).</p>
+		    <p>Solicito, por favor, que respondas, com a maior sinceridade, as situações que melhor descrevem o teu estudo na universidade relativo ao segundo 
+		    semestre da faculdade (2019/2). Lembra-te de que, ao final, receberás, por e-mail, o gráfico com os resultados do inventário. Assim como também, 
+		    dicas das estratégias que podes utilizar para melhorar tua aprendizagem.</p>
+			<p>Para responder ao inventário clique no link: 
+				<a href='https://www.collegelassi.com/lassi/index.html'>https://www.collegelassi.com/lassi/index.html</a></p>
+			<p>Ao abrir o link, siga estes passos:</p>
+			<ol>
+				<li>Usarás a caixa da direita, com o título <strong><i>Second Administration</i></strong>;</li>
+				<li>Em <strong><i>School Number</i></strong>, digite <strong>800100</strong>;</li>
+				<li>Em <strong><i>Student Key</i></strong> digite <strong>CHAVE</strong>;</li>
+				<li>Clique no botão <strong><i>Take Post-Test</i></strong> e aquarde carregar o teste;</li>
+			</ol>
+			<p>Obrigada por aceitar participar da pesquisa!</p>
+			<p>Célia Artemisa G. R. Miranda</p>
+			<p>Doutoranda do Programa de Pós-graduação em Educação</p>
+			<p>Universidade Federal de Pelotas</p>
+			<p>(celiaro-drigues@hotmail.com)</p>";
+		$replaceWhat = array("ESTUDANTE","CHAVE");
+		//foreach ($aux as $key => $linha) {
+		foreach ($aux as $linha) {
+			/*if ($header[$chave] == 'testdate') {
+				$campo = date("d/m/Y",($campo - 25569)*86400);
+			}
+			if ($header[$chave] == 'timetaken') {
+				$campo = date("H:i:s",($campo - 25569)*86400);
+			}*/
+			$smtp->set('To', $linha[3]);
+			echo str_replace($replaceWhat, array(utf8_decode($linha[15]),$linha[17]), $mailMessage)."Enviando para $linha[3]...<br>";
+			$smtp->send(str_replace($replaceWhat, array(utf8_decode($linha[15]),$linha[17]), $mailMessage));
+		}
+		//}		
+	}
 }
