@@ -237,7 +237,7 @@ class RelatoriosController extends Controller{
 		if(strpos($this->f3->get('SMTP_MAIL'), "@") === FALSE){
 			$append = "@".$this->f3->get('SMTP_DOMAIN');
 		}
-		$smtp->set('From', '"[Nao-Responda] Pós-Teste" <celiaro-drigues@hotmail.com>');
+		$smtp->set('From', '"Pós-Teste LASSI" <celiaro-drigues@hotmail.com>');
 		$smtp->set('Subject', 'Convite – Como aprender na universidade');
 				
 		$mailMessage = "<h4>Olá, ESTUDANTE!</h4>
@@ -247,13 +247,13 @@ class RelatoriosController extends Controller{
 		    semestre da faculdade (2019/2). Lembra-te de que, ao final, receberás, por e-mail, o gráfico com os resultados do inventário. Assim como também, 
 		    dicas das estratégias que podes utilizar para melhorar tua aprendizagem.</p>
 			<p>Para responder ao inventário clique no link: 
-				<a href='https://www.collegelassi.com/lassi/index.html'>https://www.collegelassi.com/lassi/index.html</a></p>
+				<a href='https://www.collegelassi.com/portuguese'>https://www.collegelassi.com/portuguese</a></p>
 			<p>Ao abrir o link, siga estes passos:</p>
 			<ol>
 				<li>Usarás a caixa da direita, com o título <strong><i>Second Administration</i></strong>;</li>
-				<li>Em <strong><i>School Number</i></strong>, digite <strong>800100</strong>;</li>
+				<li>Em <strong><i>School Number</i></strong>, digite <strong>80010</strong>;</li>
 				<li>Em <strong><i>Student Key</i></strong> digite <strong>CHAVE</strong>;</li>
-				<li>Clique no botão <strong><i>Take Post-Test</i></strong> e aquarde carregar o teste;</li>
+				<li>Clique no botão <strong>Realizar Pós-Teste</strong> e aguarde carregar o teste;</li>
 			</ol>
 			<p>Obrigada por aceitar participar da pesquisa!</p>
 			<p>Célia Artemisa G. R. Miranda</p>
@@ -270,7 +270,7 @@ class RelatoriosController extends Controller{
 				$campo = date("H:i:s",($campo - 25569)*86400);
 			}*/
 			$smtp->set('To', $linha[3]);
-			echo str_replace($replaceWhat, array(utf8_decode($linha[15]),$linha[17]), $mailMessage)."Enviando para $linha[3]...<br>";
+			echo str_replace($replaceWhat, array(utf8_decode($linha[15]),utf8_decode($linha[17])), $mailMessage)."Enviando para $linha[3]...<br>";
 			$smtp->send(str_replace($replaceWhat, array(utf8_decode($linha[15]),$linha[17]), $mailMessage));
 		}
 		//}		
