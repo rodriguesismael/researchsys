@@ -246,14 +246,11 @@ class RelatoriosController extends Controller{
 		    <p>Solicito, por favor, que respondas, com a maior sinceridade, as situações que melhor descrevem o teu estudo na universidade relativo ao segundo 
 		    semestre da faculdade (2019/2). Lembra-te de que, ao final, receberás, por e-mail, o gráfico com os resultados do inventário. Assim como também, 
 		    dicas das estratégias que podes utilizar para melhorar tua aprendizagem.</p>
-			<p>Para responder ao inventário clique no link: 
-				<a href='https://www.collegelassi.com/portuguese'>https://www.collegelassi.com/portuguese</a></p>
-			<p>Ao abrir o link, siga estes passos:</p>
+			<p>Para responder a pesquisa, siga estes passos:</p>
 			<ol>
-				<li>Usarás a caixa da direita, com o título <strong><i>Second Administration</i></strong>;</li>
-				<li>Em <strong><i>School Number</i></strong>, digite <strong>80010</strong>;</li>
-				<li>Em <strong><i>Student Key</i></strong> digite <strong>CHAVE</strong>;</li>
-				<li>Clique no botão <strong>Realizar Pós-Teste</strong> e aguarde carregar o teste;</li>
+				<li>Copie e guarde a tua <strong>Chave de Aluno: CHAVE</strong> (precisarás dela mais adiante);</li>
+				<li>Entre no link <a href='https://forms.gle/BjAx5qrZpANzEqbRA'>https://forms.gle/BjAx5qrZpANzEqbRA</a> e responda a primeira parte da pesquisa;</li>
+				<li>Ao clicar em “Enviar”, aparecerá outro link, acesse o mesmo para responder ao LASSI.</li>
 			</ol>
 			<p>Obrigada por aceitar participar da pesquisa!</p>
 			<p>Célia Artemisa G. R. Miranda</p>
@@ -271,7 +268,7 @@ class RelatoriosController extends Controller{
 			}*/
 			$smtp->set('To', $linha[3]);
 			echo str_replace($replaceWhat, array(utf8_decode($linha[15]),utf8_decode($linha[17])), $mailMessage)."Enviando para $linha[3]...<br>";
-			$smtp->send(str_replace($replaceWhat, array(utf8_decode($linha[15]),$linha[17]), $mailMessage));
+			$smtp->send(str_replace($replaceWhat, array(utf8_decode($linha[15]),utf8_decode($linha[17])), $mailMessage));
 		}
 		//}		
 	}
