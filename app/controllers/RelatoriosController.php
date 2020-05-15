@@ -259,6 +259,7 @@ class RelatoriosController extends Controller{
 			<p>(celiaro-drigues@hotmail.com)</p>";
 		$replaceWhat = array("ESTUDANTE","CHAVE");
 		//foreach ($aux as $key => $linha) {
+		$i=0;
 		foreach ($aux as $linha) {
 			/*if ($header[$chave] == 'testdate') {
 				$campo = date("d/m/Y",($campo - 25569)*86400);
@@ -267,9 +268,11 @@ class RelatoriosController extends Controller{
 				$campo = date("H:i:s",($campo - 25569)*86400);
 			}*/
 			$smtp->set('To', $linha[3]);
-			echo str_replace($replaceWhat, array(utf8_decode($linha[15]),utf8_decode($linha[17])), $mailMessage)."Enviando para $linha[3]...<br>";
-			$smtp->send(str_replace($replaceWhat, array(utf8_decode($linha[15]),utf8_decode($linha[17])), $mailMessage));
+			echo str_replace($replaceWhat, array(utf8_decode($linha[10]),utf8_decode($linha[12])), $mailMessage)."Enviando para $linha[3]...<br>";
+			$smtp->send(str_replace($replaceWhat, array(utf8_decode($linha[10]),utf8_decode($linha[12])), $mailMessage));
+			$i++;
 		}
+		echo "um total de $i envios processados";
 		//}		
 	}
 }
