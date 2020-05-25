@@ -241,19 +241,20 @@ class RelatoriosController extends Controller{
 		$smtp->set('Subject', 'Convite – Como aprender na universidade');
 				
 		$mailMessage = "<h4>Olá, ESTUDANTE!</h4>
-						<p>Estás convidado a responder, novamente, ao questionário LASSI, uma vez que tu já és parte do grupo que está participando do meu 
+						<p>Estás convidado a responder, novamente, ao questionário LASSI, uma vez que já és parte do grupo que está participando do meu 
 						projeto de doutorado com ênfase nas estratégias de estudo e aprendizagem dos estudantes da Universidade Federal de Pelotas (UFPel).</p>
 		    <p>Solicito, por favor, que respondas, com a maior sinceridade, as situações que melhor descrevem o teu estudo na universidade relativo ao segundo 
-		    semestre da faculdade (2019/2). Lembra-te de que, ao final, receberás, por e-mail, o gráfico com os resultados do inventário. Assim como também, 
-		    dicas das estratégias que podes utilizar para melhorar tua aprendizagem.</p>
+		    semestre da faculdade (2019/2). Não te esqueças de que, ao final, receberás, por e-mail, o gráfico com os resultados do inventário. inventário e dicas de 
+		    estratégias que podem ser utilizadas para melhorar tua aprendizagem.</p>
 			<p>Para responder a pesquisa, siga estes passos:</p>
 			<ol>
 				<li>Copie e guarde a tua <strong>Chave de Aluno: CHAVE</strong> (precisarás dela mais adiante);</li>
 				<li>Entre no link <a href='https://forms.gle/BjAx5qrZpANzEqbRA'>https://forms.gle/BjAx5qrZpANzEqbRA</a> e responda a primeira parte da pesquisa;</li>
 				<li>Ao clicar em “Enviar”, aparecerá outro link, acesse o mesmo para responder ao LASSI.</li>
+				<li>A sua <strong>Chave da Universidade</strong> é 80010</li>
 			</ol>
 			<p>Obrigada por aceitar participar da pesquisa!</p>
-			<p>Célia Artemisa G. R. Miranda</p>
+			<p><strong>Célia Artemisa G. R. Miranda</strong></p>
 			<p>Doutoranda do Programa de Pós-graduação em Educação</p>
 			<p>Universidade Federal de Pelotas</p>
 			<p>(celiaro-drigues@hotmail.com)</p>";
