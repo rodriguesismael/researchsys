@@ -31,6 +31,13 @@ class RelatoriosController extends Controller{
 
 	}
 
+	function relatorioFinal(){
+		$relatorio = new RelatoriosDAO();
+		$this->rel = $relatorio->getgetparticipantesFinal();
+		$this->unir();
+		unset($relatorio);
+	}
+
 	function relatorio(){
 		
 		$filtros=array();
